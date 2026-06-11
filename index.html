@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Nouvel horizon d'emploi - Opportunités pour Réfugiés</title>
     <meta name="description" content="Plateforme de formation et d'emploi pour réfugiés et migrants en France.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -32,17 +32,8 @@
             --rr: 28px;
             --t: .25s ease;
         }
-        *,
-        ::before,
-        ::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
+        *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             color: var(--tx);
@@ -52,9 +43,7 @@
             flex-direction: column;
             line-height: 1.6;
         }
-        body.rtl {
-            direction: rtl;
-        }
+        body.rtl { direction: rtl; }
         .disclaimer-bar {
             background: #fff3e0;
             padding: .4rem 1rem;
@@ -83,500 +72,111 @@
             justify-content: space-between;
             height: 56px;
         }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--p);
-            text-decoration: none;
-        }
-        .nav-brand i {
-            font-size: 1.4rem;
-            color: var(--a);
-        }
-        .nav-logo {
-            width: 36px;
-            height: 36px;
-            object-fit: contain;
-            border-radius: 6px;
-            background: white;
-            padding: 2px;
-            border: 1px solid var(--bdr);
-        }
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--p);
-        }
-        .nav-menu {
-            display: flex;
-            align-items: center;
-            gap: .75rem;
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: .2rem;
-        }
-        .nav-links a {
-            padding: .4rem .7rem;
-            border-radius: 20px;
-            color: var(--tx);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: .8rem;
-            cursor: pointer;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            background: #e3f2fd;
-            color: var(--p);
-        }
-        .nav-actions {
-            display: flex;
-            gap: .4rem;
-            align-items: center;
-        }
+        .nav-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.1rem; font-weight: 700; color: var(--p); text-decoration: none; }
+        .nav-brand i { font-size: 1.4rem; color: var(--a); }
+        .nav-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 6px; background: white; padding: 2px; border: 1px solid var(--bdr); }
+        .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--p); }
+        .nav-menu { display: flex; align-items: center; gap: .75rem; }
+        .nav-links { display: flex; list-style: none; gap: .2rem; }
+        .nav-links a { padding: .4rem .7rem; border-radius: 20px; color: var(--tx); text-decoration: none; font-weight: 500; font-size: .8rem; cursor: pointer; }
+        .nav-links a:hover, .nav-links a.active { background: #e3f2fd; color: var(--p); }
+        .nav-actions { display: flex; gap: .4rem; align-items: center; }
         .btn {
-            padding: .5rem 1rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: .8rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            text-decoration: none;
-            transition: .2s;
+            padding: .5rem 1rem; border-radius: 20px; font-weight: 600; font-size: .8rem; cursor: pointer;
+            border: 2px solid transparent; display: inline-flex; align-items: center; gap: .4rem;
+            text-decoration: none; transition: .2s;
         }
-        .btn-primary {
-            background: var(--p);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background: var(--pd);
-        }
-        .btn-outline {
-            background: transparent;
-            border-color: var(--p);
-            color: var(--p);
-        }
-        .btn-outline:hover {
-            background: var(--p);
-            color: #fff;
-        }
-        .btn-google {
-            background: #ea4335;
-            color: #fff;
-        }
-        .btn-facebook {
-            background: #1877f2;
-            color: #fff;
-        }
-        .btn-phone {
-            background: var(--s);
-            color: #fff;
-        }
-        .btn-danger {
-            background: var(--d);
-            color: #fff;
-        }
-        .btn-sm {
-            padding: .35rem .7rem;
-            font-size: .75rem;
-        }
-        .btn-block {
-            width: 100%;
-            justify-content: center;
-        }
-        .section {
-            padding: 2rem 1rem;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        h1,
-        h2 {
-            text-align: center;
-            color: var(--p);
-            margin-bottom: .5rem;
-            font-size: 1.5rem;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .hero {
-            text-align: center;
-            padding: 2rem 0;
-        }
-        .hero h1 {
-            font-size: 2rem;
-        }
-        .hero p {
-            color: var(--t2);
-            max-width: 500px;
-            margin: .5rem auto 1rem;
-            font-size: .9rem;
-        }
-        .hero-btns {
-            display: flex;
-            gap: .75rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem;
-        }
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
+        .btn-primary { background: var(--p); color: #fff; } .btn-primary:hover { background: var(--pd); }
+        .btn-outline { background: transparent; border-color: var(--p); color: var(--p); } .btn-outline:hover { background: var(--p); color: #fff; }
+        .btn-google { background: #ea4335; color: #fff; }
+        .btn-facebook { background: #1877f2; color: #fff; }
+        .btn-phone { background: var(--s); color: #fff; }
+        .btn-danger { background: var(--d); color: #fff; }
+        .btn-sm { padding: .35rem .7rem; font-size: .75rem; }
+        .btn-block { width: 100%; justify-content: center; }
+        .section { padding: 2rem 1rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1, h2 { text-align: center; color: var(--p); margin-bottom: .5rem; font-size: 1.5rem; }
+        .hidden { display: none !important; }
+        .hero { text-align: center; padding: 2rem 0; }
+        .hero h1 { font-size: 2rem; }
+        .hero p { color: var(--t2); max-width: 500px; margin: .5rem auto 1rem; font-size: .9rem; }
+        .hero-btns { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
         .card {
-            background: var(--wht);
-            padding: 1.2rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-            border: 1px solid var(--bdr);
-            text-decoration: none;
-            color: var(--tx);
-            display: block;
-            text-align: center;
-            transition: .2s;
+            background: var(--wht); padding: 1.2rem; border-radius: var(--r); box-shadow: var(--sh);
+            border: 1px solid var(--bdr); text-decoration: none; color: var(--tx); display: block;
+            text-align: center; transition: .2s;
         }
-        .card:hover {
-            box-shadow: var(--shl);
-            transform: translateY(-2px);
+        .card:hover { box-shadow: var(--shl); transform: translateY(-2px); }
+        .card i { font-size: 2rem; color: var(--a); margin-bottom: .5rem; }
+        .card h3 { color: var(--p); margin-bottom: .3rem; font-size: 1rem; }
+        .card p { font-size: .8rem; color: var(--t2); }
+        .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; max-width: 400px; margin: 0 auto; }
+        .social-btns .btn { padding: .7rem; justify-content: center; }
+        .divider { text-align: center; margin: 1rem auto; color: var(--t2); font-size: .85rem; max-width: 400px; }
+        .form-box { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
+        .form-input, .form-select {
+            padding: .6rem .8rem; border: 2px solid var(--bdr); border-radius: 8px;
+            font-size: .85rem; font-family: inherit; background: var(--wht);
         }
-        .card i {
-            font-size: 2rem;
-            color: var(--a);
-            margin-bottom: .5rem;
-        }
-        .card h3 {
-            color: var(--p);
-            margin-bottom: .3rem;
-            font-size: 1rem;
-        }
-        .card p {
-            font-size: .8rem;
-            color: var(--t2);
-        }
-        .social-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: .75rem;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .social-btns .btn {
-            padding: .7rem;
-            justify-content: center;
-        }
-        .divider {
-            text-align: center;
-            margin: 1rem auto;
-            color: var(--t2);
-            font-size: .85rem;
-            max-width: 400px;
-        }
-        .form-box {
-            max-width: 400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: .75rem;
-        }
-        .form-input,
-        .form-select {
-            padding: .6rem .8rem;
-            border: 2px solid var(--bdr);
-            border-radius: 8px;
-            font-size: .85rem;
-            font-family: inherit;
-            background: var(--wht);
-        }
-        .form-input:focus,
-        .form-select:focus {
-            border-color: var(--p);
-            outline: none;
-        }
-        .filters {
-            display: flex;
-            gap: .5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        .filters input {
-            flex: 1;
-            min-width: 150px;
-        }
-        .filters input,
-        .filters select {
-            padding: .5rem .8rem;
-            border: 2px solid var(--bdr);
-            border-radius: 20px;
-            font-size: .8rem;
-            font-family: inherit;
-        }
-        .job-card {
-            background: var(--wht);
-            padding: 1rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-            border-left: 4px solid var(--p);
-        }
-        .job-card h4 {
-            color: var(--p);
-            margin-bottom: .3rem;
-            font-size: .95rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: .15rem .5rem;
-            border-radius: 15px;
-            font-size: .65rem;
-            font-weight: 600;
-            margin: .1rem;
-        }
-        .badge-blue {
-            background: #e3f2fd;
-            color: var(--p);
-        }
-        .badge-green {
-            background: #e8f5e9;
-            color: var(--s);
-        }
-        .admin-tabs {
-            display: flex;
-            gap: .25rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-        .admin-tab {
-            padding: .4rem .8rem;
-            border: none;
-            background: #eee;
-            cursor: pointer;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: .75rem;
-        }
-        .admin-tab.active {
-            background: var(--p);
-            color: #fff;
-        }
-        .admin-content {
-            background: var(--wht);
-            padding: 1rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-        }
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: .75rem;
-            margin-bottom: 1rem;
-        }
-        .stat-num {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--p);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: .8rem;
-        }
-        table th,
-        table td {
-            padding: .4rem .6rem;
-            border-bottom: 1px solid var(--bdr);
-            text-align: left;
-        }
-        .rtl table th,
-        .rtl table td {
-            text-align: right;
-        }
-        table th {
-            background: #f5f5f5;
-            font-weight: 600;
-        }
+        .form-input:focus, .form-select:focus { border-color: var(--p); outline: none; }
+        .filters { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .filters input { flex: 1; min-width: 150px; }
+        .filters input, .filters select { padding: .5rem .8rem; border: 2px solid var(--bdr); border-radius: 20px; font-size: .8rem; font-family: inherit; }
+        .job-card { background: var(--wht); padding: 1rem; border-radius: var(--r); box-shadow: var(--sh); border-left: 4px solid var(--p); }
+        .job-card h4 { color: var(--p); margin-bottom: .3rem; font-size: .95rem; }
+        .badge { display: inline-block; padding: .15rem .5rem; border-radius: 15px; font-size: .65rem; font-weight: 600; margin: .1rem; }
+        .badge-blue { background: #e3f2fd; color: var(--p); }
+        .badge-green { background: #e8f5e9; color: var(--s); }
+        .admin-tabs { display: flex; gap: .25rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .admin-tab { padding: .4rem .8rem; border: none; background: #eee; cursor: pointer; border-radius: 20px; font-weight: 600; font-size: .75rem; }
+        .admin-tab.active { background: var(--p); color: #fff; }
+        .admin-content { background: var(--wht); padding: 1rem; border-radius: var(--r); box-shadow: var(--sh); }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+        .stat-num { font-size: 2rem; font-weight: 700; color: var(--p); }
+        table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+        table th, table td { padding: .4rem .6rem; border-bottom: 1px solid var(--bdr); text-align: left; }
+        .rtl table th, .rtl table td { text-align: right; }
+        table th { background: #f5f5f5; font-weight: 600; }
         .media-preview {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: .5rem;
-            background: #f0f0f0;
+            width: 100%; height: 140px; object-fit: cover; border-radius: 8px;
+            margin-bottom: .5rem; background: #f0f0f0;
         }
-        .media-preview.video {
-            background: #1a1a2e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 2.5rem;
-        }
-        .media-preview.video video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+        .media-preview.video { background: #1a1a2e; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.5rem; }
+        .media-preview.video video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
         .footer {
-            background: var(--p);
-            color: #fff;
-            padding: 1.5rem 1rem;
-            margin-top: auto;
-            text-align: center;
-            font-size: .8rem;
+            background: var(--p); color: #fff; padding: 1.5rem 1rem; margin-top: auto;
+            text-align: center; font-size: .8rem;
         }
         .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            max-width: 1000px;
-            margin: 0 auto 1rem;
-            text-align: left;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem; max-width: 1000px; margin: 0 auto 1rem; text-align: left;
         }
-        .rtl .footer-grid {
-            text-align: right;
-        }
-        .footer h4 {
-            color: #90caf9;
-            margin-bottom: .5rem;
-            font-size: .9rem;
-        }
-        .footer a {
-            color: #bbb;
-            text-decoration: none;
-            display: block;
-            font-size: .8rem;
-            margin: .2rem 0;
-        }
-        .footer-logo {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 0.5rem;
-            background: white;
-            border-radius: 8px;
-            padding: 4px;
-        }
-        .toast-container {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: .4rem;
-        }
-        .toast {
-            padding: .6rem 1rem;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: 600;
-            font-size: .8rem;
-            box-shadow: var(--shl);
-            animation: slideIn .3s ease;
-        }
-        .toast-success {
-            background: var(--s);
-        }
-        .toast-error {
-            background: var(--d);
-        }
-        .toast-warning {
-            background: var(--w);
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateX(100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--t2);
-            grid-column: 1/-1;
-        }
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-        .section-title h2 {
-            margin-bottom: 0;
-            text-align: left;
-        }
-        .rtl .section-title h2 {
-            text-align: right;
-        }
-        .view-all {
-            font-size: .8rem;
-            color: var(--p);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .view-all:hover {
-            text-decoration: underline;
-        }
+        .rtl .footer-grid { text-align: right; }
+        .footer h4 { color: #90caf9; margin-bottom: .5rem; font-size: .9rem; }
+        .footer a { color: #bbb; text-decoration: none; display: block; font-size: .8rem; margin: .2rem 0; }
+        .footer-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 0.5rem; background: white; border-radius: 8px; padding: 4px; }
+        .toast-container { position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .4rem; }
+        .toast { padding: .6rem 1rem; border-radius: 8px; color: #fff; font-weight: 600; font-size: .8rem; box-shadow: var(--shl); animation: slideIn .3s ease; }
+        .toast-success { background: var(--s); } .toast-error { background: var(--d); } .toast-warning { background: var(--w); }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .loading { text-align: center; padding: 2rem; color: var(--t2); grid-column: 1/-1; }
+        .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .section-title h2 { margin-bottom: 0; text-align: left; }
+        .rtl .section-title h2 { text-align: right; }
+        .view-all { font-size: .8rem; color: var(--p); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .view-all:hover { text-decoration: underline; }
         @media(max-width:768px) {
-            .nav-toggle {
-                display: block;
-            }
-            .nav-menu {
-                display: none;
-                position: absolute;
-                top: 56px;
-                left: 0;
-                right: 0;
-                background: var(--wht);
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: var(--sh);
-                gap: .5rem;
-            }
-            .nav-menu.open {
-                display: flex;
-            }
-            .nav-links {
-                flex-direction: column;
-                width: 100%;
-            }
-            .nav-actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            .social-btns {
-                grid-template-columns: 1fr;
-            }
-            .hero h1 {
-                font-size: 1.5rem;
-            }
+            .nav-toggle { display: block; }
+            .nav-menu { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--wht); flex-direction: column; padding: 1rem; box-shadow: var(--sh); gap: .5rem; }
+            .nav-menu.open { display: flex; }
+            .nav-links { flex-direction: column; width: 100%; }
+            .nav-actions { flex-direction: column; width: 100%; }
+            .social-btns { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -600,6 +200,7 @@
                     <li><a href="#training" data-i18n="nav.training">Formations</a></li>
                     <li><a href="#videos" data-i18n="nav.videos">Vidéos</a></li>
                     <li><a href="#posters" data-i18n="nav.posters">Affiches</a></li>
+                    <li><a href="#articles" data-i18n="nav.articles">Articles</a></li>
                     <li><a href="#volunteering" data-i18n="nav.volunteering">Bénévolat</a></li>
                     <li><a href="#legal" data-i18n="nav.legal">Droit</a></li>
                     <li><a href="#admin" id="adminLink" class="hidden">🔧 <span data-i18n="nav.admin">Admin</span></a></li>
@@ -725,6 +326,14 @@
             </div>
         </section>
 
+        <!-- ARTICLES SECTION -->
+        <section id="articles" class="section">
+            <div class="container">
+                <h2 data-i18n="art.title">Articles et Actualités</h2>
+                <div class="grid-2" id="articlesList"><p class="loading" data-i18n="art.loading">Chargement...</p></div>
+            </div>
+        </section>
+
         <!-- VOLUNTEERING SECTION -->
         <section id="volunteering" class="section">
             <div class="container">
@@ -755,6 +364,7 @@
                     <button class="admin-tab" data-tab="jobs-manage">💼 <span data-i18n="admin.jobs">Offres</span></button>
                     <button class="admin-tab" data-tab="videos-manage">🎬 <span data-i18n="admin.videos">Vidéos</span></button>
                     <button class="admin-tab" data-tab="posters-manage">🖼️ <span data-i18n="admin.posters">Affiches</span></button>
+                    <button class="admin-tab" data-tab="articles-manage">📝 <span data-i18n="admin.articles">Articles</span></button>
                     <button class="admin-tab" data-tab="settings">⚙️ <span>Paramètres</span></button>
                     <button class="admin-tab" data-tab="admins">🛡️ <span data-i18n="admin.admins">Admins</span></button>
                 </div>
@@ -800,7 +410,7 @@
                 fr: {
                     disc: "⚠️ Nous ne soutenons pas l'immigration illégale - We do not support illegal immigration - نحن لا ندعم الهجرة غير الشرعية",
                     brand: "Nouvel horizon d'emploi",
-                    nav: { home: "Accueil", register: "Inscription", jobs: "Emplois", training: "Formations", videos: "Vidéos", posters: "Affiches", volunteering: "Bénévolat", legal: "Droit", admin: "Admin" },
+                    nav: { home: "Accueil", register: "Inscription", jobs: "Emplois", training: "Formations", videos: "Vidéos", posters: "Affiches", articles: "Articles", volunteering: "Bénévolat", legal: "Droit", admin: "Admin" },
                     auth: { login: "Connexion", register: "Inscription", logout: "Déconnexion" },
                     home: { title: "Bienvenue sur Nouvel horizon d'emploi", sub: "Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.", cta1: "Créer un compte", cta2: "Voir les offres", f1t: "Emplois", f1d: "Offres dans votre ville", f2t: "Formations", f2d: "Coursera, LinkedIn", f3t: "Droits", f3d: "CESEDA, CEAS", f4t: "Ressources", f4d: "Vidéos, affiches" },
                     reg: { title: "Créer votre compte", google: "Google", facebook: "Facebook", phone: "+33 Téléphone", or: "ou par email", namePh: "Nom complet", passPh: "Mot de passe (6+)", pass2Ph: "Confirmer mot de passe", btn: "S'inscrire", hasAccount: "Déjà un compte ?", loginLink: "Se connecter" },
@@ -809,16 +419,17 @@
                     train: { title: "Formations", coursera: "Cours gratuits pour réfugiés", linkedin: "Compétences professionnelles", poleemploi: "Formations officielles France" },
                     vid: { title: "Vidéos Éducatives", loading: "Chargement...", noVideos: "Aucune vidéo disponible." },
                     post: { title: "Affiches Informatives", loading: "Chargement...", noPosters: "Aucune affiche disponible." },
+                    art: { title: "Articles et Actualités", loading: "Chargement...", noArticles: "Aucun article disponible." },
                     vol: { title: "Bénévolat", loading: "Chargement...", btn: "Devenir bénévole" },
                     legal: { title: "Cadre Juridique", fr: "Loi Immigration France", eu: "Politique Européenne", un: "Convention de Genève", consult: "Consulter →" },
-                    admin: { title: "Administration", dashboard: "Tableau de bord", users: "Utilisateurs", jobs: "Offres", videos: "Vidéos", posters: "Affiches", admins: "Administrateurs" },
+                    admin: { title: "Administration", dashboard: "Tableau de bord", users: "Utilisateurs", jobs: "Offres", videos: "Vidéos", posters: "Affiches", articles: "Articles", admins: "Administrateurs" },
                     ft: { links: "Liens rapides", jobs: "Emplois", training: "Formations", legal: "Légal", mentions: "Mentions légales", rgpd: "RGPD", rgpd2: "Conforme RGPD" },
-                    toast: { regOk: "✅ Compte créé avec succès !", profOk: "✅ Profil enregistré !", loginOk: "✅ Connecté avec succès !", loginErr: "❌ Email ou mot de passe incorrect", logoutOk: "👋 Déconnecté", applyOk: "✅ Candidature envoyée pour : ", jobAdd: "✅ Offre ajoutée", jobDel: "🗑️ Offre supprimée", vidAdd: "✅ Vidéo ajoutée", vidDel: "🗑️ Vidéo supprimée", postAdd: "✅ Affiche ajoutée", postDel: "🗑️ Affiche supprimée", adminAdd: "✅ Administrateur ajouté", adminRem: "🗑️ Administrateur supprimé", userDel: "🗑️ Utilisateur supprimé", lang: "🌐 Langue : Français", loginReq: "⚠️ Veuillez vous connecter", profReq: "⚠️ Complétez votre profil", passMatch: "❌ Les mots de passe ne correspondent pas", emailUsed: "❌ Cet email est déjà utilisé", adminOnly: "⚠️ Accès réservé aux administrateurs", volunteerOk: "✅ Inscription bénévole : ", fileLarge: "❌ Fichier trop volumineux (max 20MB)", fileType: "❌ Type de fichier non supporté", logoUpdated: "✅ Logo mis à jour !" }
+                    toast: { regOk: "✅ Compte créé avec succès !", profOk: "✅ Profil enregistré !", loginOk: "✅ Connecté avec succès !", loginErr: "❌ Email ou mot de passe incorrect", logoutOk: "👋 Déconnecté", applyOk: "✅ Candidature envoyée pour : ", jobAdd: "✅ Offre ajoutée", jobDel: "🗑️ Offre supprimée", vidAdd: "✅ Vidéo ajoutée", vidDel: "🗑️ Vidéo supprimée", postAdd: "✅ Affiche ajoutée", postDel: "🗑️ Affiche supprimée", artAdd: "✅ Article ajouté", artDel: "🗑️ Article supprimé", adminAdd: "✅ Administrateur ajouté", adminRem: "🗑️ Administrateur supprimé", userDel: "🗑️ Utilisateur supprimé", lang: "🌐 Langue : Français", loginReq: "⚠️ Veuillez vous connecter", profReq: "⚠️ Complétez votre profil", passMatch: "❌ Les mots de passe ne correspondent pas", emailUsed: "❌ Cet email est déjà utilisé", adminOnly: "⚠️ Accès réservé aux administrateurs", volunteerOk: "✅ Inscription bénévole : ", fileLarge: "❌ Fichier trop volumineux (max 20MB)", fileType: "❌ Type de fichier non supporté", logoUpdated: "✅ Logo mis à jour !", logoRemoved: "🗑️ Logo supprimé" }
                 },
                 en: {
                     disc: "⚠️ Nous ne soutenons pas l'immigration illégale - We do not support illegal immigration - نحن لا ندعم الهجرة غير الشرعية",
                     brand: "Nouvel horizon d'emploi",
-                    nav: { home: "Home", register: "Register", jobs: "Jobs", training: "Training", videos: "Videos", posters: "Posters", volunteering: "Volunteering", legal: "Law", admin: "Admin" },
+                    nav: { home: "Home", register: "Register", jobs: "Jobs", training: "Training", videos: "Videos", posters: "Posters", articles: "Articles", volunteering: "Volunteering", legal: "Law", admin: "Admin" },
                     auth: { login: "Login", register: "Register", logout: "Logout" },
                     home: { title: "Welcome to Nouvel horizon d'emploi", sub: "Platform for professional integration of refugees and migrants in France.", cta1: "Create account", cta2: "View jobs", f1t: "Jobs", f1d: "Offers in your city", f2t: "Training", f2d: "Coursera, LinkedIn", f3t: "Rights", f3d: "CESEDA, CEAS", f4t: "Resources", f4d: "Videos, posters" },
                     reg: { title: "Create your account", google: "Google", facebook: "Facebook", phone: "+33 Phone", or: "or by email", namePh: "Full name", passPh: "Password (6+)", pass2Ph: "Confirm password", btn: "Register", hasAccount: "Already have an account?", loginLink: "Login" },
@@ -827,16 +438,17 @@
                     train: { title: "Training", coursera: "Free courses for refugees", linkedin: "Professional skills", poleemploi: "Official French training" },
                     vid: { title: "Educational Videos", loading: "Loading...", noVideos: "No videos available." },
                     post: { title: "Informative Posters", loading: "Loading...", noPosters: "No posters available." },
+                    art: { title: "Articles & News", loading: "Loading...", noArticles: "No articles available." },
                     vol: { title: "Volunteering", loading: "Loading...", btn: "Become a volunteer" },
                     legal: { title: "Legal Framework", fr: "French Immigration Law", eu: "European Policy", un: "Geneva Convention", consult: "Consult →" },
-                    admin: { title: "Administration", dashboard: "Dashboard", users: "Users", jobs: "Jobs", videos: "Videos", posters: "Posters", admins: "Administrators" },
+                    admin: { title: "Administration", dashboard: "Dashboard", users: "Users", jobs: "Jobs", videos: "Videos", posters: "Posters", articles: "Articles", admins: "Administrators" },
                     ft: { links: "Quick links", jobs: "Jobs", training: "Training", legal: "Legal", mentions: "Legal notices", rgpd: "GDPR", rgpd2: "GDPR Compliant" },
-                    toast: { regOk: "✅ Account created!", profOk: "✅ Profile saved!", loginOk: "✅ Logged in!", loginErr: "❌ Wrong email or password", logoutOk: "👋 Logged out", applyOk: "✅ Applied for: ", jobAdd: "✅ Job added", jobDel: "🗑️ Job deleted", vidAdd: "✅ Video added", vidDel: "🗑️ Video deleted", postAdd: "✅ Poster added", postDel: "🗑️ Poster deleted", adminAdd: "✅ Admin added", adminRem: "🗑️ Admin removed", userDel: "🗑️ User deleted", lang: "🌐 Language: English", loginReq: "⚠️ Please login", profReq: "⚠️ Complete your profile", passMatch: "❌ Passwords don't match", emailUsed: "❌ Email already used", adminOnly: "⚠️ Admin access only", volunteerOk: "✅ Volunteer: ", fileLarge: "❌ File too large (max 20MB)", fileType: "❌ Unsupported file type", logoUpdated: "✅ Logo updated!" }
+                    toast: { regOk: "✅ Account created!", profOk: "✅ Profile saved!", loginOk: "✅ Logged in!", loginErr: "❌ Wrong email or password", logoutOk: "👋 Logged out", applyOk: "✅ Applied for: ", jobAdd: "✅ Job added", jobDel: "🗑️ Job deleted", vidAdd: "✅ Video added", vidDel: "🗑️ Video deleted", postAdd: "✅ Poster added", postDel: "🗑️ Poster deleted", artAdd: "✅ Article added", artDel: "🗑️ Article deleted", adminAdd: "✅ Admin added", adminRem: "🗑️ Admin removed", userDel: "🗑️ User deleted", lang: "🌐 Language: English", loginReq: "⚠️ Please login", profReq: "⚠️ Complete your profile", passMatch: "❌ Passwords don't match", emailUsed: "❌ Email already used", adminOnly: "⚠️ Admin access only", volunteerOk: "✅ Volunteer: ", fileLarge: "❌ File too large (max 20MB)", fileType: "❌ Unsupported file type", logoUpdated: "✅ Logo updated!", logoRemoved: "🗑️ Logo removed" }
                 },
                 ar: {
                     disc: "⚠️ Nous ne soutenons pas l'immigration illégale - We do not support illegal immigration - نحن لا ندعم الهجرة غير الشرعية",
                     brand: "أفق جديد للتوظيف",
-                    nav: { home: "الرئيسية", register: "التسجيل", jobs: "الوظائف", training: "التدريبات", videos: "الفيديوهات", posters: "الملصقات", volunteering: "التطوع", legal: "القانون", admin: "الإدارة" },
+                    nav: { home: "الرئيسية", register: "التسجيل", jobs: "الوظائف", training: "التدريبات", videos: "الفيديوهات", posters: "الملصقات", articles: "المقالات", volunteering: "التطوع", legal: "القانون", admin: "الإدارة" },
                     auth: { login: "تسجيل الدخول", register: "إنشاء حساب", logout: "تسجيل الخروج" },
                     home: { title: "مرحباً بكم في أفق جديد للتوظيف", sub: "منصة مخصصة للإدماج المهني للاجئين والمهاجرين في فرنسا.", cta1: "إنشاء حساب", cta2: "تصفح العروض", f1t: "الوظائف", f1d: "عروض في مدينتك", f2t: "التدريبات", f2d: "كورسيرا، لينكدإن", f3t: "الحقوق", f3d: "CESEDA, CEAS", f4t: "الموارد", f4d: "فيديوهات، ملصقات" },
                     reg: { title: "إنشاء حسابك", google: "جوجل", facebook: "فيسبوك", phone: "+33 هاتف", or: "أو عبر البريد الإلكتروني", namePh: "الاسم الكامل", passPh: "كلمة المرور (6+)", pass2Ph: "تأكيد كلمة المرور", btn: "تسجيل", hasAccount: "لديك حساب بالفعل؟", loginLink: "تسجيل الدخول" },
@@ -845,11 +457,12 @@
                     train: { title: "التدريبات", coursera: "دورات مجانية للاجئين", linkedin: "مهارات مهنية", poleemploi: "تدريبات رسمية في فرنسا" },
                     vid: { title: "فيديوهات تعليمية", loading: "جاري التحميل...", noVideos: "لا توجد فيديوهات متاحة." },
                     post: { title: "ملصقات توعوية", loading: "جاري التحميل...", noPosters: "لا توجد ملصقات متاحة." },
+                    art: { title: "المقالات والأخبار", loading: "جاري التحميل...", noArticles: "لا توجد مقالات متاحة." },
                     vol: { title: "التطوع", loading: "جاري التحميل...", btn: "كن متطوعاً" },
                     legal: { title: "الإطار القانوني", fr: "قانون الهجرة الفرنسي", eu: "السياسة الأوروبية", un: "اتفاقية جنيف", consult: "استشارة ←" },
-                    admin: { title: "الإدارة", dashboard: "لوحة القيادة", users: "المستخدمين", jobs: "الوظائف", videos: "الفيديوهات", posters: "الملصقات", admins: "المدراء" },
+                    admin: { title: "الإدارة", dashboard: "لوحة القيادة", users: "المستخدمين", jobs: "الوظائف", videos: "الفيديوهات", posters: "الملصقات", articles: "المقالات", admins: "المدراء" },
                     ft: { links: "روابط سريعة", jobs: "الوظائف", training: "التدريبات", legal: "قانوني", mentions: "إشعارات قانونية", rgpd: "اللائحة العامة لحماية البيانات", rgpd2: "متوافقة مع RGPD" },
-                    toast: { regOk: "✅ تم إنشاء الحساب بنجاح!", profOk: "✅ تم حفظ الملف الشخصي!", loginOk: "✅ تم تسجيل الدخول!", loginErr: "❌ بريد إلكتروني أو كلمة مرور خاطئة", logoutOk: "👋 تم تسجيل الخروج", applyOk: "✅ تم التقديم على: ", jobAdd: "✅ تمت إضافة الوظيفة", jobDel: "🗑️ تم حذف الوظيفة", vidAdd: "✅ تمت إضافة الفيديو", vidDel: "🗑️ تم حذف الفيديو", postAdd: "✅ تمت إضافة الملصق", postDel: "🗑️ تم حذف الملصق", adminAdd: "✅ تمت إضافة المدير", adminRem: "🗑️ تم حذف المدير", userDel: "🗑️ تم حذف المستخدم", lang: "🌐 اللغة: العربية", loginReq: "⚠️ يرجى تسجيل الدخول", profReq: "⚠️ أكمل ملفك الشخصي", passMatch: "❌ كلمتا المرور غير متطابقتين", emailUsed: "❌ البريد الإلكتروني مستخدم بالفعل", adminOnly: "⚠️ يقتصر الوصول على المدراء", volunteerOk: "✅ تطوع: ", fileLarge: "❌ الملف كبير جداً (الحد 20MB)", fileType: "❌ نوع الملف غير مدعوم", logoUpdated: "✅ تم تحديث الشعار!" }
+                    toast: { regOk: "✅ تم إنشاء الحساب بنجاح!", profOk: "✅ تم حفظ الملف الشخصي!", loginOk: "✅ تم تسجيل الدخول!", loginErr: "❌ بريد إلكتروني أو كلمة مرور خاطئة", logoutOk: "👋 تم تسجيل الخروج", applyOk: "✅ تم التقديم على: ", jobAdd: "✅ تمت إضافة الوظيفة", jobDel: "🗑️ تم حذف الوظيفة", vidAdd: "✅ تمت إضافة الفيديو", vidDel: "🗑️ تم حذف الفيديو", postAdd: "✅ تمت إضافة الملصق", postDel: "🗑️ تم حذف الملصق", artAdd: "✅ تمت إضافة المقال", artDel: "🗑️ تم حذف المقال", adminAdd: "✅ تمت إضافة المدير", adminRem: "🗑️ تم حذف المدير", userDel: "🗑️ تم حذف المستخدم", lang: "🌐 اللغة: العربية", loginReq: "⚠️ يرجى تسجيل الدخول", profReq: "⚠️ أكمل ملفك الشخصي", passMatch: "❌ كلمتا المرور غير متطابقتين", emailUsed: "❌ البريد الإلكتروني مستخدم بالفعل", adminOnly: "⚠️ يقتصر الوصول على المدراء", volunteerOk: "✅ تطوع: ", fileLarge: "❌ الملف كبير جداً (الحد 20MB)", fileType: "❌ نوع الملف غير مدعوم", logoUpdated: "✅ تم تحديث الشعار!", logoRemoved: "🗑️ تم حذف الشعار" }
                 }
             },
             t(key) { var keys = key.split('.'); var val = this.data[this.lang]; for (var i = 0; i < keys.length; i++) { if (val && val[keys[i]] !== undefined) val = val[keys[i]]; else return key; } return val; },
@@ -861,17 +474,37 @@
         let cachedJobs = [];
         let cachedVideos = [];
         let cachedPosters = [];
+        let cachedArticles = [];
         let cachedAdmins = [];
         let currentUser = null;
 
         function toast(msg, type) { type = type || 'success'; var c = document.getElementById('toastContainer'); var t = document.createElement('div'); t.className = 'toast toast-' + type; t.textContent = msg; c.appendChild(t); setTimeout(function() { t.remove(); }, 3000); }
 
-        function showSection(id) { var ss = document.querySelectorAll('main > section'); for (var i = 0; i < ss.length; i++) ss[i].classList.add('hidden'); var s = document.getElementById(id); if (s) { s.classList.remove('hidden'); window.scrollTo({ top: s.offsetTop - 80, behavior: 'smooth' }); } var ls = document.querySelectorAll('.nav-links a'); for (var j = 0; j < ls.length; j++) ls[j].classList.remove('active'); var al = document.querySelector('.nav-links a[href="#' + id + '"]'); if (al) al.classList.add('active'); document.getElementById('navMenu').classList.remove('open'); }
+        function showSection(id) {
+            var ss = document.querySelectorAll('main > section');
+            for (var i = 0; i < ss.length; i++) ss[i].classList.add('hidden');
+            var s = document.getElementById(id);
+            if (s) { s.classList.remove('hidden'); window.scrollTo({ top: s.offsetTop - 80, behavior: 'smooth' }); }
+            var ls = document.querySelectorAll('.nav-links a');
+            for (var j = 0; j < ls.length; j++) ls[j].classList.remove('active');
+            var al = document.querySelector('.nav-links a[href="#' + id + '"]');
+            if (al) al.classList.add('active');
+            document.getElementById('navMenu').classList.remove('open');
+        }
 
         function isLoggedIn() { return !!currentUser; }
         function isAdmin() { return currentUser && cachedAdmins.includes(currentUser.email); }
 
-        function updateUI() { var l = isLoggedIn(), a = isAdmin(); document.getElementById('btnLogin').classList.toggle('hidden', l); document.getElementById('btnRegister').classList.toggle('hidden', l); document.getElementById('btnLogout').classList.toggle('hidden', !l); document.getElementById('adminLink').classList.toggle('hidden', !a); var b = document.getElementById('userBadge'); if (l) { b.classList.remove('hidden'); b.textContent = '👤 ' + currentUser.name; } else { b.classList.add('hidden'); b.textContent = ''; } }
+        function updateUI() {
+            var l = isLoggedIn(), a = isAdmin();
+            document.getElementById('btnLogin').classList.toggle('hidden', l);
+            document.getElementById('btnRegister').classList.toggle('hidden', l);
+            document.getElementById('btnLogout').classList.toggle('hidden', !l);
+            document.getElementById('adminLink').classList.toggle('hidden', !a);
+            var b = document.getElementById('userBadge');
+            if (l) { b.classList.remove('hidden'); b.textContent = '👤 ' + (currentUser.name || currentUser.email); }
+            else { b.classList.add('hidden'); b.textContent = ''; }
+        }
 
         async function updateLogoDisplay() {
             var doc = await db.collection('settings').doc('logo').get();
@@ -891,9 +524,9 @@
         }
 
         // AUTH
-        async function registerEmail(n, e, p, p2) { 
-            if (p !== p2) { toast(I18N.t('toast.passMatch'), 'error'); return; } 
-            if (p.length < 6) { toast('❌ 6 caractères minimum', 'error'); return; } 
+        async function registerEmail(n, e, p, p2) {
+            if (p !== p2) { toast(I18N.t('toast.passMatch'), 'error'); return; }
+            if (p.length < 6) { toast('❌ 6 caractères minimum', 'error'); return; }
             try {
                 var cred = await auth.createUserWithEmailAndPassword(e, p);
                 currentUser = { id: cred.user.uid, name: n, email: e, provider: 'email', createdAt: new Date().toISOString() };
@@ -906,11 +539,9 @@
             }
         }
 
-        async function showLogin() { 
-            var e = prompt('📧 Email :'); 
-            if (!e) return; 
-            var p = prompt('🔑 Mot de passe :'); 
-            if (!p) return; 
+        async function showLogin() {
+            var e = prompt('📧 Email :'); if (!e) return;
+            var p = prompt('🔑 Mot de passe :'); if (!p) return;
             try {
                 var cred = await auth.signInWithEmailAndPassword(e, p);
                 var doc = await db.collection('users').doc(cred.user.uid).get();
@@ -922,15 +553,15 @@
             }
         }
 
-        async function logout() { 
+        async function logout() {
             await auth.signOut();
-            currentUser = null; 
-            updateUI(); 
-            toast(I18N.t('toast.logoutOk')); 
-            showSection('home'); 
+            currentUser = null;
+            updateUI();
+            toast(I18N.t('toast.logoutOk'));
+            showSection('home');
         }
 
-        function registerGoogle() { 
+        function registerGoogle() {
             var p = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(p).then(async function(r) {
                 currentUser = { id: r.user.uid, name: r.user.displayName, email: r.user.email, provider: 'google' };
@@ -942,7 +573,7 @@
             }).catch(function(e) { toast('❌ ' + e.message, 'error'); });
         }
 
-        function registerFacebook() { 
+        function registerFacebook() {
             var p = new firebase.auth.FacebookAuthProvider();
             auth.signInWithPopup(p).then(async function(r) {
                 currentUser = { id: r.user.uid, name: r.user.displayName, email: r.user.email, provider: 'facebook' };
@@ -954,11 +585,9 @@
             }).catch(function(e) { toast('❌ ' + e.message, 'error'); });
         }
 
-        function registerPhone() { 
-            var ph = prompt('📱 Téléphone (+33) :'); 
-            if (!ph) return; 
-            var nm = prompt('👤 Nom complet :'); 
-            if (!nm) return; 
+        function registerPhone() {
+            var ph = prompt('📱 Téléphone (+33) :'); if (!ph) return;
+            var nm = prompt('👤 Nom complet :'); if (!nm) return;
             currentUser = { id: 'phone_' + Date.now(), name: nm, email: ph, provider: 'phone' };
             db.collection('users').doc(currentUser.id).set(currentUser);
             updateUI();
@@ -966,65 +595,63 @@
             showSection('profile');
         }
 
-        async function saveProfile(s, c, l) { 
-            if (!currentUser) return; 
-            currentUser.status = s; 
-            currentUser.city = c; 
-            currentUser.legalStatus = l; 
-            currentUser.profileComplete = true; 
+        async function saveProfile(s, c, l) {
+            if (!currentUser) return;
+            currentUser.status = s; currentUser.city = c; currentUser.legalStatus = l; currentUser.profileComplete = true;
             await db.collection('users').doc(currentUser.id).set(currentUser, { merge: true });
-            updateUI(); 
-            toast(I18N.t('toast.profOk')); 
-            showSection('jobs'); 
+            updateUI(); toast(I18N.t('toast.profOk')); showSection('jobs');
         }
 
         // RENDER
-        function renderJobs() { 
-            var c = document.getElementById('jobsList'); 
-            if (!c) return; 
-            var j = cachedJobs.slice(); 
-            var cf = document.getElementById('jobCity').value; 
-            var kf = document.getElementById('jobContract').value; 
-            var sf = document.getElementById('jobSearch').value.toLowerCase(); 
-            if (cf) j = j.filter(function(x) { return x.city === cf; }); 
-            if (kf) j = j.filter(function(x) { return x.contract === kf; }); 
-            if (sf) j = j.filter(function(x) { return x.title.toLowerCase().indexOf(sf) !== -1; }); 
-            if (!j.length) { c.innerHTML = '<p class="loading">' + I18N.t('jobs.noResults') + '</p>'; return; } 
-            c.innerHTML = j.map(function(x) { return '<div class="job-card"><h4>' + x.title + '</h4><span class="badge badge-blue">📍 ' + x.city + '</span> <span class="badge badge-green">📄 ' + x.contract + '</span><p style="margin:.4rem 0;font-size:.85rem;">' + (x.desc || '') + '</p><small>' + I18N.t('jobs.published') + ' : ' + x.date + '</small><br><button class="btn btn-primary btn-sm" style="margin-top:.4rem;" onclick="applyJob(' + x.id + ')">' + I18N.t('jobs.apply') + '</button></div>'; }).join(''); 
-            populateCities(); 
+        function renderJobs() {
+            var c = document.getElementById('jobsList'); if (!c) return;
+            var j = cachedJobs.slice();
+            var cf = document.getElementById('jobCity')?.value;
+            var kf = document.getElementById('jobContract')?.value;
+            var sf = document.getElementById('jobSearch')?.value?.toLowerCase();
+            if (cf) j = j.filter(function(x) { return x.city === cf; });
+            if (kf) j = j.filter(function(x) { return x.contract === kf; });
+            if (sf) j = j.filter(function(x) { return x.title.toLowerCase().indexOf(sf) !== -1; });
+            if (!j.length) { c.innerHTML = '<p class="loading">' + I18N.t('jobs.noResults') + '</p>'; return; }
+            c.innerHTML = j.map(function(x) { return '<div class="job-card"><h4>' + x.title + '</h4><span class="badge badge-blue">📍 ' + x.city + '</span> <span class="badge badge-green">📄 ' + x.contract + '</span><p style="margin:.4rem 0;font-size:.85rem;">' + (x.desc || '') + '</p><small>' + I18N.t('jobs.published') + ' : ' + x.date + '</small><br><button class="btn btn-primary btn-sm" style="margin-top:.4rem;" onclick="applyJob(' + x.id + ')">' + I18N.t('jobs.apply') + '</button></div>'; }).join('');
+            populateCities();
         }
 
-        function renderVideos() { 
-            var c = document.getElementById('videosList'); 
-            if (!c) return; 
-            if (!cachedVideos.length) { c.innerHTML = '<p class="loading">' + I18N.t('vid.noVideos') + '</p>'; return; } 
-            c.innerHTML = cachedVideos.map(function(x) { return renderMediaCard(x); }).join(''); 
+        function renderVideos() {
+            var c = document.getElementById('videosList'); if (!c) return;
+            if (!cachedVideos.length) { c.innerHTML = '<p class="loading">' + I18N.t('vid.noVideos') + '</p>'; return; }
+            c.innerHTML = cachedVideos.map(function(x) { return renderMediaCard(x); }).join('');
         }
 
-        function renderHomeVideos() { 
-            var c = document.getElementById('homeVideosList'); 
-            if (!c) return; 
-            if (!cachedVideos.length) { c.innerHTML = '<p class="loading" style="grid-column:1/-1;">Aucun média pour le moment.</p>'; return; } 
-            c.innerHTML = cachedVideos.slice(-3).reverse().map(function(x) { return renderMediaCard(x); }).join(''); 
+        function renderHomeVideos() {
+            var c = document.getElementById('homeVideosList'); if (!c) return;
+            if (!cachedVideos.length) { c.innerHTML = '<p class="loading" style="grid-column:1/-1;">Aucun média pour le moment.</p>'; return; }
+            c.innerHTML = cachedVideos.slice(-3).reverse().map(function(x) { return renderMediaCard(x); }).join('');
         }
 
-        function renderPosters() { 
-            var c = document.getElementById('postersList'); 
-            if (!c) return; 
-            if (!cachedPosters.length) { c.innerHTML = '<p class="loading">' + I18N.t('post.noPosters') + '</p>'; return; } 
-            c.innerHTML = cachedPosters.map(function(x) { return renderPosterCard(x); }).join(''); 
+        function renderPosters() {
+            var c = document.getElementById('postersList'); if (!c) return;
+            if (!cachedPosters.length) { c.innerHTML = '<p class="loading">' + I18N.t('post.noPosters') + '</p>'; return; }
+            c.innerHTML = cachedPosters.map(function(x) { return renderPosterCard(x); }).join('');
         }
 
-        function renderHomePosters() { 
-            var c = document.getElementById('homePostersList'); 
-            if (!c) return; 
-            if (!cachedPosters.length) { c.innerHTML = '<p class="loading" style="grid-column:1/-1;">Aucune affiche pour le moment.</p>'; return; } 
-            c.innerHTML = cachedPosters.slice(-3).reverse().map(function(x) { return renderPosterCard(x); }).join(''); 
+        function renderHomePosters() {
+            var c = document.getElementById('homePostersList'); if (!c) return;
+            if (!cachedPosters.length) { c.innerHTML = '<p class="loading" style="grid-column:1/-1;">Aucune affiche pour le moment.</p>'; return; }
+            c.innerHTML = cachedPosters.slice(-3).reverse().map(function(x) { return renderPosterCard(x); }).join('');
         }
 
-        function renderVolunteering() { 
-            var d = [{ org: 'Restos du Cœur', city: 'paris', task: 'Distribution alimentaire' }, { org: 'La Cimade', city: 'lyon', task: 'Accompagnement juridique' }, { org: 'Secours Populaire', city: 'marseille', task: 'Aide aux réfugiés' }]; 
-            document.getElementById('volList').innerHTML = d.map(function(v) { return '<div class="job-card" style="border-left-color:var(--s)"><h4>' + v.org + '</h4><span class="badge badge-blue">📍 ' + v.city + '</span><p style="margin:.4rem 0;font-size:.85rem;">' + v.task + '</p><button class="btn btn-outline btn-sm" style="border-color:var(--s);color:var(--s)" onclick="volSign(\'' + v.org + '\')">' + I18N.t('vol.btn') + '</button></div>'; }).join(''); 
+        function renderArticles() {
+            var c = document.getElementById('articlesList'); if (!c) return;
+            if (!cachedArticles.length) { c.innerHTML = '<p class="loading">' + I18N.t('art.noArticles') + '</p>'; return; }
+            c.innerHTML = cachedArticles.map(function(a) {
+                return '<div class="job-card" style="border-left-color:var(--a);"><h4>' + a.title + '</h4><span class="badge badge-blue">📝 ' + (a.cat || 'Actualité') + '</span><p style="margin:.4rem 0;font-size:.85rem;">' + (a.content || '').substring(0, 100) + '...</p><small>' + (a.date || '') + '</small></div>';
+            }).join('');
+        }
+
+        function renderVolunteering() {
+            var d = [{ org: 'Restos du Cœur', city: 'paris', task: 'Distribution alimentaire' }, { org: 'La Cimade', city: 'lyon', task: 'Accompagnement juridique' }, { org: 'Secours Populaire', city: 'marseille', task: 'Aide aux réfugiés' }];
+            document.getElementById('volList').innerHTML = d.map(function(v) { return '<div class="job-card" style="border-left-color:var(--s)"><h4>' + v.org + '</h4><span class="badge badge-blue">📍 ' + v.city + '</span><p style="margin:.4rem 0;font-size:.85rem;">' + v.task + '</p><button class="btn btn-outline btn-sm" style="border-color:var(--s);color:var(--s)" onclick="volSign(\'' + v.org + '\')">' + I18N.t('vol.btn') + '</button></div>'; }).join('');
         }
 
         function renderMediaCard(x) {
@@ -1048,49 +675,48 @@
             return '<div class="card" style="padding:.8rem;">' + mh + '<h4 style="font-size:.85rem;">' + x.title + '</h4><span class="badge badge-blue">' + (x.topic || 'Affiche') + '</span></div>';
         }
 
-        function populateCities() { 
-            var s = document.getElementById('jobCity'); 
-            if (!s) return; 
-            var cs = cachedJobs.map(function(j) { return j.city; }); 
-            var uc = []; 
-            for (var i = 0; i < cs.length; i++) { if (uc.indexOf(cs[i]) === -1) uc.push(cs[i]); } 
-            s.innerHTML = '<option value="">' + I18N.t('jobs.allCities') + '</option>' + uc.map(function(c) { return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>'; }).join(''); 
+        function populateCities() {
+            var s = document.getElementById('jobCity'); if (!s) return;
+            var cs = cachedJobs.map(function(j) { return j.city; });
+            var uc = []; for (var i = 0; i < cs.length; i++) { if (uc.indexOf(cs[i]) === -1) uc.push(cs[i]); }
+            s.innerHTML = '<option value="">' + I18N.t('jobs.allCities') + '</option>' + uc.map(function(c) { return '<option value="' + c + '">' + c.charAt(0).toUpperCase() + c.slice(1) + '</option>'; }).join('');
         }
 
-        function applyJob(id) { 
-            if (!isLoggedIn()) { toast(I18N.t('toast.loginReq'), 'warning'); showSection('register'); return; } 
-            if (!currentUser.profileComplete) { toast(I18N.t('toast.profReq'), 'warning'); showSection('profile'); return; } 
-            var j = cachedJobs.find(function(x) { return x.id == id; }); 
-            if (j) toast(I18N.t('toast.applyOk') + j.title); 
+        function applyJob(id) {
+            if (!isLoggedIn()) { toast(I18N.t('toast.loginReq'), 'warning'); showSection('register'); return; }
+            if (!currentUser.profileComplete) { toast(I18N.t('toast.profReq'), 'warning'); showSection('profile'); return; }
+            var j = cachedJobs.find(function(x) { return x.id == id; });
+            if (j) toast(I18N.t('toast.applyOk') + j.title);
         }
 
-        function volSign(o) { 
-            if (!isLoggedIn()) { toast(I18N.t('toast.loginReq'), 'warning'); showSection('register'); return; } 
-            toast(I18N.t('toast.volunteerOk') + o); 
+        function volSign(o) {
+            if (!isLoggedIn()) { toast(I18N.t('toast.loginReq'), 'warning'); showSection('register'); return; }
+            toast(I18N.t('toast.volunteerOk') + o);
         }
 
-        function renderAll() { 
-            renderJobs(); renderVideos(); renderPosters(); renderVolunteering(); 
-            renderHomeVideos(); renderHomePosters(); 
+        function renderAll() {
+            renderJobs(); renderVideos(); renderPosters(); renderArticles(); renderVolunteering();
+            renderHomeVideos(); renderHomePosters();
         }
 
         // ADMIN
-        async function renderAdmin(tab) { 
-            var c = document.getElementById('adminContent'); 
-            if (!c) return; 
+        async function renderAdmin(tab) {
+            var c = document.getElementById('adminContent'); if (!c) return;
             if (tab === 'dashboard') {
                 var us = await db.collection('users').get();
-                c.innerHTML = '<div class="stat-grid">' + [{ l: I18N.t('admin.users'), n: us.size }, { l: I18N.t('admin.jobs'), n: cachedJobs.length }, { l: I18N.t('admin.videos'), n: cachedVideos.length }, { l: I18N.t('admin.posters'), n: cachedPosters.length }].map(function(s) { return '<div class="card"><div class="stat-num">' + s.n + '</div><div style="font-size:.8rem;color:#999;">' + s.l + '</div></div>'; }).join('') + '</div>';
+                c.innerHTML = '<div class="stat-grid">' + [{ l: I18N.t('admin.users'), n: us.size }, { l: I18N.t('admin.jobs'), n: cachedJobs.length }, { l: I18N.t('admin.videos'), n: cachedVideos.length }, { l: I18N.t('admin.posters'), n: cachedPosters.length }, { l: I18N.t('admin.articles'), n: cachedArticles.length }].map(function(s) { return '<div class="card"><div class="stat-num">' + s.n + '</div><div style="font-size:.8rem;color:#999;">' + s.l + '</div></div>'; }).join('') + '</div>';
             } else if (tab === 'users') {
                 var snap = await db.collection('users').get();
                 var users = snap.docs.map(function(d) { return d.data(); });
-                c.innerHTML = '<table><tr><th>Nom</th><th>Email</th><th>Action</th></tr>' + users.map(function(u) { return '<tr><td>' + u.name + '</td><td>' + u.email + '</td><td><button class="btn btn-danger btn-sm" onclick="delU(\'' + u.id + '\')">🗑️</button></td></tr>'; }).join('') + '</table>';
+                c.innerHTML = '<table><tr><th>Nom</th><th>Email</th><th>Action</th></tr>' + users.map(function(u) { return '<tr><td>' + (u.name || '') + '</td><td>' + u.email + '</td><td><button class="btn btn-danger btn-sm" onclick="delU(\'' + u.id + '\')">🗑️</button></td></tr>'; }).join('') + '</table>';
             } else if (tab === 'jobs-manage') {
                 c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addJ()" style="margin-bottom:.75rem;">+ ' + I18N.t('admin.jobs') + '</button><table><tr><th>Titre</th><th>Ville</th><th>Action</th></tr>' + cachedJobs.map(function(j) { return '<tr><td>' + j.title + '</td><td>' + j.city + '</td><td><button class="btn btn-danger btn-sm" onclick="delJ(' + j.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
             } else if (tab === 'videos-manage') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerVideoUpload()" style="margin-bottom:.75rem;">+ Vidéo (max 20MB)</button><table style="margin-top:.5rem;"><tr><th>Aperçu</th><th>Titre</th><th>Type</th><th>Action</th></tr>' + cachedVideos.map(function(v) { return '<tr><td>' + (v.dataUrl ? (v.fileType && v.fileType.startsWith('video/') ? '<video src="' + v.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;"></video>' : (v.fileType && v.fileType.startsWith('image/') ? '<img src="' + v.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;">' : '<a href="' + v.dataUrl + '" target="_blank" rel="noopener">📄</a>')) : '📹') + '</td><td>' + v.title + '</td><td>' + (v.fileType || 'n/a') + '</td><td><button class="btn btn-danger btn-sm" onclick="delV(' + v.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerUpload(\'video\')" style="margin-bottom:.75rem;">+ Vidéo/Image (max 20MB)</button><table style="margin-top:.5rem;"><tr><th>Aperçu</th><th>Titre</th><th>Type</th><th>Action</th></tr>' + cachedVideos.map(function(v) { return '<tr><td>' + (v.dataUrl ? (v.fileType && v.fileType.startsWith('video/') ? '<video src="' + v.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;"></video>' : (v.fileType && v.fileType.startsWith('image/') ? '<img src="' + v.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;">' : '<a href="' + v.dataUrl + '" target="_blank" rel="noopener">📄</a>')) : '📹') + '</td><td>' + v.title + '</td><td>' + (v.fileType || 'n/a') + '</td><td><button class="btn btn-danger btn-sm" onclick="delV(' + v.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
             } else if (tab === 'posters-manage') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerPosterUpload()" style="margin-bottom:.75rem;">+ Affiche (Image)</button><table style="margin-top:.5rem;"><tr><th>Aperçu</th><th>Titre</th><th>Sujet</th><th>Action</th></tr>' + cachedPosters.map(function(p) { return '<tr><td>' + (p.dataUrl ? '<img src="' + p.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;">' : '🖼️') + '</td><td>' + p.title + '</td><td>' + (p.topic || '') + '</td><td><button class="btn btn-danger btn-sm" onclick="delP(' + p.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerUpload(\'poster\')" style="margin-bottom:.75rem;">+ Affiche (Image)</button><table style="margin-top:.5rem;"><tr><th>Aperçu</th><th>Titre</th><th>Sujet</th><th>Action</th></tr>' + cachedPosters.map(function(p) { return '<tr><td>' + (p.dataUrl ? '<img src="' + p.dataUrl + '" style="width:60px;height:40px;object-fit:cover;border-radius:4px;">' : '🖼️') + '</td><td>' + p.title + '</td><td>' + (p.topic || '') + '</td><td><button class="btn btn-danger btn-sm" onclick="delP(' + p.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
+            } else if (tab === 'articles-manage') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addArticle()" style="margin-bottom:.75rem;">+ Article</button><table><tr><th>Titre</th><th>Catégorie</th><th>Date</th><th>Action</th></tr>' + cachedArticles.map(function(a) { return '<tr><td>' + a.title + '</td><td>' + (a.cat || '') + '</td><td>' + (a.date || '') + '</td><td><button class="btn btn-danger btn-sm" onclick="delArt(' + a.id + ')">🗑️</button></td></tr>'; }).join('') + '</table>';
             } else if (tab === 'settings') {
                 var doc = await db.collection('settings').doc('logo').get();
                 var logoUrl = doc.exists ? doc.data().url : '';
@@ -1100,96 +726,78 @@
             }
         }
 
-        async function triggerVideoUpload() { 
-            var input = document.createElement('input'); 
-            input.type = 'file'; 
-            input.onchange = async function(e) { 
-                var file = e.target.files[0]; 
-                if (!file) return; 
+        function triggerUpload(type) {
+            var input = document.createElement('input');
+            input.type = 'file';
+            if (type === 'poster') input.accept = 'image/*';
+            input.onchange = async function(e) {
+                var file = e.target.files[0]; if (!file) return;
                 if (file.size > 20 * 1024 * 1024) { toast(I18N.t('toast.fileLarge'), 'error'); return; }
-                var ref = storage.ref('videos/' + Date.now() + '_' + file.name);
+                var folder = type === 'poster' ? 'posters' : 'videos';
+                var ref = storage.ref(folder + '/' + Date.now() + '_' + file.name);
                 await ref.put(file);
                 var url = await ref.getDownloadURL();
-                var title = prompt('🎬 Titre du média :', file.name || 'Média'); 
-                if (!title) return; 
-                var cat = prompt('📂 Catégorie :', 'Emploi') || 'Emploi'; 
-                var lang = prompt('🌐 Langue (fr/en/ar) :', 'fr') || 'fr'; 
-                var video = { id: Date.now(), title: title, cat: cat, lang: lang, dataUrl: url, fileName: file.name, fileType: file.type };
-                await db.collection('videos').doc(String(video.id)).set(video);
-                cachedVideos.push(video);
-                renderAdmin('videos-manage'); 
-                renderVideos(); 
-                renderHomeVideos(); 
-                toast(I18N.t('toast.vidAdd')); 
-            }; 
-            input.click(); 
+                var title = prompt('Titre :', file.name || 'Média'); if (!title) return;
+                if (type === 'poster') {
+                    var topic = prompt('Sujet :', 'Droits') || 'Droits';
+                    var poster = { id: Date.now(), title: title, topic: topic, dataUrl: url, fileName: file.name, fileType: file.type };
+                    await db.collection('posters').doc(String(poster.id)).set(poster);
+                    cachedPosters.push(poster);
+                    renderAdmin('posters-manage'); renderPosters(); renderHomePosters(); toast(I18N.t('toast.postAdd'));
+                } else {
+                    var cat = prompt('Catégorie :', 'Emploi') || 'Emploi';
+                    var lang = prompt('Langue (fr/en/ar) :', 'fr') || 'fr';
+                    var video = { id: Date.now(), title: title, cat: cat, lang: lang, dataUrl: url, fileName: file.name, fileType: file.type };
+                    await db.collection('videos').doc(String(video.id)).set(video);
+                    cachedVideos.push(video);
+                    renderAdmin('videos-manage'); renderVideos(); renderHomeVideos(); toast(I18N.t('toast.vidAdd'));
+                }
+            };
+            input.click();
         }
 
-        async function triggerPosterUpload() { 
-            var input = document.createElement('input'); 
-            input.type = 'file'; 
-            input.accept = 'image/*'; 
-            input.onchange = async function(e) { 
-                var file = e.target.files[0]; 
-                if (!file) return; 
-                var ref = storage.ref('posters/' + Date.now() + '_' + file.name);
-                await ref.put(file);
-                var url = await ref.getDownloadURL();
-                var title = prompt('🖼️ Titre de l\'affiche :', file.name || 'Affiche'); 
-                if (!title) return; 
-                var topic = prompt('🏷️ Sujet :', 'Droits') || 'Droits'; 
-                var poster = { id: Date.now(), title: title, topic: topic, dataUrl: url, fileName: file.name, fileType: file.type };
-                await db.collection('posters').doc(String(poster.id)).set(poster);
-                cachedPosters.push(poster);
-                renderAdmin('posters-manage'); 
-                renderPosters(); 
-                renderHomePosters(); 
-                toast(I18N.t('toast.postAdd')); 
-            }; 
-            input.click(); 
-        }
-
-        async function triggerLogoUpload() { 
-            var input = document.createElement('input'); 
-            input.type = 'file'; 
-            input.accept = 'image/*'; 
-            input.onchange = async function(e) { 
-                var file = e.target.files[0]; 
-                if (!file) return; 
-                var ref = storage.ref('settings/logo');
-                await ref.put(file);
+        async function triggerLogoUpload() {
+            var input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
+            input.onchange = async function(e) {
+                var file = e.target.files[0]; if (!file) return;
+                var ref = storage.ref('settings/logo'); await ref.put(file);
                 var url = await ref.getDownloadURL();
                 await db.collection('settings').doc('logo').set({ url: url });
-                updateLogoDisplay(); 
-                renderAdmin('settings'); 
-                toast(I18N.t('toast.logoUpdated')); 
-            }; 
-            input.click(); 
+                updateLogoDisplay(); renderAdmin('settings'); toast(I18N.t('toast.logoUpdated'));
+            };
+            input.click();
         }
 
-        async function removeLogo() { 
-            if (!confirm('Supprimer le logo ?')) return; 
+        async function removeLogo() {
+            if (!confirm('Supprimer le logo ?')) return;
             await db.collection('settings').doc('logo').delete();
-            updateLogoDisplay(); 
-            renderAdmin('settings'); 
-            toast('🗑️ Logo supprimé'); 
+            updateLogoDisplay(); renderAdmin('settings'); toast(I18N.t('toast.logoRemoved'));
         }
 
-        async function addJ() { 
-            var t = prompt('Titre :'); if (!t) return; 
-            var ci = prompt('Ville :'); if (!ci) return; 
-            var k = prompt('Contrat :') || 'CDI'; 
-            var d = prompt('Description :') || ''; 
-            var job = { id: Date.now(), title: t, city: ci.toLowerCase(), contract: k, desc: d, date: new Date().toISOString().split('T')[0] }; 
-            await db.collection('jobs').doc(String(job.id)).set(job); 
-            cachedJobs.push(job);
-            renderAdmin('jobs-manage'); renderJobs(); 
-            toast(I18N.t('toast.jobAdd')); 
+        async function addArticle() {
+            var t = prompt('Titre :'); if (!t) return;
+            var cat = prompt('Catégorie :', 'Actualité') || 'Actualité';
+            var content = prompt('Contenu :', '') || '';
+            var art = { id: Date.now(), title: t, cat: cat, content: content, date: new Date().toISOString().split('T')[0] };
+            await db.collection('articles').doc(String(art.id)).set(art);
+            cachedArticles.push(art);
+            renderAdmin('articles-manage'); renderArticles(); toast(I18N.t('toast.artAdd'));
+        }
+
+        async function addJ() {
+            var t = prompt('Titre :'); if (!t) return;
+            var ci = prompt('Ville :'); if (!ci) return;
+            var k = prompt('Contrat :') || 'CDI';
+            var d = prompt('Description :') || '';
+            var job = { id: Date.now(), title: t, city: ci.toLowerCase(), contract: k, desc: d, date: new Date().toISOString().split('T')[0] };
+            await db.collection('jobs').doc(String(job.id)).set(job);
+            cachedJobs.push(job); renderAdmin('jobs-manage'); renderJobs(); toast(I18N.t('toast.jobAdd'));
         }
 
         async function delJ(id) { await db.collection('jobs').doc(String(id)).delete(); cachedJobs = cachedJobs.filter(function(j) { return j.id != id; }); renderAdmin('jobs-manage'); renderJobs(); toast(I18N.t('toast.jobDel')); }
         async function delV(id) { await db.collection('videos').doc(String(id)).delete(); cachedVideos = cachedVideos.filter(function(v) { return v.id != id; }); renderAdmin('videos-manage'); renderVideos(); renderHomeVideos(); toast(I18N.t('toast.vidDel')); }
         async function delP(id) { await db.collection('posters').doc(String(id)).delete(); cachedPosters = cachedPosters.filter(function(p) { return p.id != id; }); renderAdmin('posters-manage'); renderPosters(); renderHomePosters(); toast(I18N.t('toast.postDel')); }
+        async function delArt(id) { await db.collection('articles').doc(String(id)).delete(); cachedArticles = cachedArticles.filter(function(a) { return a.id != id; }); renderAdmin('articles-manage'); renderArticles(); toast(I18N.t('toast.artDel')); }
         async function delU(id) { if (!confirm('Supprimer ?')) return; await db.collection('users').doc(id).delete(); renderAdmin('users'); toast(I18N.t('toast.userDel')); }
         async function addA() { var e = prompt('Email admin :'); if (!e) return; if (cachedAdmins.indexOf(e) !== -1) { toast('⚠️ Déjà admin', 'warning'); return; } await db.collection('admins').doc(e).set({ email: e }); cachedAdmins.push(e); renderAdmin('admins'); toast(I18N.t('toast.adminAdd')); }
         async function remA(e) { if (e === 'mosab649@gmail.com') { toast('⚠️ Protégé', 'warning'); return; } await db.collection('admins').doc(e).delete(); cachedAdmins = cachedAdmins.filter(function(a) { return a !== e; }); renderAdmin('admins'); toast(I18N.t('toast.adminRem')); }
@@ -1215,8 +823,11 @@
             var pSnap = await db.collection('posters').get();
             cachedPosters = pSnap.docs.map(function(d) { return { id: d.id, ...d.data() }; });
 
-            var aSnap = await db.collection('admins').get();
-            cachedAdmins = aSnap.docs.map(function(d) { return d.id; });
+            var aSnap = await db.collection('articles').get();
+            cachedArticles = aSnap.docs.map(function(d) { return { id: d.id, ...d.data() }; });
+
+            var admSnap = await db.collection('admins').get();
+            cachedAdmins = admSnap.docs.map(function(d) { return d.id; });
             if (cachedAdmins.length === 0) { await db.collection('admins').doc('mosab649@gmail.com').set({ email: 'mosab649@gmail.com' }); cachedAdmins = ['mosab649@gmail.com']; }
 
             auth.onAuthStateChanged(async function(user) {
@@ -1245,22 +856,35 @@
             document.getElementById('jobCity').addEventListener('change', renderJobs);
             document.getElementById('jobContract').addEventListener('change', renderJobs);
 
-            document.querySelectorAll('.nav-links a').forEach(function(a) { 
-                a.addEventListener('click', function(e) { 
-                    e.preventDefault(); 
-                    var id = this.getAttribute('href').replace('#', ''); 
-                    if (id === 'admin' && !isAdmin()) { toast(I18N.t('toast.adminOnly'), 'warning'); return; } 
-                    showSection(id); 
-                    if (id === 'admin') renderAdmin('dashboard'); 
-                }); 
+            document.querySelectorAll('.nav-links a').forEach(function(a) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var id = this.getAttribute('href').replace('#', '');
+                    if (id === 'admin' && !isAdmin()) { toast(I18N.t('toast.adminOnly'), 'warning'); return; }
+                    showSection(id);
+                    if (id === 'admin') renderAdmin('dashboard');
+                });
             });
 
-            document.querySelectorAll('.admin-tab').forEach(function(t) { 
-                t.addEventListener('click', function() { 
-                    document.querySelectorAll('.admin-tab').forEach(function(x) { x.classList.remove('active'); }); 
-                    this.classList.add('active'); 
-                    renderAdmin(this.getAttribute('data-tab')); 
-                }); 
+            document.querySelectorAll('.admin-tab').forEach(function(t) {
+                t.addEventListener('click', function() {
+                    document.querySelectorAll('.admin-tab').forEach(function(x) { x.classList.remove('active'); });
+                    this.classList.add('active');
+                    renderAdmin(this.getAttribute('data-tab'));
+                });
+            });
+
+            // ========== AJOUT : Fermer la page lors du rafraîchissement F5 ==========
+            window.addEventListener('beforeunload', function (e) {
+                // Empêche le rechargement normal et tente de fermer la page
+                e.preventDefault();
+                e.returnValue = '';
+                // Dans la plupart des navigateurs modernes, on ne peut pas fermer directement,
+                // mais on redirige proprement vers la page d'accueil si l'utilisateur annule.
+                // Pour forcer une "fermeture" et réouverture, on peut utiliser window.open('', '_self', ''); window.close();
+                // Cependant, window.close() ne fonctionne que sur les fenêtres ouvertes par script.
+                // Solution alternative : rediriger vers la racine avec un cache-bust pour simuler une "nouvelle session".
+                window.location.href = window.location.pathname + '?restart=' + Date.now();
             });
 
             console.log('✅ Nouvel horizon d\'emploi - Firebase Ready');

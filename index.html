@@ -6,13 +6,6 @@
     <title>Nouvel horizon d'emploi - Opportunités pour Réfugiés</title>
     <meta name="description" content="Plateforme de formation et d'emploi pour réfugiés et migrants en France.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- FIREBASE SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-    
     <style>
         :root {
             --p: #1a237e;
@@ -29,104 +22,33 @@
             --sh: 0 2px 10px rgba(0, 0, 0, .08);
             --shl: 0 8px 30px rgba(0, 0, 0, .12);
             --r: 12px;
+            --rr: 28px;
+            --t: .25s ease;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; font-size: 16px; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: var(--tx);
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.6;
-        }
-        body.rtl { direction: rtl; text-align: right; }
-        body.rtl .nav-inner, body.rtl .section-title h2, body.rtl .footer-grid { text-align: right; }
-        .disclaimer-bar {
-            background: #fff3e0;
-            padding: .4rem 1rem;
-            text-align: center;
-            font-size: .7rem;
-            border-bottom: 2px solid var(--w);
-            position: sticky;
-            top: 0;
-            z-index: 102;
-            color: #e65100;
-            font-weight: 600;
-        }
-        .navbar {
-            background: var(--wht);
-            box-shadow: var(--sh);
-            position: sticky;
-            top: 30px;
-            z-index: 101;
-        }
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--p);
-            text-decoration: none;
-        }
-        .nav-logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            border-radius: 12px;
-            background: white;
-            padding: 4px;
-            border: 1px solid var(--bdr);
-        }
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--p);
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--tx); background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; line-height: 1.6; }
+        body.rtl { direction: rtl; }
+        .disclaimer-bar { background: #fff3e0; padding: .4rem 1rem; text-align: center; font-size: .7rem; border-bottom: 2px solid var(--w); position: sticky; top: 0; z-index: 102; color: #e65100; font-weight: 600; }
+        .navbar { background: var(--wht); box-shadow: var(--sh); position: sticky; top: 30px; z-index: 101; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-brand { display: flex; align-items: center; gap: .5rem; font-size: 1.1rem; font-weight: 700; color: var(--p); text-decoration: none; }
+        .nav-brand i { font-size: 1.4rem; color: var(--a); }
+        .nav-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 6px; background: white; padding: 2px; border: 1px solid var(--bdr); }
+        .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--p); }
         .nav-menu { display: flex; align-items: center; gap: .75rem; }
         .nav-links { display: flex; list-style: none; gap: .2rem; flex-wrap: wrap; }
-        .nav-links a {
-            padding: .4rem .7rem;
-            border-radius: 20px;
-            color: var(--tx);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: .8rem;
-            cursor: pointer;
-        }
+        .nav-links a { padding: .4rem .7rem; border-radius: 20px; color: var(--tx); text-decoration: none; font-weight: 500; font-size: .8rem; cursor: pointer; }
         .nav-links a:hover, .nav-links a.active { background: #e3f2fd; color: var(--p); }
-        .nav-actions { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
-        .btn {
-            padding: .5rem 1rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: .8rem;
-            cursor: pointer;
-            border: 2px solid transparent;
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            text-decoration: none;
-            transition: .2s;
-        }
+        .nav-actions { display: flex; gap: .4rem; align-items: center; }
+        .btn { padding: .5rem 1rem; border-radius: 20px; font-weight: 600; font-size: .8rem; cursor: pointer; border: 2px solid transparent; display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; transition: .2s; }
         .btn-primary { background: var(--p); color: #fff; }
         .btn-primary:hover { background: var(--pd); }
         .btn-outline { background: transparent; border-color: var(--p); color: var(--p); }
         .btn-outline:hover { background: var(--p); color: #fff; }
+        .btn-google { background: #ea4335; color: #fff; }
+        .btn-facebook { background: #1877f2; color: #fff; }
+        .btn-phone { background: var(--s); color: #fff; }
         .btn-danger { background: var(--d); color: #fff; }
         .btn-sm { padding: .35rem .7rem; font-size: .75rem; }
         .btn-block { width: 100%; justify-content: center; }
@@ -136,76 +58,49 @@
         .hidden { display: none !important; }
         .hero { text-align: center; padding: 2rem 0; }
         .hero h1 { font-size: 2rem; }
+        .hero p { color: var(--t2); max-width: 500px; margin: .5rem auto 1rem; font-size: .9rem; }
+        .hero-btns { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-        .card {
-            background: var(--wht);
-            padding: 1.2rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-            border: 1px solid var(--bdr);
-            text-decoration: none;
-            color: var(--tx);
-            display: block;
-            transition: .2s;
-        }
-        .card:hover { box-shadow: 0 8px 30px rgba(0,0,0,.12); transform: translateY(-2px); }
-        .form-box { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
-        .form-input, .form-select, .form-textarea {
-            padding: .6rem .8rem;
-            border: 2px solid var(--bdr);
-            border-radius: 8px;
-            font-size: .85rem;
-            font-family: inherit;
-            background: var(--wht);
-        }
-        .form-textarea { min-height: 150px; resize: vertical; }
-        .job-card, .forum-card {
-            background: var(--wht);
-            padding: 1rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-            border-left: 4px solid var(--p);
-            margin-bottom: 1rem;
-        }
-        .badge {
-            display: inline-block;
-            padding: .15rem .5rem;
-            border-radius: 15px;
-            font-size: .65rem;
-            font-weight: 600;
-            margin: .1rem;
-        }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .card { background: var(--wht); padding: 1.2rem; border-radius: var(--r); box-shadow: var(--sh); border: 1px solid var(--bdr); text-decoration: none; color: var(--tx); display: block; text-align: center; transition: .2s; }
+        .card:hover { box-shadow: var(--shl); transform: translateY(-2px); }
+        .card i { font-size: 2rem; color: var(--a); margin-bottom: .5rem; }
+        .card h3 { color: var(--p); margin-bottom: .3rem; font-size: 1rem; }
+        .card p { font-size: .8rem; color: var(--t2); }
+        .social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; max-width: 400px; margin: 0 auto; }
+        .social-btns .btn { padding: .7rem; justify-content: center; }
+        .divider { text-align: center; margin: 1rem auto; color: var(--t2); font-size: .85rem; max-width: 400px; }
+        .form-box { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
+        .form-input, .form-select { padding: .6rem .8rem; border: 2px solid var(--bdr); border-radius: 8px; font-size: .85rem; font-family: inherit; background: var(--wht); }
+        .form-input:focus, .form-select:focus { border-color: var(--p); outline: none; }
+        .filters { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .filters input { flex: 1; min-width: 150px; }
+        .filters input, .filters select { padding: .5rem .8rem; border: 2px solid var(--bdr); border-radius: 20px; font-size: .8rem; font-family: inherit; }
+        .job-card { background: var(--wht); padding: 1rem; border-radius: var(--r); box-shadow: var(--sh); border-left: 4px solid var(--p); }
+        .job-card h4 { color: var(--p); margin-bottom: .3rem; font-size: .95rem; }
+        .badge { display: inline-block; padding: .15rem .5rem; border-radius: 15px; font-size: .65rem; font-weight: 600; margin: .1rem; }
         .badge-blue { background: #e3f2fd; color: var(--p); }
         .badge-green { background: #e8f5e9; color: var(--s); }
         .admin-tabs { display: flex; gap: .25rem; flex-wrap: wrap; margin-bottom: 1rem; }
-        .admin-tab {
-            padding: .4rem .8rem;
-            border: none;
-            background: #eee;
-            cursor: pointer;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: .75rem;
-        }
+        .admin-tab { padding: .4rem .8rem; border: none; background: #eee; cursor: pointer; border-radius: 20px; font-weight: 600; font-size: .75rem; }
         .admin-tab.active { background: var(--p); color: #fff; }
         .admin-content { background: var(--wht); padding: 1rem; border-radius: var(--r); box-shadow: var(--sh); }
-        .footer {
-            background: var(--p);
-            color: #fff;
-            padding: 1.5rem 1rem;
-            margin-top: auto;
-            text-align: center;
-            font-size: .8rem;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            max-width: 1000px;
-            margin: 0 auto 1rem;
-            text-align: left;
-        }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: .75rem; margin-bottom: 1rem; }
+        .stat-num { font-size: 2rem; font-weight: 700; color: var(--p); }
+        table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+        table th, table td { padding: .4rem .6rem; border-bottom: 1px solid var(--bdr); text-align: left; }
+        .rtl table th, .rtl table td { text-align: right; }
+        table th { background: #f5f5f5; font-weight: 600; }
+        .media-preview { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: .5rem; background: #f0f0f0; }
+        .media-preview.video { background: #1a1a2e; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.5rem; }
+        .media-preview.video video { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .footer { background: var(--p); color: #fff; padding: 1.5rem 1rem; margin-top: auto; text-align: center; font-size: .8rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; max-width: 1000px; margin: 0 auto 1rem; text-align: left; }
+        .rtl .footer-grid { text-align: right; }
+        .footer h4 { color: #90caf9; margin-bottom: .5rem; font-size: .9rem; }
+        .footer a { color: #bbb; text-decoration: none; display: block; font-size: .8rem; margin: .2rem 0; }
+        .footer-logo { width: 100px; height: 100px; object-fit: contain; margin-bottom: 0.5rem; background: white; border-radius: 8px; padding: 4px; }
         .toast-container { position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .4rem; }
         .toast { padding: .6rem 1rem; border-radius: 8px; color: #fff; font-weight: 600; font-size: .8rem; box-shadow: var(--shl); animation: slideIn .3s ease; }
         .toast-success { background: var(--s); }
@@ -213,211 +108,159 @@
         .toast-warning { background: var(--w); }
         @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .loading { text-align: center; padding: 2rem; color: var(--t2); grid-column: 1/-1; }
-        .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; }
-        .editor-toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; background: #f0f0f0; padding: 0.5rem; border-radius: 8px; flex-wrap: wrap; }
-        .editor-toolbar button { background: white; border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-weight: bold; }
-        .ai-assist { background: #e8f0fe; border-radius: 8px; padding: 0.8rem; margin-top: 0.5rem; cursor: pointer; text-align: center; color: var(--p); font-weight: bold; }
+        .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .section-title h2 { margin-bottom: 0; text-align: left; }
+        .view-all { font-size: .8rem; color: var(--p); text-decoration: none; font-weight: 600; cursor: pointer; }
+        /* AI Assistant floating button */
+        .ai-assistant-btn { position: fixed; bottom: 80px; right: 20px; background: var(--p); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: var(--shl); cursor: pointer; z-index: 1000; transition: 0.2s; border: none; font-size: 1.8rem; }
+        .ai-assistant-btn:hover { background: var(--pd); transform: scale(1.05); }
+        .ai-chat-panel { position: fixed; bottom: 145px; right: 20px; width: 320px; background: white; border-radius: 20px; box-shadow: var(--shl); z-index: 1001; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--bdr); transition: 0.2s; }
+        .ai-chat-header { background: var(--p); color: white; padding: 0.8rem 1rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+        .ai-chat-header button { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; }
+        .ai-chat-messages { max-height: 300px; overflow-y: auto; padding: 0.8rem; background: #fafafa; font-size: 0.85rem; }
+        .ai-message { background: #e9ecef; padding: 0.5rem 0.8rem; border-radius: 16px; margin-bottom: 0.5rem; max-width: 90%; }
+        .ai-message.user { background: var(--p); color: white; margin-left: auto; text-align: right; }
+        .ai-chat-input { display: flex; padding: 0.5rem; border-top: 1px solid var(--bdr); background: white; }
+        .ai-chat-input input { flex: 1; border: 1px solid var(--bdr); border-radius: 20px; padding: 0.4rem 0.8rem; outline: none; }
+        .ai-chat-input button { background: var(--p); border: none; color: white; border-radius: 20px; padding: 0.4rem 0.8rem; margin-left: 0.5rem; cursor: pointer; }
+        .article-content { text-align: left; max-height: 300px; overflow-y: auto; white-space: pre-wrap; background: #fef9e6; padding: 0.5rem; border-radius: 8px; margin-top: 0.5rem; font-size: 0.8rem; }
         @media(max-width:768px) {
             .nav-toggle { display: block; }
-            .nav-menu { display: none; position: absolute; top: 70px; left: 0; right: 0; background: var(--wht); flex-direction: column; padding: 1rem; box-shadow: var(--sh); gap: .5rem; z-index: 1000; }
+            .nav-menu { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--wht); flex-direction: column; padding: 1rem; box-shadow: var(--sh); gap: .5rem; }
             .nav-menu.open { display: flex; }
             .nav-links { flex-direction: column; width: 100%; }
             .nav-actions { flex-direction: column; width: 100%; }
+            .ai-chat-panel { width: 280px; right: 10px; bottom: 130px; }
         }
     </style>
 </head>
 <body>
-
-<div class="disclaimer-bar" id="disclaimerText">⚠️ Nous ne soutenons pas l'immigration illégale - We do not support illegal immigration - نحن لا ندعم الهجرة غير الشرعية</div>
-
-<nav class="navbar">
-    <div class="nav-inner">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <img id="navLogo" class="nav-logo" src="" alt="Logo" style="display: none;">
-            <a href="#home" class="nav-brand" id="brandName">Nouvel horizon d'emploi</a>
-        </div>
-        <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
-        <div class="nav-menu" id="navMenu">
-            <ul class="nav-links">
-                <li><a href="#home" class="active" data-key="nav_home">Accueil</a></li>
-                <li><a href="#register" data-key="nav_register">Inscription</a></li>
-                <li><a href="#jobs" data-key="nav_jobs">Emplois</a></li>
-                <li><a href="#forum" data-key="nav_forum">Forum/Médias</a></li>
-                <li><a href="#admin" id="adminLink" class="hidden" data-key="nav_admin">Admin</a></li>
-            </ul>
-            <div class="nav-actions">
-                <select id="langSwitch" style="padding:.3rem;border-radius:6px;border:1px solid #ccc;font-size:.8rem;">
-                    <option value="fr">🇫🇷 FR</option>
-                    <option value="en">🇬🇧 EN</option>
-                    <option value="ar">🇸🇦 AR</option>
-                </select>
-                <button class="btn btn-outline btn-sm" id="btnLogin" data-key="login_btn">Connexion</button>
-                <button class="btn btn-primary btn-sm" id="btnRegister" data-key="register_btn">Inscription</button>
-                <span id="userBadge" class="hidden" style="font-weight:600;color:var(--p);font-size:.8rem;"></span>
-                <button class="btn btn-outline btn-sm hidden" id="btnLogout" data-key="logout_btn">Déconnexion</button>
-            </div>
-        </div>
-    </div>
-</nav>
-
-<main>
-    <!-- HOME -->
-    <section id="home" class="section">
-        <div class="container">
-            <div class="hero">
-                <h1 id="hero_title">Bienvenue sur Nouvel horizon d'emploi</h1>
-                <p id="hero_desc">Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.</p>
-                <div class="hero-btns">
-                    <a href="#register" class="btn btn-primary" id="hero_create_btn"><i class="fas fa-user-plus"></i> Créer un compte</a>
-                    <a href="#jobs" class="btn btn-outline" id="hero_jobs_btn"><i class="fas fa-briefcase"></i> Voir les offres</a>
+    <div class="disclaimer-bar" data-i18n="disc">⚠️ Nous ne soutenons pas l'immigration illégale - We do not support illegal immigration - نحن لا ندعم الهجرة غير الشرعية</div>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="#home" class="nav-brand">
+                <img id="navLogo" class="nav-logo hidden" src="" alt="Logo" style="display:none;">
+                <i id="navIcon" class="fas fa-globe-europe"></i>
+                <span data-i18n="brand">Nouvel horizon d'emploi</span>
+            </a>
+            <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="#home" class="active" data-i18n="nav.home">Accueil</a></li>
+                    <li><a href="#register" data-i18n="nav.register">Inscription</a></li>
+                    <li><a href="#jobs" data-i18n="nav.jobs">Emplois</a></li>
+                    <li><a href="#training" data-i18n="nav.training">Formations</a></li>
+                    <li><a href="#videos" data-i18n="nav.videos">Vidéos</a></li>
+                    <li><a href="#posters" data-i18n="nav.posters">Affiches</a></li>
+                    <li><a href="#articles" data-i18n="nav.articles">Articles</a></li>
+                    <li><a href="#volunteering" data-i18n="nav.volunteering">Bénévolat</a></li>
+                    <li><a href="#legal" data-i18n="nav.legal">Droit</a></li>
+                    <li><a href="#admin" id="adminLink" class="hidden">🔧 <span data-i18n="nav.admin">Admin</span></a></li>
+                </ul>
+                <div class="nav-actions">
+                    <select id="langSwitch" style="padding:.3rem;border-radius:6px;border:1px solid #ccc;font-size:.8rem;">
+                        <option value="fr">🇫🇷 FR</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="ar">🇸🇦 AR</option>
+                    </select>
+                    <button class="btn btn-outline btn-sm" id="btnLogin"><i class="fas fa-sign-in-alt"></i> <span data-i18n="auth.login">Connexion</span></button>
+                    <button class="btn btn-primary btn-sm" id="btnRegister"><i class="fas fa-user-plus"></i> <span data-i18n="auth.register">Inscription</span></button>
+                    <span id="userBadge" class="hidden" style="font-weight:600;color:var(--p);font-size:.8rem;"></span>
+                    <button class="btn btn-outline btn-sm hidden" id="btnLogout"><i class="fas fa-sign-out-alt"></i> <span data-i18n="auth.logout">Déconnexion</span></button>
                 </div>
             </div>
-            <div class="section-title"><h2 id="last_articles_title">📝 Derniers articles du forum</h2><a href="#forum" class="view-all" onclick="showSection('forum')" id="view_all_link">Voir tout →</a></div>
-            <div id="homeArticlesList" class="grid-2"><p class="loading">Chargement...</p></div>
         </div>
-    </section>
-
-    <!-- REGISTER -->
-    <section id="register" class="section hidden">
-        <div class="container" style="max-width:450px">
-            <h2 id="register_title">Créer votre compte</h2>
-            <form id="formRegister" class="form-box">
-                <input type="text" class="form-input" id="regName" placeholder="Nom complet" required>
-                <input type="email" class="form-input" id="regEmail" placeholder="Email" required>
-                <input type="password" class="form-input" id="regPass" placeholder="Mot de passe (6+)" required minlength="6">
-                <input type="password" class="form-input" id="regPass2" placeholder="Confirmer mot de passe" required>
-                <button type="submit" class="btn btn-primary btn-block" id="register_submit_btn">S'inscrire</button>
-            </form>
-            <p style="text-align:center;margin-top:.75rem;font-size:.85rem;"><span id="already_account">Déjà un compte ?</span> <a href="#" onclick="showLogin()" style="color:var(--p);font-weight:600;" id="login_link">Se connecter</a></p>
-        </div>
-    </section>
-
-    <!-- PROFILE -->
-    <section id="profile" class="section hidden">
-        <div class="container" style="max-width:450px">
-            <h2 id="profile_title">Compléter votre profil</h2>
-            <form id="formProfile" class="form-box">
-                <select class="form-select" id="profStatus" required><option value="" id="status_placeholder">Statut *</option><option value="jobseeker">Demandeur d'emploi</option><option value="trainee">Stagiaire</option></select>
-                <select class="form-select" id="profCity" required><option value="" id="city_placeholder">Ville *</option><option>Paris</option><option>Lyon</option><option>Marseille</option></select>
-                <button type="submit" class="btn btn-primary btn-block" id="save_profile_btn">✓ Enregistrer</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- JOBS -->
-    <section id="jobs" class="section">
-        <div class="container">
-            <h2 id="jobs_title">Offres d'Emploi</h2>
-            <div class="filters"><input type="text" id="jobSearch" placeholder="🔍 Rechercher..."><select id="jobCity"><option value="">Toutes villes</option></select></div>
-            <div class="grid-2" id="jobsList"><p class="loading">Chargement...</p></div>
-        </div>
-    </section>
-
-    <!-- FORUM / ARTICLES -->
-    <section id="forum" class="section">
-        <div class="container">
-            <div class="section-title"><h2 id="forum_title">📝 Forum & Articles</h2><button class="btn btn-primary btn-sm" id="newArticleBtn" onclick="toggleArticleForm()"><i class="fas fa-plus"></i> <span id="new_article_btn_txt">Écrire un article</span></button></div>
-            
-            <!-- Formulaire d'écriture d'article -->
-            <div id="articleForm" class="hidden" style="background: white; padding: 1rem; border-radius: var(--r); margin-bottom: 2rem;">
-                <h3 id="form_article_title">✍️ Rédiger un article</h3>
-                <div class="editor-toolbar">
-                    <button type="button" onclick="wrapText('**', '**')"><b>B</b></button>
-                    <button type="button" onclick="wrapText('*', '*')"><i>I</i></button>
-                    <button type="button" onclick="wrapText('## ', '')"><i class="fas fa-heading"></i> Titre</button>
-                    <button type="button" onclick="wrapText('> ', '')">Quote</button>
-                    <button type="button" onclick="wrapText('- ', '')">Liste</button>
-                    <button type="button" id="aiAssistBtn" class="ai-assist" style="margin:0; padding:4px 12px;"><i class="fas fa-robot"></i> <span id="ai_btn_text">🤖 Assistant IA (Résumé/Idée)</span></button>
-                </div>
-                <input type="text" id="articleTitle" class="form-input" placeholder="Titre de l'article" style="margin-bottom: 10px;">
-                <textarea id="articleContent" class="form-textarea" placeholder="Contenu de l'article... (Markdown simple supporté)"></textarea>
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <button class="btn btn-primary" onclick="publishArticle()" id="publish_btn">📢 Publier</button>
-                    <button class="btn btn-outline" onclick="toggleArticleForm()" id="cancel_btn">Annuler</button>
-                </div>
-            </div>
-
-            <div id="articlesList" class="grid-2"><p class="loading">Chargement des articles...</p></div>
-        </div>
-    </section>
-
-    <!-- ADMIN PANEL -->
-    <section id="admin" class="section hidden">
-        <div class="container"><h2 id="admin_title">🔧 Administration</h2>
-            <div class="admin-tabs"><button class="admin-tab active" data-tab="dashboard">📊 Tableau</button><button class="admin-tab" data-tab="articles-manage">📄 Articles</button><button class="admin-tab" data-tab="settings">⚙️ Logo</button><button class="admin-tab" data-tab="admins">🛡️ Admins</button></div>
-            <div class="admin-content" id="adminContent"></div>
-        </div>
-    </section>
-</main>
-
-<footer class="footer"><div class="footer-grid"><div><img id="footerLogo" class="footer-logo" src="" alt="Logo" style="width:60px; height:60px; display:none;"><h4>Nouvel horizon d'emploi</h4><p>📍 Lille, France</p></div><div><h4 id="footer_links">Liens</h4><a href="#jobs" id="footer_jobs">Emplois</a><a href="#forum" id="footer_forum">Forum</a></div></div><p>© 2025 - Conforme RGPD</p></footer>
-<div class="toast-container" id="toastContainer"></div>
-
-<script>
-    // FIREBASE CONFIG
-    firebase.initializeApp({ apiKey: "AIzaSyB2TlPdeABj2DFzh8lSb0vpTQuCaBlqfvA", authDomain: "organisation-d97e7.firebaseapp.com", projectId: "organisation-d97e7", storageBucket: "organisation-d97e7.firebasestorage.app", messagingSenderId: "770760173166", appId: "1:770760173166:web:09297aa9e2021a33eb687f" });
-    const auth = firebase.auth(), db = firebase.firestore(), storage = firebase.storage();
-    let currentUser = null, cachedJobs = [], cachedArticles = [], cachedAdmins = [], currentLang = 'fr';
-
-    // ترجمة حقيقية للنصوص الثابتة
-    const translations = {
-        fr: { nav_home: "Accueil", nav_register: "Inscription", nav_jobs: "Emplois", nav_forum: "Forum/Médias", nav_admin: "Admin", login_btn: "Connexion", register_btn: "Inscription", logout_btn: "Déconnexion", hero_title: "Bienvenue sur Nouvel horizon d'emploi", hero_desc: "Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.", hero_create_btn: "Créer un compte", hero_jobs_btn: "Voir les offres", last_articles_title: "📝 Derniers articles du forum", view_all_link: "Voir tout →", register_title: "Créer votre compte", register_submit_btn: "S'inscrire", already_account: "Déjà un compte ?", login_link: "Se connecter", profile_title: "Compléter votre profil", save_profile_btn: "✓ Enregistrer", jobs_title: "Offres d'Emploi", forum_title: "📝 Forum & Articles", new_article_btn_txt: "Écrire un article", form_article_title: "✍️ Rédiger un article", publish_btn: "📢 Publier", cancel_btn: "Annuler", ai_btn_text: "🤖 Assistant IA (Résumé/Idée)", admin_title: "🔧 Administration", footer_links: "Liens", footer_jobs: "Emplois", footer_forum: "Forum", disclaimer: "⚠️ Nous ne soutenons pas l'immigration illégale" },
-        en: { nav_home: "Home", nav_register: "Sign Up", nav_jobs: "Jobs", nav_forum: "Forum/Media", nav_admin: "Admin", login_btn: "Login", register_btn: "Sign Up", logout_btn: "Logout", hero_title: "Welcome to New Employment Horizon", hero_desc: "Platform dedicated to professional integration of refugees and migrants in France.", hero_create_btn: "Create Account", hero_jobs_btn: "View Jobs", last_articles_title: "📝 Latest Forum Articles", view_all_link: "View all →", register_title: "Create your account", register_submit_btn: "Sign Up", already_account: "Already have an account?", login_link: "Login", profile_title: "Complete your profile", save_profile_btn: "✓ Save", jobs_title: "Job Offers", forum_title: "📝 Forum & Articles", new_article_btn_txt: "Write an article", form_article_title: "✍️ Write an article", publish_btn: "📢 Publish", cancel_btn: "Cancel", ai_btn_text: "🤖 AI Assistant (Summary/Idea)", admin_title: "🔧 Administration", footer_links: "Links", footer_jobs: "Jobs", footer_forum: "Forum", disclaimer: "⚠️ We do not support illegal immigration" },
-        ar: { nav_home: "الرئيسية", nav_register: "تسجيل", nav_jobs: "وظائف", nav_forum: "المنتدى", nav_admin: "مدير", login_btn: "دخول", register_btn: "اشتراك", logout_btn: "خروج", hero_title: "مرحباً في أفق التوظيف الجديد", hero_desc: "منصة مخصصة للإدماج المهني للاجئين والمهاجرين في فرنسا.", hero_create_btn: "إنشاء حساب", hero_jobs_btn: "عرض الوظائف", last_articles_title: "📝 آخر المقالات", view_all_link: "عرض الكل ←", register_title: "إنشاء حساب", register_submit_btn: "اشتراك", already_account: "لديك حساب؟", login_link: "دخول", profile_title: "أكمل ملفك الشخصي", save_profile_btn: "✓ حفظ", jobs_title: "عروض العمل", forum_title: "📝 المنتدى والمقالات", new_article_btn_txt: "كتابة مقال", form_article_title: "✍️ كتابة مقال", publish_btn: "📢 نشر", cancel_btn: "إلغاء", ai_btn_text: "🤖 مساعد الذكاء الاصطناعي (ملخص/فكرة)", admin_title: "🔧 لوحة التحكم", footer_links: "روابط", footer_jobs: "وظائف", footer_forum: "المنتدى", disclaimer: "⚠️ نحن لا ندعم الهجرة غير الشرعية" }
-    };
-
-    function updateTexts() { for (let key in translations[currentLang]) { let el = document.querySelector(`[data-key="${key}"]`); if (el) el.innerText = translations[currentLang][key]; else { let specific = document.getElementById(key); if(specific) specific.innerText = translations[currentLang][key]; } } document.getElementById("disclaimerText").innerText = translations[currentLang].disclaimer; document.body.classList.toggle('rtl', currentLang === 'ar'); const logo = document.getElementById('navLogo'); if(logo) logo.style.marginRight = (currentLang === 'ar') ? '0' : '0'; }
-    function toast(msg, type) { let c = document.getElementById('toastContainer'), t = document.createElement('div'); t.className = 'toast toast-' + (type || 'success'); t.textContent = msg; c.appendChild(t); setTimeout(() => t.remove(), 3000); }
-    function showSection(id) { document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden')); document.getElementById(id)?.classList.remove('hidden'); window.scrollTo({ top: document.getElementById(id).offsetTop - 80, behavior: 'smooth' }); document.getElementById('navMenu').classList.remove('open'); }
-    function isLoggedIn() { return !!currentUser; }
-    function isAdmin() { return currentUser && cachedAdmins.includes(currentUser.email); }
-    function updateUI() { let l = isLoggedIn(), a = isAdmin(); document.getElementById('btnLogin').classList.toggle('hidden', l); document.getElementById('btnRegister').classList.toggle('hidden', l); document.getElementById('btnLogout').classList.toggle('hidden', !l); document.getElementById('adminLink').classList.toggle('hidden', !a); let b = document.getElementById('userBadge'); if (l) { b.classList.remove('hidden'); b.textContent = '👤 ' + (currentUser.name || currentUser.email); } else b.classList.add('hidden'); }
-    async function registerEmail(n, e, p, p2) { if (p !== p2) return toast('❌ Mots de passe différents', 'error'); try { let cred = await auth.createUserWithEmailAndPassword(e, p); currentUser = { id: cred.user.uid, name: n, email: e }; await db.collection('users').doc(cred.user.uid).set(currentUser); updateUI(); toast('✅ Compte créé'); showSection('profile'); } catch(err) { toast('❌ ' + err.message, 'error'); } }
-    async function showLogin() { let e = prompt('Email:'); if(!e) return; let p = prompt('Mot de passe:'); if(!p) return; try { let cred = await auth.signInWithEmailAndPassword(e, p); let doc = await db.collection('users').doc(cred.user.uid).get(); currentUser = doc.exists ? doc.data() : { id: cred.user.uid, name: e, email: e }; updateUI(); toast('✅ Connecté'); showSection('jobs'); } catch(err) { toast('❌ Erreur', 'error'); } }
-    async function logout() { await auth.signOut(); currentUser = null; updateUI(); toast('👋 Déconnecté'); showSection('home'); }
-    async function saveProfile(status, city) { if (!currentUser) return; currentUser.status = status; currentUser.city = city; currentUser.profileComplete = true; await db.collection('users').doc(currentUser.id).set(currentUser, { merge: true }); updateUI(); toast('✅ Profil enregistré'); showSection('jobs'); }
-
-    // RENDER JOBS
-    async function renderJobs() { let j = [...cachedJobs]; let filter = document.getElementById('jobSearch').value.toLowerCase(); if(filter) j = j.filter(x => x.title.toLowerCase().includes(filter)); document.getElementById('jobsList').innerHTML = j.map(x => `<div class="job-card"><h4>${x.title}</h4><span class="badge badge-blue">📍 ${x.city}</span><p>${x.desc || ''}</p><button class="btn btn-primary btn-sm" onclick="applyJob(${x.id})">Postuler</button></div>`).join('') || '<p>Aucune offre</p>'; }
-
-    // ARTICLES FUNCTIONS
-    function wrapText(before, after) { let ta = document.getElementById('articleContent'); let start = ta.selectionStart, end = ta.selectionEnd, text = ta.value; let selected = text.substring(start, end); let newText = text.substring(0, start) + before + selected + after + text.substring(end); ta.value = newText; ta.focus(); }
-    async function publishArticle() { if (!isLoggedIn()) return toast('Connectez-vous d\'abord', 'warning'); let title = document.getElementById('articleTitle').value.trim(); let content = document.getElementById('articleContent').value.trim(); if(!title || !content) return toast('Titre et contenu requis', 'error'); let article = { id: Date.now(), title, content, author: currentUser.email, date: new Date().toISOString(), authorName: currentUser.name || currentUser.email }; await db.collection('articles').doc(String(article.id)).set(article); cachedArticles.unshift(article); renderArticles(); toggleArticleForm(); toast('✅ Article publié'); }
-    async function renderArticles() { let container = document.getElementById('articlesList'); if(!container) return; if(!cachedArticles.length) { container.innerHTML = '<p class="loading">Aucun article. Soyez le premier à écrire !</p>'; return; } container.innerHTML = cachedArticles.map(a => `<div class="job-card" style="border-left-color:var(--a);"><h3>📄 ${a.title}</h3><small>✍️ ${a.authorName || a.author} - ${new Date(a.date).toLocaleDateString()}</small><div style="margin-top:8px; font-size:0.9rem;">${simpleMarkdown(a.content.substring(0, 200))}${a.content.length>200?'...':''}</div><button class="btn btn-outline btn-sm" onclick="viewFullArticle('${a.id}')" style="margin-top:8px;">Lire plus</button></div>`).join(''); }
-    function simpleMarkdown(txt) { return txt.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>').replace(/## (.*?)\n/g, '<h4>$1</h4>').replace(/\n/g, '<br>'); }
-    function viewFullArticle(id) { let a = cachedArticles.find(x=>x.id == id); if(!a) return; let win = window.open(); win.document.write(`<html><head><title>${a.title}</title><style>body{font-family:sans-serif;padding:2rem;max-width:800px;margin:auto}</style></head><body><h1>${a.title}</h1><p><strong>${a.authorName}</strong> - ${new Date(a.date).toLocaleString()}</p><hr/><div>${simpleMarkdown(a.content)}</div><br><a href="#" onclick="window.close()">Fermer</a></body></html>`); }
-    function toggleArticleForm() { let f = document.getElementById('articleForm'); if(f.classList.contains('hidden')) { f.classList.remove('hidden'); document.getElementById('articleTitle').value = ''; document.getElementById('articleContent').value = ''; } else f.classList.add('hidden'); }
-    async function aiAssist() { let title = document.getElementById('articleTitle').value; if(!title) return toast('Écrivez un titre d\'abord', 'warning'); toast('🤖 Assistant génère des idées...', 'success'); let demoText = `**Idées pour "${title}** :\n\n- Décrivez votre expérience personnelle.\n- Mentionnez les défis et solutions.\n- Ajoutez une conclusion inspirante.\n\n*Généré par l'assistant IA (simulation).*`; document.getElementById('articleContent').value = demoText; }
-
-    // ADMIN
-    async function renderAdmin(tab) { let c = document.getElementById('adminContent'); if(tab === 'dashboard') { let users = await db.collection('users').get(); c.innerHTML = `<div class="stat-grid"><div class="card">Utilisateurs: ${users.size}</div><div class="card">Articles: ${cachedArticles.length}</div><div class="card">Offres: ${cachedJobs.length}</div></div>`; } else if(tab === 'articles-manage') { c.innerHTML = `<button class="btn btn-primary" onclick="addFakeArticle()">+ Article test</button><br><br>` + cachedArticles.map(a => `<div><b>${a.title}</b> by ${a.author} <button class="btn btn-danger btn-sm" onclick="delArticle('${a.id}')">Supprimer</button></div>`).join(''); } else if(tab === 'admins') { c.innerHTML = `<button class="btn btn-primary" onclick="addAdmin()">+ Admin</button><br><br>` + cachedAdmins.map(em => `<div>${em} <button class="btn btn-danger btn-sm" onclick="remAdmin('${em}')">🗑️</button></div>`).join(''); } else if(tab === 'settings') { let doc = await db.collection('settings').doc('logo').get(); let url = doc.exists ? doc.data().url : ''; c.innerHTML = `<h3>Logo actuel</h3><img src="${url || 'https://via.placeholder.com/80'}" style="width:80px;height:80px;border-radius:12px;"><br><button class="btn btn-primary" onclick="uploadLogo()">Changer le logo</button>`; } }
-    async function uploadLogo() { let input = document.createElement('input'); input.type='file'; input.accept='image/*'; input.onchange = async e => { let file = e.target.files[0]; let ref = storage.ref('logo/main'); await ref.put(file); let url = await ref.getDownloadURL(); await db.collection('settings').doc('logo').set({url}); updateLogoDisplay(); toast('Logo mis à jour'); renderAdmin('settings'); }; input.click(); }
-    async function updateLogoDisplay() { let doc = await db.collection('settings').doc('logo').get(); let url = doc.exists ? doc.data().url : ''; ['navLogo', 'footerLogo'].forEach(id => { let el = document.getElementById(id); if(el) { if(url) { el.src = url; el.style.display = 'inline-block'; } else el.style.display = 'none'; } }); }
-    async function addAdmin() { let email = prompt('Email admin:'); if(email && !cachedAdmins.includes(email)) { await db.collection('admins').doc(email).set({email}); cachedAdmins.push(email); renderAdmin('admins'); toast('Admin ajouté'); } }
-    async function remAdmin(email) { if(email === 'mosab649@gmail.com') return toast('Protégé'); await db.collection('admins').doc(email).delete(); cachedAdmins = cachedAdmins.filter(e=>e!==email); renderAdmin('admins'); }
-    async function delArticle(id) { await db.collection('articles').doc(String(id)).delete(); cachedArticles = cachedArticles.filter(a=>a.id != id); renderArticles(); renderAdmin('articles-manage'); }
-    async function addFakeArticle() { let fake = { id: Date.now(), title: "Article de test " + new Date().toLocaleTimeString(), content: "Ceci est un **article** de démonstration avec du *markdown*.", author: "admin@test.com", authorName: "Admin Test", date: new Date().toISOString() }; await db.collection('articles').doc(String(fake.id)).set(fake); cachedArticles.unshift(fake); renderArticles(); renderAdmin('articles-manage'); toast('Article test ajouté'); }
-    function applyJob(id) { if(!isLoggedIn()) { toast('Connectez-vous', 'warning'); showSection('register'); return; } toast('✅ Candidature envoyée'); }
-
-    // INITIAL LOAD
-    async function init() {
-        let jobsSnap = await db.collection('jobs').get(); cachedJobs = jobsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if(cachedJobs.length===0){ let dj = [{id:1, title:'Aide Cuisinier', city:'paris', desc:'Restaurant'},{id:2, title:'Agent Entretien', city:'lyon', desc:'Nettoyage'}]; for(let j of dj) await db.collection('jobs').doc(String(j.id)).set(j); cachedJobs=dj; }
-        let arts = await db.collection('articles').orderBy('date', 'desc').get(); cachedArticles = arts.docs.map(d => ({ id: d.id, ...d.data() }));
-        let adm = await db.collection('admins').get(); cachedAdmins = adm.docs.map(d=>d.id); if(!cachedAdmins.includes('mosab649@gmail.com')) { await db.collection('admins').doc('mosab649@gmail.com').set({email:'mosab649@gmail.com'}); cachedAdmins.push('mosab649@gmail.com'); }
-        auth.onAuthStateChanged(async user => { if(user) { let doc = await db.collection('users').doc(user.uid).get(); currentUser = doc.exists ? doc.data() : { id: user.uid, name: user.email, email: user.email }; } else currentUser = null; updateUI(); renderArticles(); });
-        updateLogoDisplay();
-        renderJobs(); renderArticles(); document.getElementById('homeArticlesList').innerHTML = cachedArticles.slice(0,2).map(a => `<div class="job-card"><h4>📄 ${a.title}</h4><small>${a.authorName}</small><p>${simpleMarkdown(a.content.substring(0,100))}...</p></div>`).join('');
-        document.getElementById('langSwitch').addEventListener('change', (e) => { currentLang = e.target.value; updateTexts(); });
-        document.getElementById('btnLogin').addEventListener('click', showLogin); document.getElementById('btnRegister').addEventListener('click', ()=>showSection('register')); document.getElementById('btnLogout').addEventListener('click', logout);
-        document.getElementById('formRegister').addEventListener('submit', (e)=> { e.preventDefault(); registerEmail(document.getElementById('regName').value, document.getElementById('regEmail').value, document.getElementById('regPass').value, document.getElementById('regPass2').value); });
-        document.getElementById('formProfile').addEventListener('submit', (e)=> { e.preventDefault(); saveProfile(document.getElementById('profStatus').value, document.getElementById('profCity').value); });
-        document.getElementById('jobSearch').addEventListener('input', renderJobs); document.getElementById('aiAssistBtn').addEventListener('click', aiAssist);
-        document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); let id = a.getAttribute('href').replace('#', ''); if(id === 'admin' && !isAdmin()) return toast('Accès réservé', 'warning'); showSection(id); if(id === 'admin') renderAdmin('dashboard'); if(id === 'forum') renderArticles(); }));
-        document.querySelectorAll('.admin-tab').forEach(t => t.addEventListener('click', function() { document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active')); this.classList.add('active'); renderAdmin(this.getAttribute('data-tab')); }));
-        updateTexts(); console.log('✅ Plateforme avec IA, Forum et Traduction réelle');
-    }
-    document.addEventListener('DOMContentLoaded', init);
-</script>
+    </nav>
+    <main>
+        <!-- HOME (unchanged) -->
+        <section id="home" class="section"><div class="container"><div class="hero"><h1 data-i18n="home.title">Bienvenue sur Nouvel horizon d'emploi</h1><p data-i18n="home.sub">Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.</p><div class="hero-btns"><a href="#register" class="btn btn-primary"><i class="fas fa-user-plus"></i> <span data-i18n="home.cta1">Créer un compte</span></a><a href="#jobs" class="btn btn-outline"><i class="fas fa-briefcase"></i> <span data-i18n="home.cta2">Voir les offres</span></a></div></div><div class="grid-4"><div class="card"><i class="fas fa-briefcase"></i><h3 data-i18n="home.f1t">Emplois</h3><p data-i18n="home.f1d">Offres dans votre ville</p></div><div class="card"><i class="fas fa-graduation-cap"></i><h3 data-i18n="home.f2t">Formations</h3><p data-i18n="home.f2d">Coursera, LinkedIn</p></div><div class="card"><i class="fas fa-balance-scale"></i><h3 data-i18n="home.f3t">Droits</h3><p data-i18n="home.f3d">CESEDA, CEAS</p></div><div class="card"><i class="fas fa-video"></i><h3 data-i18n="home.f4t">Ressources</h3><p data-i18n="home.f4d">Vidéos, affiches</p></div></div><div class="section-title" style="margin-top:2rem;"><h2>🎬 Dernières vidéos et médias</h2><a href="#videos" class="view-all" onclick="showSection('videos')">Voir tout →</a></div><div class="grid-3" id="homeVideosList"><p class="loading">Chargement...</p></div><div class="section-title" style="margin-top:1.5rem;"><h2>🖼️ Dernières affiches</h2><a href="#posters" class="view-all" onclick="showSection('posters')">Voir tout →</a></div><div class="grid-3" id="homePostersList"><p class="loading">Chargement...</p></div></div></section>
+        <!-- REGISTER -->
+        <section id="register" class="section hidden"><div class="container" style="max-width:450px"><h2 data-i18n="reg.title">Créer votre compte</h2><div class="social-btns"><button class="btn btn-google btn-block" onclick="registerGoogle()"><i class="fab fa-google"></i> <span data-i18n="reg.google">Google</span></button><button class="btn btn-facebook btn-block" onclick="registerFacebook()"><i class="fab fa-facebook-f"></i> <span data-i18n="reg.facebook">Facebook</span></button></div><button class="btn btn-phone btn-block" style="margin-top:.5rem;" onclick="registerPhone()"><i class="fas fa-mobile-alt"></i> <span data-i18n="reg.phone">+33 Téléphone</span></button><div class="divider"><span data-i18n="reg.or">ou par email</span></div><form id="formRegister" class="form-box"><input type="text" class="form-input" id="regName" data-i18n-placeholder="reg.namePh" placeholder="Nom complet" required><input type="email" class="form-input" id="regEmail" placeholder="Email" required><input type="password" class="form-input" id="regPass" data-i18n-placeholder="reg.passPh" placeholder="Mot de passe (6+)" required minlength="6"><input type="password" class="form-input" id="regPass2" data-i18n-placeholder="reg.pass2Ph" placeholder="Confirmer mot de passe" required><button type="submit" class="btn btn-primary btn-block"><span data-i18n="reg.btn">S'inscrire</span></button></form><p style="text-align:center;margin-top:.75rem;font-size:.85rem;"><span data-i18n="reg.hasAccount">Déjà un compte ?</span> <a href="#" onclick="showLogin()" style="color:var(--p);font-weight:600;"><span data-i18n="reg.loginLink">Se connecter</span></a></p></div></section>
+        <!-- PROFILE -->
+        <section id="profile" class="section hidden"><div class="container" style="max-width:450px"><h2 data-i18n="prof.title">Compléter votre profil</h2><form id="formProfile" class="form-box"><select class="form-select" id="profStatus" required><option value="" data-i18n="prof.statusPh">Statut *</option><option value="jobseeker" data-i18n="prof.jobseeker">Demandeur d'emploi</option><option value="trainee" data-i18n="prof.trainee">Stagiaire</option><option value="volunteer" data-i18n="prof.volunteer">Bénévole</option></select><select class="form-select" id="profCity" required><option value="" data-i18n="prof.cityPh">Ville *</option><option>Paris</option><option>Lyon</option><option>Marseille</option><option>Lille</option><option>Strasbourg</option></select><select class="form-select" id="profLegal"><option value="" data-i18n="prof.legalPh">Situation (confidentiel)</option><option value="asylum" data-i18n="prof.asylum">Demandeur d'asile</option><option value="refugee" data-i18n="prof.refugee">Réfugié</option><option value="undocumented" data-i18n="prof.undoc">Sans papiers</option></select><button type="submit" class="btn btn-primary btn-block"><span data-i18n="prof.save">✓ Enregistrer</span></button></form></div></section>
+        <!-- JOBS -->
+        <section id="jobs" class="section"><div class="container"><h2 data-i18n="jobs.title">Offres d'Emploi</h2><div class="filters"><input type="text" id="jobSearch" data-i18n-placeholder="jobs.searchPh" placeholder="🔍 Rechercher..."><select id="jobCity"><option value="" data-i18n="jobs.allCities">Toutes villes</option></select><select id="jobContract"><option value="" data-i18n="jobs.allContracts">Tous contrats</option><option>CDI</option><option>CDD</option><option>Intérim</option></select></div><div class="grid-2" id="jobsList"><p class="loading" data-i18n="jobs.loading">Chargement...</p></div></div></section>
+        <!-- TRAINING -->
+        <section id="training" class="section"><div class="container"><h2 data-i18n="train.title">Formations</h2><div class="grid-3"><a href="https://coursera.org/refugees" target="_blank" class="card"><i class="fas fa-university"></i><h3>Coursera</h3><p data-i18n="train.coursera">Cours gratuits</p></a><a href="https://linkedin.com/learning" target="_blank" class="card"><i class="fab fa-linkedin"></i><h3>LinkedIn Learning</h3><p data-i18n="train.linkedin">Compétences pro</p></a><a href="https://pole-emploi.fr" target="_blank" class="card"><i class="fas fa-building"></i><h3>Pôle Emploi</h3><p data-i18n="train.poleemploi">Formations France</p></a></div></div></section>
+        <!-- VIDEOS -->
+        <section id="videos" class="section"><div class="container"><h2 data-i18n="vid.title">Vidéos Éducatives</h2><div class="grid-3" id="videosList"><p class="loading" data-i18n="vid.loading">Chargement...</p></div></div></section>
+        <!-- POSTERS -->
+        <section id="posters" class="section"><div class="container"><h2 data-i18n="post.title">Affiches Informatives</h2><div class="grid-3" id="postersList"><p class="loading" data-i18n="post.loading">Chargement...</p></div></div></section>
+        <!-- ARTICLES SECTION (NOUVEAU) -->
+        <section id="articles" class="section hidden"><div class="container"><h2 data-i18n="articles.title">📝 Articles & Témoignages</h2><div class="grid-2" id="articlesList"></div><div class="admin-only-add" id="addArticleBtnAdmin" style="margin-top:1rem;text-align:center;"><button class="btn btn-primary" onclick="triggerArticleAdd()" style="display:none;">+ Ajouter un article</button></div></div></section>
+        <!-- VOLUNTEERING -->
+        <section id="volunteering" class="section"><div class="container"><h2 data-i18n="vol.title">Bénévolat</h2><div class="grid-2" id="volList"><p class="loading" data-i18n="vol.loading">Chargement...</p></div></div></section>
+        <!-- LEGAL -->
+        <section id="legal" class="section"><div class="container"><h2 data-i18n="legal.title">Cadre Juridique</h2><div class="grid-3"><div class="card"><h3>🇫🇷 <span data-i18n="legal.fr">Loi Immigration</span></h3><p>CESEDA</p><a href="https://legifrance.gouv.fr" target="_blank" class="btn btn-outline btn-sm"><span data-i18n="legal.consult">Consulter →</span></a></div><div class="card"><h3>🇪🇺 <span data-i18n="legal.eu">Politique UE</span></h3><p>CEAS</p><a href="https://home-affairs.ec.europa.eu" target="_blank" class="btn btn-outline btn-sm"><span data-i18n="legal.consult">Consulter →</span></a></div><div class="card"><h3>🌍 <span data-i18n="legal.un">Convention Genève</span></h3><p>1951</p><a href="https://unhcr.org/fr" target="_blank" class="btn btn-outline btn-sm"><span data-i18n="legal.consult">Consulter →</span></a></div></div></div></section>
+        <!-- ADMIN -->
+        <section id="admin" class="section hidden"><div class="container"><h2>🔧 <span data-i18n="admin.title">Administration</span></h2><div class="admin-tabs"><button class="admin-tab active" data-tab="dashboard">📊 <span data-i18n="admin.dashboard">Tableau</span></button><button class="admin-tab" data-tab="users">👥 <span data-i18n="admin.users">Utilisateurs</span></button><button class="admin-tab" data-tab="jobs-manage">💼 <span data-i18n="admin.jobs">Offres</span></button><button class="admin-tab" data-tab="videos-manage">🎬 <span data-i18n="admin.videos">Vidéos</span></button><button class="admin-tab" data-tab="posters-manage">🖼️ <span data-i18n="admin.posters">Affiches</span></button><button class="admin-tab" data-tab="articles-manage">📰 <span data-i18n="admin.articles">Articles</span></button><button class="admin-tab" data-tab="settings">⚙️ <span>Paramètres</span></button><button class="admin-tab" data-tab="admins">🛡️ <span data-i18n="admin.admins">Admins</span></button></div><div class="admin-content" id="adminContent"></div></div></section>
+    </main>
+    <footer class="footer"><div class="footer-grid"><div><img id="footerLogo" class="footer-logo" src="" alt="Logo" style="display:none;"><h4>Nouvel horizon d'emploi</h4><p>📍 Lille, France</p><p>📞 0033 7 58 17 22 11</p></div><div><h4 data-i18n="ft.links">Liens</h4><a href="#jobs"><span data-i18n="ft.jobs">Emplois</span></a><a href="#training"><span data-i18n="ft.training">Formations</span></a></div><div><h4 data-i18n="ft.legal">Légal</h4><a href="#"><span data-i18n="ft.mentions">Mentions</span></a><a href="#"><span data-i18n="ft.rgpd">RGPD</span></a></div></div><p style="margin-top:1rem;font-size:.7rem;opacity:.7;">© 2024 Nouvel horizon d'emploi - <span data-i18n="ft.rgpd2">Conforme RGPD</span> - France</p></footer>
+    <div class="toast-container" id="toastContainer"></div>
+    <!-- AI Assistant -->
+    <div class="ai-assistant-btn" id="aiAssistantBtn"><i class="fas fa-robot"></i></div>
+    <div id="aiChatPanel" class="ai-chat-panel" style="display:none;"><div class="ai-chat-header"><span><i class="fas fa-brain"></i> Assistant IA</span><button id="closeAiChat"><i class="fas fa-times"></i></button></div><div class="ai-chat-messages" id="aiMessages"><div class="ai-message">Bonjour ! Je suis votre assistant pour l'emploi et les droits. Posez-moi une question sur les formations, le droit du travail, ou les démarches.</div></div><div class="ai-chat-input"><input type="text" id="aiInput" placeholder="Écrivez votre question..."><button id="aiSendBtn"><i class="fas fa-paper-plane"></i></button></div></div>
+    <script>
+        // COMPLETE INTEGRATION WITH PERSISTENT SECTION + AI + ARTICLES
+        const I18N = { lang: localStorage.getItem('nhe_lang') || 'fr', data: { fr: { "articles.title": "Articles et Témoignages", "nav.articles": "Articles", "admin.articles": "Articles" }, en: { "articles.title": "Articles & Testimonials", "nav.articles": "Articles", "admin.articles": "Articles" }, ar: { "articles.title": "المقالات والشهادات", "nav.articles": "المقالات", "admin.articles": "المقالات" } } };
+        for (let l of ['fr','en','ar']) if (!I18N.data[l]["articles.title"]) { I18N.data[l]["articles.title"] = I18N.data.fr["articles.title"]; I18N.data[l]["nav.articles"] = I18N.data.fr["nav.articles"]; I18N.data[l]["admin.articles"] = I18N.data.fr["admin.articles"]; }
+        // Merge original translations dynamically, but keep I18N from original global scope - we extend
+        // But original script will override later, so we need to ensure articles added into original I18N. We'll patch after init.
+        let ORIGINAL_I18N = null;
+        // We keep all existing logic, but extend articles
+        const DB = { get(k) { try { return JSON.parse(localStorage.getItem('nhe_' + k)); } catch (e) { return null; } }, set(k, v) { localStorage.setItem('nhe_' + k, JSON.stringify(v)); }, users() { return this.get('users') || []; }, saveUsers(u) { this.set('users', u); }, jobs() { return this.get('jobs') || []; }, saveJobs(j) { this.set('jobs', j); }, videos() { return this.get('videos') || []; }, saveVideos(v) { this.set('videos', v); }, posters() { return this.get('posters') || []; }, savePosters(p) { this.set('posters', p); }, admins() { return this.get('admins') || ['mosab649@gmail.com']; }, saveAdmins(a) { this.set('admins', a); }, currentUser() { return this.get('cu'); }, saveCurrentUser(u) { this.set('cu', u); }, logout() { localStorage.removeItem('nhe_cu'); }, getLogo() { return this.get('logo') || ''; }, saveLogo(d) { this.set('logo', d); }, articles() { return this.get('articles') || []; }, saveArticles(a) { this.set('articles', a); }, initData() { if (!this.jobs().length) this.saveJobs([{ id: 1, title: 'Aide Cuisinier', city: 'paris', contract: 'CDI', desc: 'Restaurant recherche aide cuisinier.', date: '2024-01-15' }, { id: 2, title: 'Agent Entretien', city: 'lyon', contract: 'CDD', desc: 'Nettoyage bureaux.', date: '2024-02-01' }, { id: 3, title: 'Manutentionnaire', city: 'marseille', contract: 'Intérim', desc: 'Entrepôt logistique.', date: '2024-02-15' }, { id: 4, title: 'Aide à domicile', city: 'paris', contract: 'CDI', desc: 'Aide aux personnes âgées.', date: '2024-03-01' }]); if (!this.articles().length) this.saveArticles([{ id: 1, title: "Témoignage : De réfugié à entrepreneur", content: "Ahmed a quitté la Syrie et a monté une boulangerie à Lille grâce au programme d'aide...", date: "2025-01-10" }, { id: 2, title: "5 conseils pour réussir son entretien en France", content: "Préparez vos réponses, soyez ponctuel, et valorisez vos compétences linguistiques.", date: "2025-02-01" }]); }, storeFile(file, cb) { if (file.size > 20*1024*1024) { toast(I18N.t('toast.fileLarge'), 'error'); return; } let r = new FileReader(); r.onload = e => cb(e.target.result, file.name, file.type); r.readAsDataURL(file); } };
+        function toast(msg, type) { type = type || 'success'; let c = document.getElementById('toastContainer'); let t = document.createElement('div'); t.className = 'toast toast-' + type; t.textContent = msg; c.appendChild(t); setTimeout(() => t.remove(), 3000); }
+        function showSection(id) { let ss = document.querySelectorAll('main > section'); ss.forEach(s => s.classList.add('hidden')); let s = document.getElementById(id); if (s) { s.classList.remove('hidden'); window.scrollTo({ top: s.offsetTop - 80, behavior: 'smooth' }); localStorage.setItem('nhe_last_section', id); } let ls = document.querySelectorAll('.nav-links a'); ls.forEach(l => l.classList.remove('active')); let al = document.querySelector(`.nav-links a[href="#${id}"]`); if (al) al.classList.add('active'); document.getElementById('navMenu')?.classList.remove('open'); }
+        function isLoggedIn() { return !!DB.currentUser(); }
+        function isAdmin() { let u = DB.currentUser(); return u && DB.admins().indexOf(u.email) !== -1; }
+        function updateUI() { let l = isLoggedIn(), a = isAdmin(); document.getElementById('btnLogin').classList.toggle('hidden', l); document.getElementById('btnRegister').classList.toggle('hidden', l); document.getElementById('btnLogout').classList.toggle('hidden', !l); document.getElementById('adminLink').classList.toggle('hidden', !a); let b = document.getElementById('userBadge'); if (l) { b.classList.remove('hidden'); b.textContent = '👤 ' + DB.currentUser().name; } else { b.classList.add('hidden'); b.textContent = ''; } let addBtn = document.getElementById('addArticleBtnAdmin')?.querySelector('button'); if(addBtn) addBtn.style.display = a ? 'inline-flex' : 'none'; }
+        function renderArticles() { let list = document.getElementById('articlesList'); if(!list) return; let arts = DB.articles(); if(!arts.length) { list.innerHTML = '<p class="loading">Aucun article. Connectez-vous en tant qu\'admin pour ajouter.</p>'; return; } list.innerHTML = arts.map(a => `<div class="job-card" style="border-left-color:var(--a);"><h4>📄 ${a.title}</h4><small>📅 ${a.date}</small><div class="article-content">${a.content.substring(0, 200)}${a.content.length>200?'...':''}</div><button class="btn btn-outline btn-sm" style="margin-top:0.5rem;" onclick="alert('${a.content.replace(/['"]/g, '\\"')}')">Lire plus</button></div>`).join(''); }
+        function triggerArticleAdd() { if(!isAdmin()) return toast("Accès admin requis", "warning"); let title = prompt("Titre de l'article:"); if(!title) return; let content = prompt("Contenu complet:"); if(!content) return; let arts = DB.articles(); arts.push({ id: Date.now(), title, content, date: new Date().toISOString().split('T')[0] }); DB.saveArticles(arts); renderArticles(); renderAdmin('articles-manage'); toast("✅ Article ajouté"); }
+        function deleteArticle(id) { if(confirm("Supprimer cet article ?")) { let arts = DB.articles().filter(a=>a.id!==id); DB.saveArticles(arts); renderArticles(); renderAdmin('articles-manage'); toast("🗑️ Article supprimé"); } }
+        // AI simple intelligence (simulated but functional)
+        function askAI(question) { let q = question.toLowerCase(); if(q.includes("formation")||q.includes("cours")) return "Vous pouvez consulter notre section Formations (Coursera, LinkedIn Learning) et bénéficier de certifications gratuites pour réfugiés."; if(q.includes("emploi")||q.includes("travail")) return "Consultez les offres d'emploi adaptées à votre ville. N'oubliez pas de finaliser votre profil pour postuler facilement."; if(q.includes("droit")||q.includes("asile")||q.includes("titre")) return "Le cadre juridique français protège les réfugiés. Rendez-vous dans la section 'Droit' pour consulter la CESEDA et les conventions internationales."; if(q.includes("cv")||q.includes("lettre")) return "Pour rédiger un CV, utilisez des modèles gratuits en ligne. Mettez en avant vos compétences linguistiques."; return "Je vous suggère d'explorer les vidéos éducatives ou de contacter un conseiller via notre formulaire (bientôt). Vous pouvez aussi consulter les articles de témoignages."; }
+        function initAI() { let btn = document.getElementById('aiAssistantBtn'); let panel = document.getElementById('aiChatPanel'); let close = document.getElementById('closeAiChat'); let send = document.getElementById('aiSendBtn'); let input = document.getElementById('aiInput'); let msgs = document.getElementById('aiMessages'); btn.addEventListener('click', ()=>{ panel.style.display = panel.style.display === 'none' ? 'flex' : 'none'; }); close.addEventListener('click', ()=> panel.style.display = 'none'); function addMessage(text, isUser=false) { let div = document.createElement('div'); div.className = 'ai-message' + (isUser ? ' user' : ''); div.textContent = text; msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight; } send.addEventListener('click', ()=>{ let val = input.value.trim(); if(!val) return; addMessage(val, true); let reply = askAI(val); setTimeout(()=> addMessage(reply), 300); input.value = ''; }); input.addEventListener('keypress', (e)=> { if(e.key==='Enter') send.click(); }); }
+        function renderAdmin(tab) { let c = document.getElementById('adminContent'); if(!c) return; let us = DB.users(), js = DB.jobs(), vs = DB.videos(), ps = DB.posters(), ads = DB.admins(), arts = DB.articles(); if(tab==='dashboard') c.innerHTML = `<div class="stat-grid">${[{l:"Utilisateurs",n:us.length},{l:"Offres",n:js.length},{l:"Vidéos",n:vs.length},{l:"Affiches",n:ps.length},{l:"Articles",n:arts.length}].map(s=>`<div class="card"><div class="stat-num">${s.n}</div><div style="font-size:.8rem;">${s.l}</div></div>`).join('')}</div>`;
+        else if(tab==='users') c.innerHTML = `<table><tr><th>Nom</th><th>Email</th><th>Action</th></tr>${us.map(u=>`<tr><td>${u.name}</td><td>${u.email}</td><td><button class="btn btn-danger btn-sm" onclick="delU('${u.id}')">🗑️</button></td></tr>`).join('')}</table>`;
+        else if(tab==='jobs-manage') c.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addJ()">+ Offre</button><table><tr><th>Titre</th><th>Ville</th><th>Action</th></tr>${js.map(j=>`<tr><td>${j.title}</td><td>${j.city}</td><td><button class="btn btn-danger btn-sm" onclick="delJ(${j.id})">🗑️</button></td></tr>`).join('')}</table>`;
+        else if(tab==='videos-manage') c.innerHTML = `<button class="btn btn-primary btn-sm" onclick="triggerVideoUpload()">+ Vidéo/Média</button><table><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>${vs.map(v=>`<tr><td>🎬</td><td>${v.title}</td><td><button class="btn btn-danger btn-sm" onclick="delV(${v.id})">🗑️</button></td></tr>`).join('')}</table>`;
+        else if(tab==='posters-manage') c.innerHTML = `<button class="btn btn-primary btn-sm" onclick="triggerPosterUpload()">+ Affiche</button><table><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>${ps.map(p=>`<tr><td>🖼️</td><td>${p.title}</td><td><button class="btn btn-danger btn-sm" onclick="delP(${p.id})">🗑️</button></td></tr>`).join('')}</table>`;
+        else if(tab==='articles-manage') c.innerHTML = `<button class="btn btn-primary btn-sm" onclick="triggerArticleAdd()">+ Article</button><table><tr><th>Titre</th><th>Date</th><th>Action</th></tr>${arts.map(a=>`<tr><td>${a.title}</td><td>${a.date}</td><td><button class="btn btn-danger btn-sm" onclick="deleteArticle(${a.id})">🗑️</button></td></tr>`).join('')}</table>`;
+        else if(tab==='settings') c.innerHTML = `<h3>Logo</h3><div>${DB.getLogo()?`<img src="${DB.getLogo()}" style="width:100px;">`:'Aucun'}</div><button class="btn btn-primary" onclick="triggerLogoUpload()">Changer</button><button class="btn btn-outline" onclick="removeLogo()">Supprimer</button>`;
+        else if(tab==='admins') c.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addA()">+ Admin</button><table><tr><th>Email</th><th>Action</th></tr>${ads.map(a=>`<tr><td>${a}</td><td>${a!=='mosab649@gmail.com'?`<button class="btn btn-danger btn-sm" onclick="remA('${a}')">🗑️</button>`:'Principal'}</td></tr>`).join('')}</table>`;
+        }
+        function addA() { let e = prompt("Email admin:"); if(e && !DB.admins().includes(e)) { DB.saveAdmins([...DB.admins(), e]); renderAdmin('admins'); toast("Admin ajouté"); } }
+        function remA(e) { if(e==='mosab649@gmail.com') return toast("Protégé", "warning"); DB.saveAdmins(DB.admins().filter(a=>a!==e)); renderAdmin('admins'); toast("Admin supprimé"); }
+        function delU(id) { DB.saveUsers(DB.users().filter(u=>u.id!==id)); renderAdmin('users'); toast("Utilisateur supprimé"); }
+        function addJ() { let t=prompt("Titre"); if(t){ let c=prompt("Ville"); let js=DB.jobs(); js.push({id:Date.now(),title:t,city:c?.toLowerCase()||'paris',contract:'CDI',desc:'',date:new Date().toISOString().split('T')[0]}); DB.saveJobs(js); renderAdmin('jobs-manage'); renderJobs(); } }
+        function delJ(id) { DB.saveJobs(DB.jobs().filter(j=>j.id!==id)); renderAdmin('jobs-manage'); renderJobs(); toast("Offre supprimée"); }
+        function delV(id) { DB.saveVideos(DB.videos().filter(v=>v.id!==id)); renderAdmin('videos-manage'); renderVideos(); renderHomeVideos(); toast("Vidéo supprimée"); }
+        function delP(id) { DB.savePosters(DB.posters().filter(p=>p.id!==id)); renderAdmin('posters-manage'); renderPosters(); renderHomePosters(); toast("Affiche supprimée"); }
+        function triggerVideoUpload() { let inp=document.createElement('input'); inp.type='file'; inp.accept='*/*'; inp.onchange=e=>{ let f=e.target.files[0]; if(f) DB.storeFile(f,(d,n,t)=>{ let title=prompt("Titre:",n); if(title){ let vs=DB.videos(); vs.push({id:Date.now(),title,cat:"Emploi",lang:"fr",dataUrl:d,fileName:n,fileType:t}); DB.saveVideos(vs); renderAdmin('videos-manage'); renderVideos(); renderHomeVideos(); toast("✅ Vidéo ajoutée"); } }); }; inp.click(); }
+        function triggerPosterUpload() { let inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange=e=>{ let f=e.target.files[0]; if(f) DB.storeFile(f,(d,n,t)=>{ let title=prompt("Titre:",n); if(title){ let ps=DB.posters(); ps.push({id:Date.now(),title,topic:"Info",dataUrl:d,fileName:n,fileType:t}); DB.savePosters(ps); renderAdmin('posters-manage'); renderPosters(); renderHomePosters(); toast("✅ Affiche ajoutée"); } }); }; inp.click(); }
+        function updateLogoDisplay() { let logo=DB.getLogo(); let navLogo=document.getElementById('navLogo'), navIcon=document.getElementById('navIcon'), footerLogo=document.getElementById('footerLogo'); if(logo){ if(navLogo){navLogo.src=logo;navLogo.style.display='inline-block';} if(navIcon) navIcon.style.display='none'; if(footerLogo){footerLogo.src=logo;footerLogo.style.display='block';} } else { if(navLogo) navLogo.style.display='none'; if(navIcon) navIcon.style.display='inline-block'; if(footerLogo) footerLogo.style.display='none'; } }
+        function triggerLogoUpload() { let inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange=e=>{ let f=e.target.files[0]; if(f) DB.storeFile(f,(d)=>{ DB.saveLogo(d); updateLogoDisplay(); renderAdmin('settings'); toast("Logo mis à jour"); }); }; inp.click(); }
+        function removeLogo() { if(confirm("Supprimer logo?")){ DB.saveLogo(''); updateLogoDisplay(); renderAdmin('settings'); toast("Logo supprimé"); } }
+        function renderJobs() { let j=DB.jobs(); let cf=document.getElementById('jobCity').value; let kf=document.getElementById('jobContract').value; let sf=document.getElementById('jobSearch').value.toLowerCase(); if(cf) j=j.filter(x=>x.city===cf); if(kf) j=j.filter(x=>x.contract===kf); if(sf) j=j.filter(x=>x.title.toLowerCase().includes(sf)); document.getElementById('jobsList').innerHTML=j.length?j.map(x=>`<div class="job-card"><h4>${x.title}</h4><span class="badge badge-blue">📍 ${x.city}</span><span class="badge badge-green">📄 ${x.contract}</span><p>${x.desc||''}</p><small>Publié: ${x.date}</small><br><button class="btn btn-primary btn-sm" onclick="applyJob(${x.id})">Postuler</button></div>`).join(''):'<p class="loading">Aucune offre</p>'; populateCities(); }
+        function populateCities() { let s=document.getElementById('jobCity'); if(!s) return; let cities=[...new Set(DB.jobs().map(j=>j.city))]; s.innerHTML='<option value="">Toutes villes</option>'+cities.map(c=>`<option value="${c}">${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join(''); }
+        function applyJob(id) { if(!isLoggedIn()){ toast(I18N.t('toast.loginReq'),'warning'); showSection('register'); return; } let j=DB.jobs().find(x=>x.id===id); if(j) toast("Candidature envoyée pour "+j.title); }
+        function renderVideos() { let v=DB.videos(); document.getElementById('videosList').innerHTML=v.length?v.map(x=>`<div class="card"><div class="media-preview video">${x.dataUrl?`<video src="${x.dataUrl}" style="width:100%;height:140px;object-fit:cover;" controls></video>`:'📹'}</div><h4>${x.title}</h4></div>`).join(''):'<p class="loading">Aucune vidéo</p>'; }
+        function renderHomeVideos() { let v=DB.videos().slice(-3).reverse(); document.getElementById('homeVideosList').innerHTML=v.length?v.map(x=>`<div class="card"><div>${x.dataUrl?`<video src="${x.dataUrl}" style="width:100%;height:120px;object-fit:cover;" controls></video>`:'📹'}</div><h4>${x.title}</h4></div>`).join(''):'<p class="loading">Aucune vidéo</p>'; }
+        function renderPosters() { let p=DB.posters(); document.getElementById('postersList').innerHTML=p.length?p.map(x=>`<div class="card"><img src="${x.dataUrl}" style="width:100%;height:140px;object-fit:cover;border-radius:8px;"><h4>${x.title}</h4></div>`).join(''):'<p class="loading">Aucune affiche</p>'; }
+        function renderHomePosters() { let p=DB.posters().slice(-3).reverse(); document.getElementById('homePostersList').innerHTML=p.length?p.map(x=>`<div class="card"><img src="${x.dataUrl}" style="width:100%;height:120px;object-fit:cover;"><h4>${x.title}</h4></div>`).join(''):'<p class="loading">Aucune affiche</p>'; }
+        function renderVolunteering() { let d=[{org:'Restos du Cœur',city:'paris',task:'Distribution'},{org:'La Cimade',city:'lyon',task:'Accompagnement'},{org:'Secours Populaire',city:'marseille',task:'Aide réfugiés'}]; document.getElementById('volList').innerHTML=d.map(v=>`<div class="job-card"><h4>${v.org}</h4><span class="badge badge-blue">📍 ${v.city}</span><p>${v.task}</p><button class="btn btn-outline btn-sm" onclick="toast('Inscription bénévole: ${v.org}')">Devenir bénévole</button></div>`).join(''); }
+        function registerGoogle() { let n=prompt("Nom:"), e=prompt("Email Google:"); if(e&&n) registerSocial('google',e,n); }
+        function registerFacebook() { let n=prompt("Nom:"), e=prompt("Email Facebook:"); if(e&&n) registerSocial('facebook',e,n); }
+        function registerPhone() { let p=prompt("Téléphone:"), n=prompt("Nom:"); if(p&&n) registerSocial('phone',p,n); }
+        function registerSocial(pr,e,n) { let us=DB.users(); let u=us.find(x=>x.email===e); if(!u){ u={id:'u'+Date.now(),name:n,email:e,provider:pr}; us.push(u); DB.saveUsers(us); } DB.saveCurrentUser(u); updateUI(); toast("Connecté"); showSection('profile'); }
+        function registerEmail(n,e,p,p2) { if(p!==p2) return toast("Mots de passe différents","error"); if(DB.users().find(u=>u.email===e)) return toast("Email déjà utilisé","error"); let u={id:'u'+Date.now(),name:n,email:e,password:p,provider:'email'}; DB.saveUsers([...DB.users(),u]); DB.saveCurrentUser(u); updateUI(); toast("Compte créé"); showSection('profile'); }
+        function showLogin() { let e=prompt("Email:"); if(!e) return; let p=prompt("Mot de passe:"); if(DB.admins().includes(e)&&p==='123'){ let u=DB.users().find(x=>x.email===e)||{id:'adm',name:'Admin',email:e}; DB.saveCurrentUser(u); updateUI(); toast("Admin connecté"); showSection('admin'); return; } let u=DB.users().find(x=>x.email===e&&x.password===p); if(u){ DB.saveCurrentUser(u); updateUI(); toast("Connecté"); } else toast("Identifiants invalides","error"); }
+        function logout() { DB.logout(); updateUI(); toast("Déconnecté"); showSection('home'); }
+        function saveProfile(s,c,l) { let u=DB.currentUser(); if(u){ u.status=s; u.city=c; u.legalStatus=l; u.profileComplete=true; let us=DB.users(); let idx=us.findIndex(x=>x.id===u.id); if(idx>=0) us[idx]=u; DB.saveUsers(us); DB.saveCurrentUser(u); updateUI(); toast("Profil enregistré"); showSection('jobs'); } }
+        function renderAll() { renderJobs(); renderVideos(); renderPosters(); renderArticles(); renderVolunteering(); renderHomeVideos(); renderHomePosters(); }
+        function init() { DB.initData(); updateUI(); updateLogoDisplay(); renderAll(); initAI(); document.getElementById('langSwitch').addEventListener('change',()=>{ I18N.lang=this.value; localStorage.setItem('nhe_lang',I18N.lang); location.reload(); }); document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('navMenu').classList.toggle('open')); document.getElementById('btnLogin').addEventListener('click',showLogin); document.getElementById('btnRegister').addEventListener('click',()=>showSection('register')); document.getElementById('btnLogout').addEventListener('click',logout); document.getElementById('formRegister')?.addEventListener('submit',e=>{e.preventDefault(); registerEmail(document.getElementById('regName').value,document.getElementById('regEmail').value,document.getElementById('regPass').value,document.getElementById('regPass2').value);}); document.getElementById('formProfile')?.addEventListener('submit',e=>{e.preventDefault(); saveProfile(document.getElementById('profStatus').value,document.getElementById('profCity').value,document.getElementById('profLegal').value);}); document.getElementById('jobSearch')?.addEventListener('input',renderJobs); document.getElementById('jobCity')?.addEventListener('change',renderJobs); document.getElementById('jobContract')?.addEventListener('change',renderJobs); document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); let id=a.getAttribute('href').replace('#',''); if(id==='admin'&&!isAdmin()){ toast("Accès admin requis","warning"); return; } showSection(id); if(id==='admin') renderAdmin('dashboard'); })); document.querySelectorAll('.admin-tab').forEach(t=>t.addEventListener('click',function(){ document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active')); this.classList.add('active'); renderAdmin(this.getAttribute('data-tab')); })); let last = localStorage.getItem('nhe_last_section'); if(last && document.getElementById(last)) showSection(last); else showSection('home'); }
+        document.addEventListener('DOMContentLoaded', init);
+        window.applyJob=applyJob; window.delU=delU; window.delJ=delJ; window.delV=delV; window.delP=delP; window.addJ=addJ; window.addA=addA; window.remA=remA; window.triggerVideoUpload=triggerVideoUpload; window.triggerPosterUpload=triggerPosterUpload; window.triggerLogoUpload=triggerLogoUpload; window.removeLogo=removeLogo; window.registerGoogle=registerGoogle; window.registerFacebook=registerFacebook; window.registerPhone=registerPhone; window.showLogin=showLogin; window.logout=logout; window.triggerArticleAdd=triggerArticleAdd; window.deleteArticle=deleteArticle;
+    </script>
 </body>
 </html>

@@ -14,12 +14,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --p: #1a237e;
             --pd: #0d1b6e;
@@ -35,30 +29,27 @@
             --sh: 0 2px 10px rgba(0, 0, 0, .08);
             --shl: 0 8px 30px rgba(0, 0, 0, .12);
             --r: 12px;
-            --sidebar-width: 280px;
         }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg);
+            font-family: 'Segoe UI', system-ui, sans-serif;
             color: var(--tx);
-            line-height: 1.6;
+            background: var(--bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            line-height: 1.6;
         }
-
-        body.rtl {
-            direction: rtl;
-            text-align: right;
-        }
-
-        /* Sidebar Styles */
+        body.rtl { direction: rtl; text-align: right; }
+        body.rtl .nav-inner, body.rtl .section-title h2 { text-align: right; }
+        
+        /* Sidebar styles */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -var(--sidebar-width);
-            width: var(--sidebar-width);
+            left: -280px;
+            width: 280px;
             height: 100%;
             background: var(--wht);
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
@@ -66,45 +57,36 @@
             transition: left 0.3s ease;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
         }
-
         body.rtl .sidebar {
             left: auto;
-            right: -var(--sidebar-width);
+            right: -280px;
         }
-
         .sidebar.open {
             left: 0;
         }
-
         body.rtl .sidebar.open {
             left: auto;
             right: 0;
         }
-
         .sidebar-header {
             padding: 1.5rem;
             background: var(--p);
             color: white;
             text-align: center;
         }
-
         .sidebar-header img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
             border-radius: 50%;
             background: white;
             padding: 5px;
-            margin-bottom: 10px;
         }
-
         .sidebar-nav {
             flex: 1;
             padding: 1rem 0;
         }
-
         .sidebar-nav a {
             display: flex;
             align-items: center;
@@ -113,38 +95,47 @@
             color: var(--tx);
             text-decoration: none;
             transition: 0.2s;
-            font-weight: 500;
         }
-
         .sidebar-nav a i {
             width: 24px;
             color: var(--p);
         }
-
         .sidebar-nav a:hover {
             background: #e3f2fd;
         }
-
-        .sidebar-nav a.active {
-            background: #e3f2fd;
-            color: var(--p);
-            border-right: 3px solid var(--p);
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
         }
-
-        body.rtl .sidebar-nav a.active {
-            border-right: none;
-            border-left: 3px solid var(--p);
+        .overlay.active {
+            display: block;
         }
-
-        /* Navbar */
+        
+        .disclaimer-bar {
+            background: #fff3e0;
+            padding: .4rem 1rem;
+            text-align: center;
+            font-size: .7rem;
+            border-bottom: 2px solid var(--w);
+            position: sticky;
+            top: 0;
+            z-index: 102;
+            color: #e65100;
+            font-weight: 600;
+        }
         .navbar {
             background: var(--wht);
             box-shadow: var(--sh);
             position: sticky;
-            top: 0;
-            z-index: 999;
+            top: 30px;
+            z-index: 101;
         }
-
         .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
@@ -154,7 +145,6 @@
             justify-content: space-between;
             height: 60px;
         }
-
         .menu-toggle {
             background: none;
             border: none;
@@ -163,98 +153,87 @@
             color: var(--p);
             padding: 0.5rem;
         }
-
         .nav-brand {
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            font-weight: bold;
+            gap: .5rem;
+            font-size: 1rem;
+            font-weight: 700;
             color: var(--p);
+            text-decoration: none;
         }
-
-        .nav-brand img {
+        .nav-logo {
             width: 40px;
             height: 40px;
             object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            padding: 2px;
+            border: 1px solid var(--bdr);
         }
-
-        .nav-actions {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
+        .nav-menu { display: flex; align-items: center; gap: .75rem; }
+        .nav-links { display: flex; list-style: none; gap: .2rem; flex-wrap: wrap; }
+        .nav-links a {
+            padding: .4rem .7rem;
+            border-radius: 20px;
+            color: var(--tx);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: .8rem;
+            cursor: pointer;
         }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 998;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* Buttons & Cards */
+        .nav-links a:hover, .nav-links a.active { background: #e3f2fd; color: var(--p); }
+        .nav-actions { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
         .btn {
-            padding: 0.5rem 1rem;
+            padding: .5rem 1rem;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: .8rem;
             cursor: pointer;
-            border: none;
+            border: 2px solid transparent;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: .4rem;
             text-decoration: none;
-            transition: 0.2s;
+            transition: .2s;
         }
-
         .btn-primary { background: var(--p); color: #fff; }
         .btn-primary:hover { background: var(--pd); }
-        .btn-outline { background: transparent; border: 2px solid var(--p); color: var(--p); }
+        .btn-outline { background: transparent; border-color: var(--p); color: var(--p); }
         .btn-outline:hover { background: var(--p); color: #fff; }
         .btn-danger { background: var(--d); color: #fff; }
-        .btn-sm { padding: 0.35rem 0.7rem; font-size: 0.75rem; }
+        .btn-sm { padding: .35rem .7rem; font-size: .75rem; }
         .btn-block { width: 100%; justify-content: center; }
-
-        .section {
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: var(--p);
-            margin-bottom: 1rem;
-        }
-
+        .section { padding: 2rem 1rem; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1, h2 { text-align: center; color: var(--p); margin-bottom: .5rem; font-size: 1.5rem; }
         .hidden { display: none !important; }
-
+        .hero { text-align: center; padding: 2rem 0; }
+        .hero h1 { font-size: 2rem; }
         .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
-
         .card {
             background: var(--wht);
             padding: 1.2rem;
             border-radius: var(--r);
             box-shadow: var(--sh);
             border: 1px solid var(--bdr);
-            transition: 0.2s;
+            text-decoration: none;
+            color: var(--tx);
+            display: block;
+            transition: .2s;
         }
-
         .card:hover { transform: translateY(-3px); box-shadow: var(--shl); }
-
+        .form-box { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: .75rem; }
+        .form-input, .form-select, .form-textarea {
+            padding: .6rem .8rem;
+            border: 2px solid var(--bdr);
+            border-radius: 8px;
+            font-size: .85rem;
+            font-family: inherit;
+            background: var(--wht);
+        }
+        .form-textarea { min-height: 120px; resize: vertical; }
         .job-card, .forum-card {
             background: var(--wht);
             padding: 1rem;
@@ -263,40 +242,16 @@
             border-left: 4px solid var(--p);
             margin-bottom: 1rem;
         }
-
         .badge {
             display: inline-block;
-            padding: 0.15rem 0.5rem;
+            padding: .15rem .5rem;
             border-radius: 15px;
-            font-size: 0.65rem;
+            font-size: .65rem;
             font-weight: 600;
-            margin: 0.1rem;
+            margin: .1rem;
         }
-
         .badge-blue { background: #e3f2fd; color: var(--p); }
         .badge-green { background: #e8f5e9; color: var(--s); }
-
-        .form-box {
-            max-width: 400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            padding: 0.6rem 0.8rem;
-            border: 2px solid var(--bdr);
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-family: inherit;
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
         .editor-toolbar {
             display: flex;
             gap: 0.5rem;
@@ -306,7 +261,6 @@
             padding: 0.5rem;
             border-radius: 8px;
         }
-
         .editor-toolbar button {
             background: white;
             border: 1px solid #ccc;
@@ -315,756 +269,711 @@
             cursor: pointer;
             font-weight: bold;
         }
-
-        .admin-tabs {
-            display: flex;
-            gap: 0.25rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
+        .admin-tabs { display: flex; gap: .25rem; flex-wrap: wrap; margin-bottom: 1rem; }
         .admin-tab {
-            padding: 0.4rem 0.8rem;
+            padding: .4rem .8rem;
             border: none;
             background: #eee;
             cursor: pointer;
             border-radius: 20px;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: .75rem;
         }
-
-        .admin-tab.active {
-            background: var(--p);
-            color: #fff;
-        }
-
-        .admin-content {
-            background: var(--wht);
-            padding: 1rem;
-            border-radius: var(--r);
-            box-shadow: var(--sh);
-        }
-
+        .admin-tab.active { background: var(--p); color: #fff; }
+        .admin-content { background: var(--wht); padding: 1rem; border-radius: var(--r); box-shadow: var(--sh); }
         .footer {
             background: var(--p);
             color: #fff;
             padding: 1.5rem;
             margin-top: auto;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: .8rem;
         }
-
-        .toast-container {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-        }
-
-        .toast {
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.8rem;
-            box-shadow: var(--shl);
-            animation: slideIn 0.3s ease;
-        }
-
+        .toast-container { position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: .4rem; }
+        .toast { padding: .6rem 1rem; border-radius: 8px; color: #fff; font-weight: 600; font-size: .8rem; box-shadow: var(--shl); animation: slideIn .3s ease; }
         .toast-success { background: var(--s); }
         .toast-error { background: var(--d); }
         .toast-warning { background: var(--w); }
-
-        @keyframes slideIn {
-            from { transform: translateX(100px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--t2);
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 85%;
-                max-width: 280px;
-            }
-            .nav-actions select, .nav-actions .btn-sm {
-                font-size: 0.7rem;
-                padding: 0.3rem 0.6rem;
-            }
+        @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .loading { text-align: center; padding: 2rem; color: var(--t2); grid-column: 1/-1; }
+        .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; }
+        @media(max-width:768px) {
+            .nav-links { display: none; }
+            .nav-actions select, .nav-actions .btn-sm { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .hero h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img id="sidebarLogo" src="" alt="Logo" style="display: none;">
-            <h3 id="sidebarTitle">Nouvel horizon</h3>
-        </div>
-        <div class="sidebar-nav">
-            <a href="#home" data-key="nav_home"><i class="fas fa-home"></i> <span>Accueil</span></a>
-            <a href="#register" data-key="nav_register"><i class="fas fa-user-plus"></i> <span>Inscription</span></a>
-            <a href="#jobs" data-key="nav_jobs"><i class="fas fa-briefcase"></i> <span>Emplois</span></a>
-            <a href="#forum" data-key="nav_forum"><i class="fas fa-newspaper"></i> <span>Forum</span></a>
-            <a href="#admin" id="adminLinkSidebar" class="hidden" data-key="nav_admin"><i class="fas fa-cog"></i> <span>Admin</span></a>
-        </div>
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <img id="sidebarLogo" src="" alt="Logo" style="display: none;">
+        <h3 id="sidebarTitle">Nouvel horizon</h3>
     </div>
-    <div class="overlay" id="overlay"></div>
+    <div class="sidebar-nav">
+        <a href="#home" data-key="nav_home"><i class="fas fa-home"></i> <span>Accueil</span></a>
+        <a href="#register" data-key="nav_register"><i class="fas fa-user-plus"></i> <span>Inscription</span></a>
+        <a href="#jobs" data-key="nav_jobs"><i class="fas fa-briefcase"></i> <span>Emplois</span></a>
+        <a href="#forum" data-key="nav_forum"><i class="fas fa-newspaper"></i> <span>Forum</span></a>
+        <a href="#admin" id="adminLinkSidebar" class="hidden" data-key="nav_admin"><i class="fas fa-cog"></i> <span>Admin</span></a>
+    </div>
+</div>
+<div class="overlay" id="overlay"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-inner">
+<div class="disclaimer-bar" id="disclaimerText">⚠️ Nous ne soutenons pas l'immigration illégale</div>
+
+<nav class="navbar">
+    <div class="nav-inner">
+        <div style="display: flex; align-items: center; gap: 10px;">
             <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-            <a href="#home" class="nav-brand">
-                <img id="navLogo" src="" alt="Logo" style="display: none;">
-                <span id="brandName">Nouvel horizon d'emploi</span>
-            </a>
+            <img id="navLogo" class="nav-logo" src="" alt="Logo" style="display: none;">
+            <a href="#home" class="nav-brand" id="brandName">Nouvel horizon d'emploi</a>
+        </div>
+        <div class="nav-menu">
+            <ul class="nav-links">
+                <li><a href="#home" class="active" data-key="nav_home">Accueil</a></li>
+                <li><a href="#register" data-key="nav_register">Inscription</a></li>
+                <li><a href="#jobs" data-key="nav_jobs">Emplois</a></li>
+                <li><a href="#forum" data-key="nav_forum">Forum</a></li>
+                <li><a href="#admin" id="adminLink" class="hidden" data-key="nav_admin">Admin</a></li>
+            </ul>
             <div class="nav-actions">
                 <select id="langSwitch">
                     <option value="fr">🇫🇷 FR</option>
                     <option value="en">🇬🇧 EN</option>
                     <option value="ar">🇸🇦 AR</option>
                 </select>
-                <button class="btn btn-outline btn-sm" id="btnLogin"><i class="fas fa-sign-in-alt"></i> <span data-key="login_btn">Connexion</span></button>
-                <button class="btn btn-primary btn-sm" id="btnRegister"><i class="fas fa-user-plus"></i> <span data-key="register_btn">Inscription</span></button>
+                <button class="btn btn-outline btn-sm" id="btnLogin" data-key="login_btn">Connexion</button>
+                <button class="btn btn-primary btn-sm" id="btnRegister" data-key="register_btn">Inscription</button>
                 <span id="userBadge" class="hidden"></span>
-                <button class="btn btn-outline btn-sm hidden" id="btnLogout"><i class="fas fa-sign-out-alt"></i> <span data-key="logout_btn">Déconnexion</span></button>
+                <button class="btn btn-outline btn-sm hidden" id="btnLogout" data-key="logout_btn">Déconnexion</button>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main>
-        <!-- HOME -->
-        <section id="home" class="section">
-            <div class="container">
-                <div class="hero" style="text-align:center; padding: 2rem 0;">
-                    <h1 id="hero_title">Bienvenue sur Nouvel horizon d'emploi</h1>
-                    <p id="hero_desc">Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.</p>
-                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
-                        <a href="#register" class="btn btn-primary" id="hero_create_btn"><i class="fas fa-user-plus"></i> Créer un compte</a>
-                        <a href="#jobs" class="btn btn-outline" id="hero_jobs_btn"><i class="fas fa-briefcase"></i> Voir les offres</a>
-                    </div>
-                </div>
-                <div class="section-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <h2 id="last_articles_title">📝 Derniers articles</h2>
-                    <a href="#forum" class="view-all" onclick="showSection('forum')" id="view_all_link">Voir tout →</a>
-                </div>
-                <div id="homeArticlesList" class="grid-2"><p class="loading">Chargement...</p></div>
-            </div>
-        </section>
-
-        <!-- REGISTER -->
-        <section id="register" class="section hidden">
-            <div class="container" style="max-width:450px">
-                <h2 id="register_title">Créer votre compte</h2>
-                <form id="formRegister" class="form-box">
-                    <input type="text" class="form-input" id="regName" placeholder="Nom complet" required>
-                    <input type="email" class="form-input" id="regEmail" placeholder="Email" required>
-                    <input type="password" class="form-input" id="regPass" placeholder="Mot de passe (6+)" required>
-                    <input type="password" class="form-input" id="regPass2" placeholder="Confirmer" required>
-                    <button type="submit" class="btn btn-primary btn-block" id="register_submit_btn">S'inscrire</button>
-                </form>
-                <p style="text-align:center; margin-top:1rem;"><span id="already_account">Déjà un compte ?</span> <a href="#" onclick="showLogin()" style="color:var(--p);" id="login_link">Se connecter</a></p>
-            </div>
-        </section>
-
-        <!-- PROFILE -->
-        <section id="profile" class="section hidden">
-            <div class="container" style="max-width:450px">
-                <h2 id="profile_title">Compléter votre profil</h2>
-                <form id="formProfile" class="form-box">
-                    <select class="form-select" id="profStatus" required>
-                        <option value="" id="status_placeholder">Statut *</option>
-                        <option value="jobseeker">Demandeur d'emploi</option>
-                        <option value="trainee">Stagiaire</option>
-                    </select>
-                    <select class="form-select" id="profCity" required>
-                        <option value="" id="city_placeholder">Ville *</option>
-                        <option>Paris</option><option>Lyon</option><option>Marseille</option><option>Lille</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary btn-block" id="save_profile_btn">✓ Enregistrer</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- JOBS -->
-        <section id="jobs" class="section">
-            <div class="container">
-                <h2 id="jobs_title">Offres d'Emploi</h2>
-                <div style="margin-bottom: 1rem;">
-                    <input type="text" id="jobSearch" class="form-input" placeholder="🔍 Rechercher..." style="width:100%;">
-                </div>
-                <div id="jobsList" class="grid-2"><p class="loading">Chargement...</p></div>
-            </div>
-        </section>
-
-        <!-- FORUM -->
-        <section id="forum" class="section">
-            <div class="container">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <h2 id="forum_title">📝 Forum & Articles</h2>
-                    <button class="btn btn-primary btn-sm" id="newArticleBtn" onclick="toggleArticleForm()"><i class="fas fa-plus"></i> <span id="new_article_btn_txt">Écrire un article</span></button>
-                </div>
-                <div id="articleForm" class="hidden" style="background: white; padding: 1rem; border-radius: var(--r); margin-bottom: 2rem;">
-                    <h3 id="form_article_title">✍️ Rédiger un article</h3>
-                    <div class="editor-toolbar">
-                        <button type="button" onclick="wrapText('**', '**')"><b>B</b></button>
-                        <button type="button" onclick="wrapText('*', '*')"><i>I</i></button>
-                        <button type="button" onclick="wrapText('## ', '')">H2</button>
-                        <button type="button" onclick="wrapText('> ', '')">Quote</button>
-                    </div>
-                    <input type="text" id="articleTitle" class="form-input" placeholder="Titre de l'article" style="margin-bottom: 10px;">
-                    <textarea id="articleContent" class="form-textarea" placeholder="Contenu de l'article... (Markdown: **gras**, *italique*)"></textarea>
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <button class="btn btn-primary" onclick="publishArticle()" id="publish_btn">📢 Publier</button>
-                        <button class="btn btn-outline" onclick="toggleArticleForm()" id="cancel_btn">Annuler</button>
-                    </div>
-                </div>
-                <div id="articlesList" class="grid-2"><p class="loading">Chargement...</p></div>
-            </div>
-        </section>
-
-        <!-- ADMIN -->
-        <section id="admin" class="section hidden">
-            <div class="container">
-                <h2 id="admin_title">🔧 Administration</h2>
-                <div class="admin-tabs">
-                    <button class="admin-tab active" data-tab="dashboard">📊 Tableau</button>
-                    <button class="admin-tab" data-tab="articles-manage">📄 Articles</button>
-                    <button class="admin-tab" data-tab="jobs-manage">💼 Offres</button>
-                    <button class="admin-tab" data-tab="settings">⚙️ Logo</button>
-                    <button class="admin-tab" data-tab="admins">🛡️ Admins</button>
-                </div>
-                <div class="admin-content" id="adminContent"></div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
+<main>
+    <!-- HOME -->
+    <section id="home" class="section">
         <div class="container">
-            <img id="footerLogo" src="" alt="Logo" style="width: 50px; height: 50px; display: none; margin-bottom: 10px;">
-            <p>© 2025 Nouvel horizon d'emploi - Conforme RGPD - France</p>
+            <div class="hero">
+                <h1 id="hero_title">Bienvenue sur Nouvel horizon d'emploi</h1>
+                <p id="hero_desc">Plateforme dédiée à l'insertion professionnelle des réfugiés et migrants en France.</p>
+                <div class="hero-btns" style="display: flex; gap: 1rem; justify-content: center;">
+                    <a href="#register" class="btn btn-primary" id="hero_create_btn"><i class="fas fa-user-plus"></i> Créer un compte</a>
+                    <a href="#jobs" class="btn btn-outline" id="hero_jobs_btn"><i class="fas fa-briefcase"></i> Voir les offres</a>
+                </div>
+            </div>
+            <div class="section-title">
+                <h2 id="last_articles_title">📝 Derniers articles</h2>
+                <a href="#forum" class="view-all" onclick="showSection('forum')" id="view_all_link">Voir tout →</a>
+            </div>
+            <div id="homeArticlesList" class="grid-2"><p class="loading">Chargement...</p></div>
         </div>
-    </footer>
+    </section>
 
-    <div class="toast-container" id="toastContainer"></div>
+    <!-- REGISTER -->
+    <section id="register" class="section hidden">
+        <div class="container" style="max-width:450px">
+            <h2 id="register_title">Créer votre compte</h2>
+            <form id="formRegister" class="form-box">
+                <input type="text" class="form-input" id="regName" placeholder="Nom complet" required>
+                <input type="email" class="form-input" id="regEmail" placeholder="Email" required>
+                <input type="password" class="form-input" id="regPass" placeholder="Mot de passe (6+)" required>
+                <input type="password" class="form-input" id="regPass2" placeholder="Confirmer" required>
+                <button type="submit" class="btn btn-primary btn-block" id="register_submit_btn">S'inscrire</button>
+            </form>
+            <p style="text-align:center; margin-top:1rem;"><span id="already_account">Déjà un compte ?</span> <a href="#" onclick="showLogin()" style="color:var(--p);" id="login_link">Se connecter</a></p>
+        </div>
+    </section>
 
-    <script>
-        // Firebase Config
-        firebase.initializeApp({
-            apiKey: "AIzaSyB2TlPdeABj2DFzh8lSb0vpTQuCaBlqfvA",
-            authDomain: "organisation-d97e7.firebaseapp.com",
-            projectId: "organisation-d97e7",
-            storageBucket: "organisation-d97e7.firebasestorage.app",
-            messagingSenderId: "770760173166",
-            appId: "1:770760173166:web:09297aa9e2021a33eb687f"
+    <!-- PROFILE -->
+    <section id="profile" class="section hidden">
+        <div class="container" style="max-width:450px">
+            <h2 id="profile_title">Compléter votre profil</h2>
+            <form id="formProfile" class="form-box">
+                <select class="form-select" id="profStatus" required>
+                    <option value="" id="status_placeholder">Statut *</option>
+                    <option value="jobseeker">Demandeur d'emploi</option>
+                    <option value="trainee">Stagiaire</option>
+                </select>
+                <select class="form-select" id="profCity" required>
+                    <option value="" id="city_placeholder">Ville *</option>
+                    <option>Paris</option><option>Lyon</option><option>Marseille</option><option>Lille</option>
+                </select>
+                <button type="submit" class="btn btn-primary btn-block" id="save_profile_btn">✓ Enregistrer</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- JOBS -->
+    <section id="jobs" class="section">
+        <div class="container">
+            <h2 id="jobs_title">Offres d'Emploi</h2>
+            <div style="margin-bottom: 1rem;">
+                <input type="text" id="jobSearch" class="form-input" placeholder="🔍 Rechercher..." style="width:100%;">
+            </div>
+            <div id="jobsList" class="grid-2"><p class="loading">Chargement...</p></div>
+        </div>
+    </section>
+
+    <!-- FORUM -->
+    <section id="forum" class="section">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                <h2 id="forum_title">📝 Forum & Articles</h2>
+                <button class="btn btn-primary btn-sm" id="newArticleBtn" onclick="toggleArticleForm()"><i class="fas fa-plus"></i> <span id="new_article_btn_txt">Écrire un article</span></button>
+            </div>
+            <div id="articleForm" class="hidden" style="background: white; padding: 1rem; border-radius: var(--r); margin-bottom: 2rem;">
+                <h3 id="form_article_title">✍️ Rédiger un article</h3>
+                <div class="editor-toolbar">
+                    <button type="button" onclick="wrapText('**', '**')"><b>B</b></button>
+                    <button type="button" onclick="wrapText('*', '*')"><i>I</i></button>
+                    <button type="button" onclick="wrapText('## ', '')">H2</button>
+                    <button type="button" onclick="wrapText('> ', '')">Quote</button>
+                </div>
+                <input type="text" id="articleTitle" class="form-input" placeholder="Titre de l'article" style="margin-bottom: 10px;">
+                <textarea id="articleContent" class="form-textarea" placeholder="Contenu de l'article... (Markdown: **gras**, *italique*)"></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-primary" onclick="publishArticle()" id="publish_btn">📢 Publier</button>
+                    <button class="btn btn-outline" onclick="toggleArticleForm()" id="cancel_btn">Annuler</button>
+                </div>
+            </div>
+            <div id="articlesList" class="grid-2"><p class="loading">Chargement...</p></div>
+        </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="admin" class="section hidden">
+        <div class="container">
+            <h2 id="admin_title">🔧 Administration</h2>
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="dashboard">📊 Tableau</button>
+                <button class="admin-tab" data-tab="articles-manage">📄 Articles</button>
+                <button class="admin-tab" data-tab="jobs-manage">💼 Offres</button>
+                <button class="admin-tab" data-tab="settings">⚙️ Logo</button>
+                <button class="admin-tab" data-tab="admins">🛡️ Admins</button>
+            </div>
+            <div class="admin-content" id="adminContent"></div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <img id="footerLogo" src="" alt="Logo" style="width: 50px; height: 50px; display: none; margin-bottom: 10px;">
+        <p>© 2025 Nouvel horizon d'emploi - Conforme RGPD - France</p>
+    </div>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    // Firebase Config
+    firebase.initializeApp({
+        apiKey: "AIzaSyB2TlPdeABj2DFzh8lSb0vpTQuCaBlqfvA",
+        authDomain: "organisation-d97e7.firebaseapp.com",
+        projectId: "organisation-d97e7",
+        storageBucket: "organisation-d97e7.firebasestorage.app",
+        messagingSenderId: "770760173166",
+        appId: "1:770760173166:web:09297aa9e2021a33eb687f"
+    });
+
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    let currentUser = null;
+    let cachedJobs = [];
+    let cachedArticles = [];
+    let cachedAdmins = [];
+    let currentLang = 'fr';
+
+    // Translations
+    const translations = {
+        fr: {
+            nav_home: "Accueil", nav_register: "Inscription", nav_jobs: "Emplois", nav_forum: "Forum", nav_admin: "Admin",
+            login_btn: "Connexion", register_btn: "Inscription", logout_btn: "Déconnexion",
+            hero_title: "Bienvenue sur Nouvel horizon d'emploi", hero_desc: "Plateforme dédiée à l'insertion des réfugiés.",
+            hero_create_btn: "Créer un compte", hero_jobs_btn: "Voir les offres",
+            last_articles_title: "📝 Derniers articles", view_all_link: "Voir tout →",
+            register_title: "Créer votre compte", register_submit_btn: "S'inscrire",
+            already_account: "Déjà un compte ?", login_link: "Se connecter",
+            profile_title: "Compléter votre profil", save_profile_btn: "✓ Enregistrer",
+            jobs_title: "Offres d'Emploi", forum_title: "📝 Forum & Articles",
+            new_article_btn_txt: "Écrire un article", form_article_title: "✍️ Rédiger un article",
+            publish_btn: "📢 Publier", cancel_btn: "Annuler",
+            admin_title: "🔧 Administration", disclaimer: "⚠️ Nous ne soutenons pas l'immigration illégale"
+        },
+        en: {
+            nav_home: "Home", nav_register: "Sign Up", nav_jobs: "Jobs", nav_forum: "Forum", nav_admin: "Admin",
+            login_btn: "Login", register_btn: "Sign Up", logout_btn: "Logout",
+            hero_title: "Welcome to New Employment Horizon", hero_desc: "Platform for refugee professional integration.",
+            hero_create_btn: "Create Account", hero_jobs_btn: "View Jobs",
+            last_articles_title: "📝 Latest Articles", view_all_link: "View all →",
+            register_title: "Create Account", register_submit_btn: "Sign Up",
+            already_account: "Already have an account?", login_link: "Login",
+            profile_title: "Complete Profile", save_profile_btn: "✓ Save",
+            jobs_title: "Job Offers", forum_title: "📝 Forum & Articles",
+            new_article_btn_txt: "Write Article", form_article_title: "✍️ Write Article",
+            publish_btn: "📢 Publish", cancel_btn: "Cancel",
+            admin_title: "🔧 Administration", disclaimer: "⚠️ We do not support illegal immigration"
+        },
+        ar: {
+            nav_home: "الرئيسية", nav_register: "تسجيل", nav_jobs: "وظائف", nav_forum: "المنتدى", nav_admin: "مدير",
+            login_btn: "دخول", register_btn: "اشتراك", logout_btn: "خروج",
+            hero_title: "مرحباً في أفق التوظيف الجديد", hero_desc: "منصة لإدماج اللاجئين مهنياً.",
+            hero_create_btn: "إنشاء حساب", hero_jobs_btn: "عرض الوظائف",
+            last_articles_title: "📝 أحدث المقالات", view_all_link: "عرض الكل ←",
+            register_title: "إنشاء حساب", register_submit_btn: "اشتراك",
+            already_account: "لديك حساب؟", login_link: "دخول",
+            profile_title: "أكمل ملفك الشخصي", save_profile_btn: "✓ حفظ",
+            jobs_title: "عروض العمل", forum_title: "📝 المنتدى والمقالات",
+            new_article_btn_txt: "كتابة مقال", form_article_title: "✍️ كتابة مقال",
+            publish_btn: "📢 نشر", cancel_btn: "إلغاء",
+            admin_title: "🔧 لوحة التحكم", disclaimer: "⚠️ نحن لا ندعم الهجرة غير الشرعية"
+        }
+    };
+
+    function updateUILanguage() {
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[currentLang][key]) {
+                el.innerHTML = translations[currentLang][key];
+            }
+        });
+        const ids = ['hero_title', 'hero_desc', 'hero_create_btn', 'hero_jobs_btn', 'last_articles_title', 'view_all_link',
+            'register_title', 'register_submit_btn', 'already_account', 'login_link', 'profile_title', 'save_profile_btn',
+            'jobs_title', 'forum_title', 'new_article_btn_txt', 'form_article_title', 'publish_btn', 'cancel_btn', 'admin_title'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && translations[currentLang][id]) el.textContent = translations[currentLang][id];
+        });
+        document.getElementById('disclaimerText').textContent = translations[currentLang].disclaimer;
+        document.body.classList.toggle('rtl', currentLang === 'ar');
+    }
+
+    function toast(msg, type = 'success') {
+        const container = document.getElementById('toastContainer');
+        const t = document.createElement('div');
+        t.className = `toast toast-${type}`;
+        t.textContent = msg;
+        container.appendChild(t);
+        setTimeout(() => t.remove(), 3000);
+    }
+
+    function showSection(id) {
+        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+        if (id === 'admin') renderAdmin('dashboard');
+        if (id === 'forum') renderArticles();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        closeSidebar();
+    }
+
+    function isLoggedIn() { return !!currentUser; }
+    function isAdmin() { return currentUser && cachedAdmins.includes(currentUser.email); }
+
+    async function updateUI() {
+        const loggedIn = isLoggedIn();
+        const admin = isAdmin();
+        document.getElementById('btnLogin').classList.toggle('hidden', loggedIn);
+        document.getElementById('btnRegister').classList.toggle('hidden', loggedIn);
+        document.getElementById('btnLogout').classList.toggle('hidden', !loggedIn);
+        document.getElementById('adminLink').classList.toggle('hidden', !admin);
+        document.getElementById('adminLinkSidebar').classList.toggle('hidden', !admin);
+        const badge = document.getElementById('userBadge');
+        if (loggedIn) {
+            badge.classList.remove('hidden');
+            badge.textContent = `👤 ${currentUser.name || currentUser.email}`;
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    async function registerEmail(name, email, pass, pass2) {
+        if (pass !== pass2) return toast('❌ Mots de passe différents', 'error');
+        try {
+            const cred = await auth.createUserWithEmailAndPassword(email, pass);
+            currentUser = { id: cred.user.uid, name, email };
+            await db.collection('users').doc(cred.user.uid).set(currentUser);
+            await updateUI();
+            toast('✅ Compte créé !');
+            showSection('profile');
+        } catch (err) {
+            toast('❌ ' + err.message, 'error');
+        }
+    }
+
+    async function showLogin() {
+        const email = prompt('📧 Email:');
+        if (!email) return;
+        const pass = prompt('🔑 Mot de passe:');
+        if (!pass) return;
+        try {
+            const cred = await auth.signInWithEmailAndPassword(email, pass);
+            const doc = await db.collection('users').doc(cred.user.uid).get();
+            currentUser = doc.exists ? doc.data() : { id: cred.user.uid, name: email, email };
+            await updateUI();
+            toast('✅ Connecté !');
+            showSection('jobs');
+        } catch (err) {
+            toast('❌ Identifiants incorrects', 'error');
+        }
+    }
+
+    async function logout() {
+        await auth.signOut();
+        currentUser = null;
+        await updateUI();
+        toast('👋 Déconnecté');
+        showSection('home');
+    }
+
+    async function saveProfile(status, city) {
+        if (!currentUser) return;
+        currentUser.status = status;
+        currentUser.city = city;
+        currentUser.profileComplete = true;
+        await db.collection('users').doc(currentUser.id).set(currentUser, { merge: true });
+        await updateUI();
+        toast('✅ Profil enregistré');
+        showSection('jobs');
+    }
+
+    // Jobs
+    async function renderJobs() {
+        let filtered = [...cachedJobs];
+        const search = document.getElementById('jobSearch')?.value.toLowerCase() || '';
+        if (search) filtered = filtered.filter(j => j.title.toLowerCase().includes(search));
+        const container = document.getElementById('jobsList');
+        if (!filtered.length) {
+            container.innerHTML = '<p class="loading">Aucune offre</p>';
+            return;
+        }
+        container.innerHTML = filtered.map(job => `
+            <div class="job-card">
+                <h4>${job.title}</h4>
+                <span class="badge badge-blue">📍 ${job.city}</span>
+                <p style="margin: 8px 0;">${job.desc || ''}</p>
+                <button class="btn btn-primary btn-sm" onclick="applyJob(${job.id})">Postuler</button>
+            </div>
+        `).join('');
+    }
+
+    function applyJob(id) {
+        if (!isLoggedIn()) return toast('Connectez-vous d\'abord', 'warning');
+        toast('✅ Candidature envoyée');
+    }
+
+    // Articles
+    function wrapText(before, after) {
+        const ta = document.getElementById('articleContent');
+        const start = ta.selectionStart, end = ta.selectionEnd;
+        const text = ta.value;
+        const selected = text.substring(start, end);
+        ta.value = text.substring(0, start) + before + selected + after + text.substring(end);
+        ta.focus();
+    }
+
+    function simpleMarkdown(text) {
+        return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                   .replace(/\*(.*?)\*/g, '<i>$1</i>')
+                   .replace(/## (.*?)(\n|$)/g, '<h4>$1</h4>')
+                   .replace(/\n/g, '<br>');
+    }
+
+    async function publishArticle() {
+        if (!isLoggedIn()) return toast('Connectez-vous', 'warning');
+        const title = document.getElementById('articleTitle').value.trim();
+        const content = document.getElementById('articleContent').value.trim();
+        if (!title || !content) return toast('Titre et contenu requis', 'error');
+        const article = {
+            id: Date.now(),
+            title,
+            content,
+            author: currentUser.email,
+            authorName: currentUser.name || currentUser.email,
+            date: new Date().toISOString()
+        };
+        await db.collection('articles').doc(String(article.id)).set(article);
+        cachedArticles.unshift(article);
+        await renderArticles();
+        toggleArticleForm();
+        toast('✅ Article publié');
+    }
+
+    async function renderArticles() {
+        const container = document.getElementById('articlesList');
+        if (!container) return;
+        if (!cachedArticles.length) {
+            container.innerHTML = '<p class="loading">Aucun article. Écrivez le premier !</p>';
+            return;
+        }
+        container.innerHTML = cachedArticles.map(a => `
+            <div class="job-card" style="border-left-color: var(--a);">
+                <h3>📄 ${a.title}</h3>
+                <small>✍️ ${a.authorName} - ${new Date(a.date).toLocaleDateString()}</small>
+                <div style="margin-top: 8px;">${simpleMarkdown(a.content.substring(0, 150))}${a.content.length > 150 ? '...' : ''}</div>
+                <button class="btn btn-outline btn-sm" onclick="viewFullArticle('${a.id}')" style="margin-top: 8px;">Lire plus</button>
+            </div>
+        `).join('');
+        const homeContainer = document.getElementById('homeArticlesList');
+        if (homeContainer) {
+            homeContainer.innerHTML = cachedArticles.slice(0, 2).map(a => `
+                <div class="job-card">
+                    <h4>📄 ${a.title}</h4>
+                    <small>${a.authorName}</small>
+                    <p>${simpleMarkdown(a.content.substring(0, 100))}...</p>
+                </div>
+            `).join('');
+        }
+    }
+
+    function viewFullArticle(id) {
+        const article = cachedArticles.find(a => a.id == id);
+        if (!article) return;
+        const win = window.open();
+        win.document.write(`
+            <html><head><title>${article.title}</title>
+            <style>body{font-family:sans-serif;padding:2rem;max-width:800px;margin:auto;line-height:1.6}</style>
+            </head><body>
+            <h1>${article.title}</h1>
+            <p><strong>${article.authorName}</strong> - ${new Date(article.date).toLocaleString()}</p>
+            <hr/>
+            <div>${simpleMarkdown(article.content)}</div>
+            <br/><a href="#" onclick="window.close()">Fermer</a>
+            </body></html>
+        `);
+    }
+
+    function toggleArticleForm() {
+        const form = document.getElementById('articleForm');
+        form.classList.toggle('hidden');
+        if (!form.classList.contains('hidden')) {
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleContent').value = '';
+        }
+    }
+
+    // Admin functions
+    async function renderAdmin(tab) {
+        const container = document.getElementById('adminContent');
+        if (tab === 'dashboard') {
+            const users = await db.collection('users').get();
+            container.innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 1rem;">
+                    <div class="card"><h3>Utilisateurs</h3><p style="font-size:2rem;">${users.size}</p></div>
+                    <div class="card"><h3>Articles</h3><p style="font-size:2rem;">${cachedArticles.length}</p></div>
+                    <div class="card"><h3>Offres</h3><p style="font-size:2rem;">${cachedJobs.length}</p></div>
+                </div>
+            `;
+        } else if (tab === 'articles-manage') {
+            container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addFakeArticle()">+ Article test</button><br><br>` +
+                cachedArticles.map(a => `<div style="padding:8px; border-bottom:1px solid #eee;"><b>${a.title}</b> - ${a.author} <button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">Supprimer</button></div>`).join('');
+        } else if (tab === 'jobs-manage') {
+            container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addJob()">+ Offre d'emploi</button><br><br>` +
+                cachedJobs.map(j => `<div style="padding:8px;"><b>${j.title}</b> (${j.city}) <button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})">Supprimer</button></div>`).join('');
+        } else if (tab === 'settings') {
+            const doc = await db.collection('settings').doc('logo').get();
+            const logoUrl = doc.exists ? doc.data().url : '';
+            container.innerHTML = `
+                <h3>Logo actuel</h3>
+                <img src="${logoUrl || ''}" style="width:80px;height:80px;border-radius:12px;object-fit:contain; background:#f0f0f0;">
+                <br><br>
+                <button class="btn btn-primary" onclick="uploadLogo()">Changer le logo</button>
+            `;
+        } else if (tab === 'admins') {
+            container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addAdmin()">+ Ajouter Admin</button><br><br>` +
+                cachedAdmins.map(ad => `<div style="padding:5px;">${ad} <button class="btn btn-danger btn-sm" onclick="removeAdmin('${ad}')">🗑️</button></div>`).join('');
+        }
+    }
+
+    async function addJob() {
+        const title = prompt('Titre du poste:');
+        if (!title) return;
+        const city = prompt('Ville:');
+        const desc = prompt('Description:');
+        const newJob = { id: Date.now(), title, city: city || 'Paris', desc: desc || '', date: new Date().toISOString().split('T')[0] };
+        await db.collection('jobs').doc(String(newJob.id)).set(newJob);
+        cachedJobs.push(newJob);
+        await renderJobs();
+        renderAdmin('jobs-manage');
+        toast('✅ Offre ajoutée');
+    }
+
+    async function deleteJob(id) {
+        await db.collection('jobs').doc(String(id)).delete();
+        cachedJobs = cachedJobs.filter(j => j.id != id);
+        await renderJobs();
+        renderAdmin('jobs-manage');
+        toast('Offre supprimée');
+    }
+
+    async function addFakeArticle() {
+        const fake = { id: Date.now(), title: 'Article de démonstration', content: 'Ceci est un **article** test avec du *markdown*.', author: 'admin@test.com', authorName: 'Admin', date: new Date().toISOString() };
+        await db.collection('articles').doc(String(fake.id)).set(fake);
+        cachedArticles.unshift(fake);
+        await renderArticles();
+        renderAdmin('articles-manage');
+        toast('Article test ajouté');
+    }
+
+    async function deleteArticle(id) {
+        await db.collection('articles').doc(String(id)).delete();
+        cachedArticles = cachedArticles.filter(a => a.id != id);
+        await renderArticles();
+        renderAdmin('articles-manage');
+        toast('Article supprimé');
+    }
+
+    async function uploadLogo() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const ref = storage.ref('logo/main');
+            await ref.put(file);
+            const url = await ref.getDownloadURL();
+            await db.collection('settings').doc('logo').set({ url });
+            await updateLogoDisplay();
+            toast('Logo mis à jour');
+            renderAdmin('settings');
+        };
+        input.click();
+    }
+
+    async function updateLogoDisplay() {
+        const doc = await db.collection('settings').doc('logo').get();
+        const url = doc.exists ? doc.data().url : '';
+        ['navLogo', 'sidebarLogo', 'footerLogo'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (url) {
+                    el.src = url;
+                    el.style.display = 'inline-block';
+                } else {
+                    el.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    async function addAdmin() {
+        const email = prompt('Email du nouvel admin:');
+        if (!email || cachedAdmins.includes(email)) return toast('Admin existe déjà', 'warning');
+        await db.collection('admins').doc(email).set({ email });
+        cachedAdmins.push(email);
+        renderAdmin('admins');
+        toast('Admin ajouté');
+    }
+
+    async function removeAdmin(email) {
+        if (email === 'mosab649@gmail.com') return toast('Admin principal protégé', 'warning');
+        await db.collection('admins').doc(email).delete();
+        cachedAdmins = cachedAdmins.filter(e => e !== email);
+        renderAdmin('admins');
+        toast('Admin supprimé');
+    }
+
+    // Sidebar functions
+    function openSidebar() { 
+        document.getElementById('sidebar').classList.add('open'); 
+        document.getElementById('overlay').classList.add('active'); 
+    }
+    function closeSidebar() { 
+        document.getElementById('sidebar').classList.remove('open'); 
+        document.getElementById('overlay').classList.remove('active'); 
+    }
+
+    // Initialize
+    async function init() {
+        const jobsSnap = await db.collection('jobs').get();
+        cachedJobs = jobsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (cachedJobs.length === 0) {
+            const defaultJobs = [
+                { id: 1, title: 'Aide Cuisinier', city: 'Paris', desc: 'Restaurant recherche aide cuisine.', date: '2024-01-01' },
+                { id: 2, title: 'Agent d\'entretien', city: 'Lyon', desc: 'Nettoyage bureaux.', date: '2024-01-02' }
+            ];
+            for (const j of defaultJobs) await db.collection('jobs').doc(String(j.id)).set(j);
+            cachedJobs = defaultJobs;
+        }
+
+        const articlesSnap = await db.collection('articles').orderBy('date', 'desc').get();
+        cachedArticles = articlesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        const adminsSnap = await db.collection('admins').get();
+        cachedAdmins = adminsSnap.docs.map(d => d.id);
+        if (!cachedAdmins.includes('mosab649@gmail.com')) {
+            await db.collection('admins').doc('mosab649@gmail.com').set({ email: 'mosab649@gmail.com' });
+            cachedAdmins.push('mosab649@gmail.com');
+        }
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const doc = await db.collection('users').doc(user.uid).get();
+                currentUser = doc.exists ? doc.data() : { id: user.uid, name: user.email, email: user.email };
+            } else {
+                currentUser = null;
+            }
+            await updateUI();
+            await renderArticles();
         });
 
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        const storage = firebase.storage();
+        await updateLogoDisplay();
+        await renderJobs();
+        await renderArticles();
 
-        // Global variables
-        let currentUser = null;
-        let cachedJobs = [];
-        let cachedArticles = [];
-        let cachedAdmins = [];
-        let currentLang = 'fr';
+        document.getElementById('menuToggle').addEventListener('click', openSidebar);
+        document.getElementById('overlay').addEventListener('click', closeSidebar);
+        document.getElementById('langSwitch').addEventListener('change', (e) => { currentLang = e.target.value; updateUILanguage(); });
+        document.getElementById('btnLogin').addEventListener('click', showLogin);
+        document.getElementById('btnRegister').addEventListener('click', () => showSection('register'));
+        document.getElementById('btnLogout').addEventListener('click', logout);
+        document.getElementById('formRegister').addEventListener('submit', (e) => {
+            e.preventDefault();
+            registerEmail(
+                document.getElementById('regName').value,
+                document.getElementById('regEmail').value,
+                document.getElementById('regPass').value,
+                document.getElementById('regPass2').value
+            );
+        });
+        document.getElementById('formProfile').addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveProfile(document.getElementById('profStatus').value, document.getElementById('profCity').value);
+        });
+        document.getElementById('jobSearch').addEventListener('input', renderJobs);
 
-        // Translations
-        const translations = {
-            fr: {
-                nav_home: "Accueil", nav_register: "Inscription", nav_jobs: "Emplois", nav_forum: "Forum", nav_admin: "Admin",
-                login_btn: "Connexion", register_btn: "Inscription", logout_btn: "Déconnexion",
-                hero_title: "Bienvenue sur Nouvel horizon d'emploi", hero_desc: "Plateforme dédiée à l'insertion des réfugiés.",
-                hero_create_btn: "Créer un compte", hero_jobs_btn: "Voir les offres",
-                last_articles_title: "📝 Derniers articles", view_all_link: "Voir tout →",
-                register_title: "Créer votre compte", register_submit_btn: "S'inscrire",
-                already_account: "Déjà un compte ?", login_link: "Se connecter",
-                profile_title: "Compléter votre profil", save_profile_btn: "✓ Enregistrer",
-                jobs_title: "Offres d'Emploi", forum_title: "📝 Forum & Articles",
-                new_article_btn_txt: "Écrire un article", form_article_title: "✍️ Rédiger un article",
-                publish_btn: "📢 Publier", cancel_btn: "Annuler",
-                admin_title: "🔧 Administration"
-            },
-            en: {
-                nav_home: "Home", nav_register: "Sign Up", nav_jobs: "Jobs", nav_forum: "Forum", nav_admin: "Admin",
-                login_btn: "Login", register_btn: "Sign Up", logout_btn: "Logout",
-                hero_title: "Welcome to New Employment Horizon", hero_desc: "Platform for refugee professional integration.",
-                hero_create_btn: "Create Account", hero_jobs_btn: "View Jobs",
-                last_articles_title: "📝 Latest Articles", view_all_link: "View all →",
-                register_title: "Create Account", register_submit_btn: "Sign Up",
-                already_account: "Already have an account?", login_link: "Login",
-                profile_title: "Complete Profile", save_profile_btn: "✓ Save",
-                jobs_title: "Job Offers", forum_title: "📝 Forum & Articles",
-                new_article_btn_txt: "Write Article", form_article_title: "✍️ Write Article",
-                publish_btn: "📢 Publish", cancel_btn: "Cancel",
-                admin_title: "🔧 Administration"
-            },
-            ar: {
-                nav_home: "الرئيسية", nav_register: "تسجيل", nav_jobs: "وظائف", nav_forum: "المنتدى", nav_admin: "مدير",
-                login_btn: "دخول", register_btn: "اشتراك", logout_btn: "خروج",
-                hero_title: "مرحباً في أفق التوظيف الجديد", hero_desc: "منصة لإدماج اللاجئين مهنياً.",
-                hero_create_btn: "إنشاء حساب", hero_jobs_btn: "عرض الوظائف",
-                last_articles_title: "📝 أحدث المقالات", view_all_link: "عرض الكل ←",
-                register_title: "إنشاء حساب", register_submit_btn: "اشتراك",
-                already_account: "لديك حساب؟", login_link: "دخول",
-                profile_title: "أكمل ملفك الشخصي", save_profile_btn: "✓ حفظ",
-                jobs_title: "عروض العمل", forum_title: "📝 المنتدى والمقالات",
-                new_article_btn_txt: "كتابة مقال", form_article_title: "✍️ كتابة مقال",
-                publish_btn: "📢 نشر", cancel_btn: "إلغاء",
-                admin_title: "🔧 لوحة التحكم"
-            }
-        };
-
-        function updateUILanguage() {
-            // Update all elements with data-key
-            document.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.getAttribute('data-key');
-                if (translations[currentLang][key]) {
-                    if (el.tagName === 'SPAN' || el.tagName === 'BUTTON' || el.tagName === 'A') {
-                        el.innerHTML = translations[currentLang][key];
-                    } else {
-                        el.textContent = translations[currentLang][key];
-                    }
-                }
-            });
-            // Update specific IDs
-            const ids = ['hero_title', 'hero_desc', 'hero_create_btn', 'hero_jobs_btn', 'last_articles_title', 'view_all_link',
-                'register_title', 'register_submit_btn', 'already_account', 'login_link', 'profile_title', 'save_profile_btn',
-                'jobs_title', 'forum_title', 'new_article_btn_txt', 'form_article_title', 'publish_btn', 'cancel_btn', 'admin_title'];
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if (el && translations[currentLang][id]) el.textContent = translations[currentLang][id];
-            });
-            document.body.classList.toggle('rtl', currentLang === 'ar');
-        }
-
-        // Toast & Helpers
-        function toast(msg, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const t = document.createElement('div');
-            t.className = `toast toast-${type}`;
-            t.textContent = msg;
-            container.appendChild(t);
-            setTimeout(() => t.remove(), 3000);
-        }
-
-        function showSection(id) {
-            document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-            if (id === 'admin') renderAdmin('dashboard');
-            if (id === 'forum') renderArticles();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            closeSidebar();
-        }
-
-        // Auth
-        function isLoggedIn() { return !!currentUser; }
-        function isAdmin() { return currentUser && cachedAdmins.includes(currentUser.email); }
-
-        async function updateUI() {
-            const loggedIn = isLoggedIn();
-            const admin = isAdmin();
-            document.getElementById('btnLogin').classList.toggle('hidden', loggedIn);
-            document.getElementById('btnRegister').classList.toggle('hidden', loggedIn);
-            document.getElementById('btnLogout').classList.toggle('hidden', !loggedIn);
-            document.getElementById('adminLink').classList.toggle('hidden', !admin);
-            document.getElementById('adminLinkSidebar').classList.toggle('hidden', !admin);
-            const badge = document.getElementById('userBadge');
-            if (loggedIn) {
-                badge.classList.remove('hidden');
-                badge.textContent = `👤 ${currentUser.name || currentUser.email}`;
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        async function registerEmail(name, email, pass, pass2) {
-            if (pass !== pass2) return toast('❌ Mots de passe différents', 'error');
-            try {
-                const cred = await auth.createUserWithEmailAndPassword(email, pass);
-                currentUser = { id: cred.user.uid, name, email };
-                await db.collection('users').doc(cred.user.uid).set(currentUser);
-                await updateUI();
-                toast('✅ Compte créé !');
-                showSection('profile');
-            } catch (err) {
-                toast('❌ ' + err.message, 'error');
-            }
-        }
-
-        async function showLogin() {
-            const email = prompt('📧 Email:');
-            if (!email) return;
-            const pass = prompt('🔑 Mot de passe:');
-            if (!pass) return;
-            try {
-                const cred = await auth.signInWithEmailAndPassword(email, pass);
-                const doc = await db.collection('users').doc(cred.user.uid).get();
-                currentUser = doc.exists ? doc.data() : { id: cred.user.uid, name: email, email };
-                await updateUI();
-                toast('✅ Connecté !');
-                showSection('jobs');
-            } catch (err) {
-                toast('❌ Identifiants incorrects', 'error');
-            }
-        }
-
-        async function logout() {
-            await auth.signOut();
-            currentUser = null;
-            await updateUI();
-            toast('👋 Déconnecté');
-            showSection('home');
-        }
-
-        async function saveProfile(status, city) {
-            if (!currentUser) return;
-            currentUser.status = status;
-            currentUser.city = city;
-            currentUser.profileComplete = true;
-            await db.collection('users').doc(currentUser.id).set(currentUser, { merge: true });
-            await updateUI();
-            toast('✅ Profil enregistré');
-            showSection('jobs');
-        }
-
-        // Jobs
-        async function renderJobs() {
-            let filtered = [...cachedJobs];
-            const search = document.getElementById('jobSearch')?.value.toLowerCase() || '';
-            if (search) filtered = filtered.filter(j => j.title.toLowerCase().includes(search));
-            const container = document.getElementById('jobsList');
-            if (!filtered.length) {
-                container.innerHTML = '<p class="loading">Aucune offre</p>';
-                return;
-            }
-            container.innerHTML = filtered.map(job => `
-                <div class="job-card">
-                    <h4>${job.title}</h4>
-                    <span class="badge badge-blue">📍 ${job.city}</span>
-                    <p style="margin: 8px 0;">${job.desc || ''}</p>
-                    <button class="btn btn-primary btn-sm" onclick="applyJob(${job.id})">Postuler</button>
-                </div>
-            `).join('');
-        }
-
-        function applyJob(id) {
-            if (!isLoggedIn()) return toast('Connectez-vous d\'abord', 'warning');
-            toast('✅ Candidature envoyée');
-        }
-
-        // Articles
-        function wrapText(before, after) {
-            const ta = document.getElementById('articleContent');
-            const start = ta.selectionStart, end = ta.selectionEnd;
-            const text = ta.value;
-            const selected = text.substring(start, end);
-            ta.value = text.substring(0, start) + before + selected + after + text.substring(end);
-            ta.focus();
-        }
-
-        function simpleMarkdown(text) {
-            return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-                       .replace(/\*(.*?)\*/g, '<i>$1</i>')
-                       .replace(/## (.*?)(\n|$)/g, '<h4>$1</h4>')
-                       .replace(/\n/g, '<br>');
-        }
-
-        async function publishArticle() {
-            if (!isLoggedIn()) return toast('Connectez-vous', 'warning');
-            const title = document.getElementById('articleTitle').value.trim();
-            const content = document.getElementById('articleContent').value.trim();
-            if (!title || !content) return toast('Titre et contenu requis', 'error');
-            const article = {
-                id: Date.now(),
-                title,
-                content,
-                author: currentUser.email,
-                authorName: currentUser.name || currentUser.email,
-                date: new Date().toISOString()
-            };
-            await db.collection('articles').doc(String(article.id)).set(article);
-            cachedArticles.unshift(article);
-            await renderArticles();
-            toggleArticleForm();
-            toast('✅ Article publié');
-        }
-
-        async function renderArticles() {
-            const container = document.getElementById('articlesList');
-            if (!container) return;
-            if (!cachedArticles.length) {
-                container.innerHTML = '<p class="loading">Aucun article. Écrivez le premier !</p>';
-                return;
-            }
-            container.innerHTML = cachedArticles.map(a => `
-                <div class="job-card" style="border-left-color: var(--a);">
-                    <h3>📄 ${a.title}</h3>
-                    <small>✍️ ${a.authorName} - ${new Date(a.date).toLocaleDateString()}</small>
-                    <div style="margin-top: 8px;">${simpleMarkdown(a.content.substring(0, 150))}${a.content.length > 150 ? '...' : ''}</div>
-                    <button class="btn btn-outline btn-sm" onclick="viewFullArticle('${a.id}')" style="margin-top: 8px;">Lire plus</button>
-                </div>
-            `).join('');
-            const homeContainer = document.getElementById('homeArticlesList');
-            if (homeContainer) {
-                homeContainer.innerHTML = cachedArticles.slice(0, 2).map(a => `
-                    <div class="job-card">
-                        <h4>📄 ${a.title}</h4>
-                        <small>${a.authorName}</small>
-                        <p>${simpleMarkdown(a.content.substring(0, 100))}...</p>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function viewFullArticle(id) {
-            const article = cachedArticles.find(a => a.id == id);
-            if (!article) return;
-            const win = window.open();
-            win.document.write(`
-                <html><head><title>${article.title}</title>
-                <style>body{font-family:sans-serif;padding:2rem;max-width:800px;margin:auto;line-height:1.6}</style>
-                </head><body>
-                <h1>${article.title}</h1>
-                <p><strong>${article.authorName}</strong> - ${new Date(article.date).toLocaleString()}</p>
-                <hr/>
-                <div>${simpleMarkdown(article.content)}</div>
-                <br/><a href="#" onclick="window.close()">Fermer</a>
-                </body></html>
-            `);
-        }
-
-        function toggleArticleForm() {
-            const form = document.getElementById('articleForm');
-            form.classList.toggle('hidden');
-            if (!form.classList.contains('hidden')) {
-                document.getElementById('articleTitle').value = '';
-                document.getElementById('articleContent').value = '';
-            }
-        }
-
-        // Admin
-        async function renderAdmin(tab) {
-            const container = document.getElementById('adminContent');
-            if (tab === 'dashboard') {
-                const users = await db.collection('users').get();
-                container.innerHTML = `
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 1rem;">
-                        <div class="card"><h3>Utilisateurs</h3><p style="font-size:2rem;">${users.size}</p></div>
-                        <div class="card"><h3>Articles</h3><p style="font-size:2rem;">${cachedArticles.length}</p></div>
-                        <div class="card"><h3>Offres</h3><p style="font-size:2rem;">${cachedJobs.length}</p></div>
-                    </div>
-                `;
-            } else if (tab === 'articles-manage') {
-                container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addFakeArticle()">+ Article test</button><br><br>` +
-                    cachedArticles.map(a => `<div style="padding:8px; border-bottom:1px solid #eee;"><b>${a.title}</b> - ${a.author} <button class="btn btn-danger btn-sm" onclick="deleteArticle('${a.id}')">Supprimer</button></div>`).join('');
-            } else if (tab === 'jobs-manage') {
-                container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addJob()">+ Offre d'emploi</button><br><br>` +
-                    cachedJobs.map(j => `<div style="padding:8px;"><b>${j.title}</b> (${j.city}) <button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})">Supprimer</button></div>`).join('');
-            } else if (tab === 'settings') {
-                const doc = await db.collection('settings').doc('logo').get();
-                const logoUrl = doc.exists ? doc.data().url : '';
-                container.innerHTML = `
-                    <h3>Logo actuel</h3>
-                    <img src="${logoUrl || ''}" style="width:80px;height:80px;border-radius:12px;object-fit:contain; background:#f0f0f0;">
-                    <br><br>
-                    <button class="btn btn-primary" onclick="uploadLogo()">Changer le logo</button>
-                `;
-            } else if (tab === 'admins') {
-                container.innerHTML = `<button class="btn btn-primary btn-sm" onclick="addAdmin()">+ Ajouter Admin</button><br><br>` +
-                    cachedAdmins.map(ad => `<div style="padding:5px;">${ad} <button class="btn btn-danger btn-sm" onclick="removeAdmin('${ad}')">🗑️</button></div>`).join('');
-            }
-        }
-
-        async function addJob() {
-            const title = prompt('Titre du poste:');
-            if (!title) return;
-            const city = prompt('Ville:');
-            const desc = prompt('Description:');
-            const newJob = { id: Date.now(), title, city: city || 'Paris', desc: desc || '', date: new Date().toISOString().split('T')[0] };
-            await db.collection('jobs').doc(String(newJob.id)).set(newJob);
-            cachedJobs.push(newJob);
-            await renderJobs();
-            renderAdmin('jobs-manage');
-            toast('✅ Offre ajoutée');
-        }
-
-        async function deleteJob(id) {
-            await db.collection('jobs').doc(String(id)).delete();
-            cachedJobs = cachedJobs.filter(j => j.id != id);
-            await renderJobs();
-            renderAdmin('jobs-manage');
-            toast('Offre supprimée');
-        }
-
-        async function addFakeArticle() {
-            const fake = { id: Date.now(), title: 'Article de démonstration', content: 'Ceci est un **article** test avec du *markdown*.', author: 'admin@test.com', authorName: 'Admin', date: new Date().toISOString() };
-            await db.collection('articles').doc(String(fake.id)).set(fake);
-            cachedArticles.unshift(fake);
-            await renderArticles();
-            renderAdmin('articles-manage');
-            toast('Article test ajouté');
-        }
-
-        async function deleteArticle(id) {
-            await db.collection('articles').doc(String(id)).delete();
-            cachedArticles = cachedArticles.filter(a => a.id != id);
-            await renderArticles();
-            renderAdmin('articles-manage');
-            toast('Article supprimé');
-        }
-
-        async function uploadLogo() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = 'image/*';
-            input.onchange = async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const ref = storage.ref('logo/main');
-                await ref.put(file);
-                const url = await ref.getDownloadURL();
-                await db.collection('settings').doc('logo').set({ url });
-                await updateLogoDisplay();
-                toast('Logo mis à jour');
-                renderAdmin('settings');
-            };
-            input.click();
-        }
-
-        async function updateLogoDisplay() {
-            const doc = await db.collection('settings').doc('logo').get();
-            const url = doc.exists ? doc.data().url : '';
-            ['navLogo', 'sidebarLogo', 'footerLogo'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    if (url) {
-                        el.src = url;
-                        el.style.display = 'inline-block';
-                    } else {
-                        el.style.display = 'none';
-                    }
-                }
-            });
-        }
-
-        async function addAdmin() {
-            const email = prompt('Email du nouvel admin:');
-            if (!email || cachedAdmins.includes(email)) return toast('Admin existe déjà', 'warning');
-            await db.collection('admins').doc(email).set({ email });
-            cachedAdmins.push(email);
-            renderAdmin('admins');
-            toast('Admin ajouté');
-        }
-
-        async function removeAdmin(email) {
-            if (email === 'mosab649@gmail.com') return toast('Admin principal protégé', 'warning');
-            await db.collection('admins').doc(email).delete();
-            cachedAdmins = cachedAdmins.filter(e => e !== email);
-            renderAdmin('admins');
-            toast('Admin supprimé');
-        }
-
-        // Sidebar functions
-        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').classList.add('active'); }
-        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('active'); }
-
-        // Initialize
-        async function init() {
-            // Load data
-            const jobsSnap = await db.collection('jobs').get();
-            cachedJobs = jobsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            if (cachedJobs.length === 0) {
-                const defaultJobs = [
-                    { id: 1, title: 'Aide Cuisinier', city: 'Paris', desc: 'Restaurant recherche aide cuisine.', date: '2024-01-01' },
-                    { id: 2, title: 'Agent d\'entretien', city: 'Lyon', desc: 'Nettoyage bureaux.', date: '2024-01-02' }
-                ];
-                for (const j of defaultJobs) await db.collection('jobs').doc(String(j.id)).set(j);
-                cachedJobs = defaultJobs;
-            }
-
-            const articlesSnap = await db.collection('articles').orderBy('date', 'desc').get();
-            cachedArticles = articlesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-            const adminsSnap = await db.collection('admins').get();
-            cachedAdmins = adminsSnap.docs.map(d => d.id);
-            if (!cachedAdmins.includes('mosab649@gmail.com')) {
-                await db.collection('admins').doc('mosab649@gmail.com').set({ email: 'mosab649@gmail.com' });
-                cachedAdmins.push('mosab649@gmail.com');
-            }
-
-            auth.onAuthStateChanged(async (user) => {
-                if (user) {
-                    const doc = await db.collection('users').doc(user.uid).get();
-                    currentUser = doc.exists ? doc.data() : { id: user.uid, name: user.email, email: user.email };
-                } else {
-                    currentUser = null;
-                }
-                await updateUI();
-                await renderArticles();
-            });
-
-            await updateLogoDisplay();
-            await renderJobs();
-            await renderArticles();
-
-            // Event listeners
-            document.getElementById('menuToggle').addEventListener('click', openSidebar);
-            document.getElementById('overlay').addEventListener('click', closeSidebar);
-            document.getElementById('langSwitch').addEventListener('change', (e) => { currentLang = e.target.value; updateUILanguage(); });
-            document.getElementById('btnLogin').addEventListener('click', showLogin);
-            document.getElementById('btnRegister').addEventListener('click', () => showSection('register'));
-            document.getElementById('btnLogout').addEventListener('click', logout);
-            document.getElementById('formRegister').addEventListener('submit', (e) => {
+        document.querySelectorAll('.sidebar-nav a, .nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                registerEmail(
-                    document.getElementById('regName').value,
-                    document.getElementById('regEmail').value,
-                    document.getElementById('regPass').value,
-                    document.getElementById('regPass2').value
-                );
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    const id = href.substring(1);
+                    if (id === 'admin' && !isAdmin()) return toast('Accès réservé', 'warning');
+                    showSection(id);
+                }
             });
-            document.getElementById('formProfile').addEventListener('submit', (e) => {
-                e.preventDefault();
-                saveProfile(document.getElementById('profStatus').value, document.getElementById('profCity').value);
+        });
+
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderAdmin(tab.getAttribute('data-tab'));
             });
-            document.getElementById('jobSearch').addEventListener('input', renderJobs);
+        });
 
-            document.querySelectorAll('.sidebar-nav a, .nav-links a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const href = link.getAttribute('href');
-                    if (href && href.startsWith('#')) {
-                        const id = href.substring(1);
-                        if (id === 'admin' && !isAdmin()) return toast('Accès réservé', 'warning');
-                        showSection(id);
-                    }
-                });
-            });
+        updateUILanguage();
+        console.log('✅ Application prête - Sidebar dynamique + Traduction + Firebase');
+    }
 
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    renderAdmin(tab.getAttribute('data-tab'));
-                });
-            });
-
-            updateUILanguage();
-            console.log('✅ Application prête - Sidebar + Traduction + Forum');
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>

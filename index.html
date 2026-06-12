@@ -45,23 +45,23 @@
         }
         body.rtl { direction: rtl; }
         
-        /* القائمة الجانبية - فقط هذه الإضافات */
+        /* ========== القائمة الجانبية الجديدة ========== */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -280px;
+            left: -300px;
             width: 280px;
             height: 100%;
             background: var(--wht);
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
-            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+            z-index: 2000;
             transition: left 0.3s ease;
             display: flex;
             flex-direction: column;
         }
         body.rtl .sidebar {
             left: auto;
-            right: -280px;
+            right: -300px;
         }
         .sidebar.open {
             left: 0;
@@ -97,6 +97,7 @@
             color: var(--tx);
             text-decoration: none;
             transition: 0.2s;
+            font-weight: 500;
         }
         .sidebar-nav a i {
             width: 24px;
@@ -112,7 +113,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
-            z-index: 999;
+            z-index: 1999;
             display: none;
         }
         .overlay.active {
@@ -121,7 +122,7 @@
         .menu-toggle {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             color: var(--p);
             padding: 0.5rem;
@@ -131,8 +132,8 @@
             margin-right: 0;
             margin-left: 0.5rem;
         }
+        /* ========== نهاية القائمة الجانبية ========== */
         
-        /* باقي الكود كما هو دون تغيير */
         .disclaimer-bar {
             background: #fff3e0;
             padding: .4rem 1rem;
@@ -373,6 +374,30 @@
         .rtl .section-title h2 { text-align: right; }
         .view-all { font-size: .8rem; color: var(--p); text-decoration: none; font-weight: 600; cursor: pointer; }
         .view-all:hover { text-decoration: underline; }
+        
+        /* محرر المقالات */
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+            background: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        .editor-toolbar button {
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
         @media(max-width:768px) {
             .nav-toggle { display: block; }
             .nav-menu { display: none; position: absolute; top: 56px; left: 0; right: 0; background: var(--wht); flex-direction: column; padding: 1rem; box-shadow: var(--sh); gap: .5rem; }
@@ -390,7 +415,7 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <img id="sidebarLogo" src="" alt="Logo" style="display: none;">
-            <h3>Nouvel horizon</h3>
+            <h3 id="sidebarBrand">Nouvel horizon</h3>
         </div>
         <div class="sidebar-nav">
             <a href="#home"><i class="fas fa-home"></i> Accueil</a>
@@ -401,6 +426,7 @@
             <a href="#posters"><i class="fas fa-image"></i> Affiches</a>
             <a href="#volunteering"><i class="fas fa-hands-helping"></i> Bénévolat</a>
             <a href="#legal"><i class="fas fa-balance-scale"></i> Droit</a>
+            <a href="#forum-articles" id="forumSidebarLink"><i class="fas fa-newspaper"></i> Articles</a>
             <a href="#admin" id="adminLinkSidebar" class="hidden"><i class="fas fa-cog"></i> Admin</a>
         </div>
     </div>
@@ -429,6 +455,7 @@
                     <li><a href="#posters">Affiches</a></li>
                     <li><a href="#volunteering">Bénévolat</a></li>
                     <li><a href="#legal">Droit</a></li>
+                    <li><a href="#forum-articles">Articles</a></li>
                     <li><a href="#admin" id="adminLink" class="hidden">🔧 Admin</a></li>
                 </ul>
                 <div class="nav-actions">
@@ -474,6 +501,11 @@
                     <a href="#posters" class="view-all" onclick="showSection('posters')">Voir tout →</a>
                 </div>
                 <div class="grid-3" id="homePostersList"><p class="loading">Chargement...</p></div>
+                <div class="section-title" style="margin-top:1.5rem;">
+                    <h2>📝 Derniers articles</h2>
+                    <a href="#forum-articles" class="view-all" onclick="showSection('forum-articles')">Voir tout →</a>
+                </div>
+                <div class="grid-2" id="homeArticlesList"><p class="loading">Chargement...</p></div>
             </div>
         </section>
 
@@ -572,6 +604,35 @@
             </div>
         </section>
 
+        <!-- FORUM / ARTICLES -->
+        <section id="forum-articles" class="section hidden">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                    <h2>📝 Forum & Articles</h2>
+                    <button class="btn btn-primary btn-sm" onclick="toggleArticleForm()"><i class="fas fa-plus"></i> Écrire un article</button>
+                </div>
+                
+                <div id="articleForm" class="hidden" style="background: white; padding: 1rem; border-radius: var(--r); margin-bottom: 2rem;">
+                    <h3>✍️ Rédiger un article</h3>
+                    <div class="editor-toolbar">
+                        <button type="button" onclick="wrapText('**', '**')"><b>Bold</b></button>
+                        <button type="button" onclick="wrapText('*', '*')"><i>Italic</i></button>
+                        <button type="button" onclick="wrapText('## ', '')">Titre H2</button>
+                        <button type="button" onclick="wrapText('> ', '')">Citation</button>
+                        <button type="button" onclick="wrapText('- ', '')">Liste</button>
+                    </div>
+                    <input type="text" id="articleTitle" class="form-input" placeholder="Titre de l'article" style="margin-bottom: 10px;">
+                    <textarea id="articleContent" class="form-textarea" placeholder="Contenu de l'article... (Utilisez **texte** pour le gras, *texte* pour l'italique, ## pour les titres)"></textarea>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <button class="btn btn-primary" onclick="publishArticle()">📢 Publier</button>
+                        <button class="btn btn-outline" onclick="toggleArticleForm()">Annuler</button>
+                    </div>
+                </div>
+
+                <div id="articlesList" class="grid-2"><p class="loading">Chargement des articles...</p></div>
+            </div>
+        </section>
+
         <!-- ADMIN -->
         <section id="admin" class="section hidden">
             <div class="container">
@@ -582,6 +643,7 @@
                     <button class="admin-tab" data-tab="jobs-manage">💼 Offres</button>
                     <button class="admin-tab" data-tab="videos-manage">🎬 Vidéos</button>
                     <button class="admin-tab" data-tab="posters-manage">🖼️ Affiches</button>
+                    <button class="admin-tab" data-tab="articles-manage">📄 Articles</button>
                     <button class="admin-tab" data-tab="settings">⚙️ Paramètres</button>
                     <button class="admin-tab" data-tab="admins">🛡️ Admins</button>
                 </div>
@@ -623,6 +685,7 @@
         let cachedJobs = [];
         let cachedVideos = [];
         let cachedPosters = [];
+        let cachedArticles = [];
         let cachedAdmins = [];
         let currentUser = null;
 
@@ -647,7 +710,7 @@
             const al = document.querySelector('.nav-links a[href="#' + id + '"]');
             if (al) al.classList.add('active');
             document.getElementById('navMenu').classList.remove('open');
-            closeSidebar(); // إغلاق القائمة الجانبية عند الضغط على رابط
+            closeSidebar();
         }
 
         function isLoggedIn() { return !!currentUser; }
@@ -755,7 +818,7 @@
             showSection('jobs');
         }
 
-        // RENDER
+        // RENDER FUNCTIONS
         function renderJobs() {
             const c = document.getElementById('jobsList');
             if (!c) return;
@@ -830,6 +893,173 @@
             toast('✅ Inscription bénévole : ' + o);
         }
 
+        // ========== FUNCTIONS ARTICLES ==========
+        function wrapText(before, after) {
+            const ta = document.getElementById('articleContent');
+            const start = ta.selectionStart;
+            const end = ta.selectionEnd;
+            const text = ta.value;
+            const selected = text.substring(start, end);
+            const newText = text.substring(0, start) + before + selected + after + text.substring(end);
+            ta.value = newText;
+            ta.focus();
+        }
+
+        function simpleMarkdown(text) {
+            if (!text) return '';
+            return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                       .replace(/\*(.*?)\*/g, '<i>$1</i>')
+                       .replace(/## (.*?)(\n|$)/g, '<h4>$1</h4>')
+                       .replace(/> (.*?)(\n|$)/g, '<blockquote style="border-left:3px solid #ccc; padding-left:10px; margin:5px 0;">$1</blockquote>')
+                       .replace(/- (.*?)(\n|$)/g, '<li>$1</li>')
+                       .replace(/\n/g, '<br>');
+        }
+
+        async function publishArticle() {
+            if (!isLoggedIn()) {
+                toast('⚠️ Veuillez vous connecter pour écrire un article', 'warning');
+                showSection('register');
+                return;
+            }
+            
+            const title = document.getElementById('articleTitle').value.trim();
+            const content = document.getElementById('articleContent').value.trim();
+            
+            if (!title || !content) {
+                toast('❌ Titre et contenu requis', 'error');
+                return;
+            }
+            
+            const article = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                author: currentUser.email,
+                authorName: currentUser.name || currentUser.email,
+                date: new Date().toISOString(),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            try {
+                await db.collection('articles').doc(String(article.id)).set(article);
+                cachedArticles.unshift(article);
+                renderArticles();
+                renderHomeArticles();
+                toggleArticleForm();
+                toast('✅ Article publié avec succès !');
+            } catch (err) {
+                toast('❌ Erreur: ' + err.message, 'error');
+            }
+        }
+
+        async function renderArticles() {
+            const container = document.getElementById('articlesList');
+            if (!container) return;
+            
+            if (!cachedArticles.length) {
+                container.innerHTML = '<p class="loading">Aucun article pour le moment. Soyez le premier à écrire !</p>';
+                return;
+            }
+            
+            container.innerHTML = cachedArticles.map(article => `
+                <div class="job-card" style="border-left-color: var(--a);">
+                    <h3 style="color: var(--p);">📄 ${escapeHtml(article.title)}</h3>
+                    <small>✍️ ${escapeHtml(article.authorName)} - ${new Date(article.date).toLocaleDateString()}</small>
+                    <div style="margin-top: 10px; font-size: 0.9rem;">
+                        ${simpleMarkdown(article.content.substring(0, 200))}${article.content.length > 200 ? '...' : ''}
+                    </div>
+                    <button class="btn btn-outline btn-sm" onclick="viewFullArticle('${article.id}')" style="margin-top: 10px;">
+                        📖 Lire plus
+                    </button>
+                    ${(isAdmin() || currentUser?.email === article.author) ? `
+                        <button class="btn btn-danger btn-sm" onclick="deleteArticle('${article.id}')" style="margin-top: 10px; margin-left: 5px;">
+                            🗑️ Supprimer
+                        </button>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderHomeArticles() {
+            const container = document.getElementById('homeArticlesList');
+            if (!container) return;
+            
+            if (!cachedArticles.length) {
+                container.innerHTML = '<p class="loading">Aucun article récent.</p>';
+                return;
+            }
+            
+            const recentArticles = cachedArticles.slice(0, 3);
+            container.innerHTML = recentArticles.map(article => `
+                <div class="job-card">
+                    <h4>📄 ${escapeHtml(article.title)}</h4>
+                    <small>${escapeHtml(article.authorName)}</small>
+                    <p style="margin-top: 5px;">${simpleMarkdown(article.content.substring(0, 100))}...</p>
+                </div>
+            `).join('');
+        }
+
+        function viewFullArticle(id) {
+            const article = cachedArticles.find(a => a.id == id);
+            if (!article) return;
+            
+            const win = window.open();
+            win.document.write(`
+                <html>
+                <head>
+                    <title>${escapeHtml(article.title)}</title>
+                    <style>
+                        body { font-family: 'Segoe UI', sans-serif; padding: 2rem; max-width: 800px; margin: auto; line-height: 1.6; }
+                        h1 { color: #1a237e; }
+                        .meta { color: #666; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+                        .content { margin-top: 20px; }
+                        .btn { display: inline-block; margin-top: 20px; padding: 8px 16px; background: #1a237e; color: white; text-decoration: none; border-radius: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${escapeHtml(article.title)}</h1>
+                    <div class="meta">✍️ ${escapeHtml(article.authorName)} - ${new Date(article.date).toLocaleString()}</div>
+                    <div class="content">${simpleMarkdown(article.content)}</div>
+                    <br>
+                    <a href="#" onclick="window.close()" class="btn">Fermer</a>
+                </body>
+                </html>
+            `);
+        }
+
+        async function deleteArticle(id) {
+            if (!confirm('Supprimer cet article ?')) return;
+            try {
+                await db.collection('articles').doc(String(id)).delete();
+                cachedArticles = cachedArticles.filter(a => a.id != id);
+                renderArticles();
+                renderHomeArticles();
+                if (document.getElementById('adminContent')) renderAdmin('articles-manage');
+                toast('✅ Article supprimé');
+            } catch (err) {
+                toast('❌ Erreur: ' + err.message, 'error');
+            }
+        }
+
+        function toggleArticleForm() {
+            const form = document.getElementById('articleForm');
+            form.classList.toggle('hidden');
+            if (!form.classList.contains('hidden')) {
+                document.getElementById('articleTitle').value = '';
+                document.getElementById('articleContent').value = '';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
         function renderAll() {
             renderJobs();
             renderVideos();
@@ -837,32 +1067,45 @@
             renderVolunteering();
             renderHomeVideos();
             renderHomePosters();
+            renderArticles();
+            renderHomeArticles();
         }
 
-        // ADMIN
+        // ========== ADMIN FUNCTIONS ==========
         async function renderAdmin(tab) {
             const c = document.getElementById('adminContent');
             if (!c) return;
+            
             if (tab === 'dashboard') {
                 const us = await db.collection('users').get();
                 c.innerHTML = '<div class="stat-grid">' + [
                     { l: 'Utilisateurs', n: us.size },
                     { l: 'Offres', n: cachedJobs.length },
                     { l: 'Vidéos', n: cachedVideos.length },
-                    { l: 'Affiches', n: cachedPosters.length }
+                    { l: 'Affiches', n: cachedPosters.length },
+                    { l: 'Articles', n: cachedArticles.length }
                 ].map(s => '<div class="card"><div class="stat-num">' + s.n + '</div><div>' + s.l + '</div></div>').join('') + '</div>';
-            } else if (tab === 'users') {
+            } 
+            else if (tab === 'users') {
                 const snap = await db.collection('users').get();
-                c.innerHTML = '<table><tr><th>Nom</th><th>Email</th><th>Action</th></tr>' + snap.docs.map(d => '<tr><td>' + d.data().name + '</td><td>' + d.data().email + '</td><td><button class="btn btn-danger btn-sm" onclick="delU(\'' + d.id + '\')">🗑️</button></td></tr>').join('') + '</table>';
-            } else if (tab === 'jobs-manage') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addJ()" style="margin-bottom:.75rem;">+ Offre</button></td></table><th>Titre</th><th>Ville</th><th>Action</th></tr>' + cachedJobs.map(j => '<tr><td>' + j.title + '</td><td>' + j.city + '</td><td><button class="btn btn-danger btn-sm" onclick="delJ(' + j.id + ')">🗑️</button></td></tr>').join('') + '</table>';
-            } else if (tab === 'videos-manage') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerVideoUpload()" style="margin-bottom:.75rem;">+ Vidéo (max 20MB)</button><table><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>' + cachedVideos.map(v => '<tr><td>' + (v.dataUrl ? '✅' : '📹') + '</td><td>' + v.title + '</td><td><button class="btn btn-danger btn-sm" onclick="delV(' + v.id + ')">🗑️</button></td></tr>').join('') + '</table>';
-            } else if (tab === 'posters-manage') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerPosterUpload()" style="margin-bottom:.75rem;">+ Affiche</button><table><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>' + cachedPosters.map(p => '<tr><td>' + (p.dataUrl ? '✅' : '🖼️') + '</td><td>' + p.title + '</td><td><button class="btn btn-danger btn-sm" onclick="delP(' + p.id + ')">🗑️</button></td></tr>').join('') + '</table>';
-            } else if (tab === 'admins') {
-                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addA()" style="margin-bottom:.75rem;">+ Admin</button><tr><tr><th>Email</th><th>Action</th></tr>' + cachedAdmins.map(a => '<tr><td>' + a + '</td><td>' + (a !== 'mosab649@gmail.com' ? '<button class="btn btn-danger btn-sm" onclick="remA(\'' + a + '\')">🗑️</button>' : '<span class="badge badge-blue">Principal</span>') + '</td></tr>').join('') + '</table>';
-            } else if (tab === 'settings') {
+                c.innerHTML = '能able border="1" style="width:100%;border-collapse:collapse;"><tr><th>Nom</th><th>Email</th><th>Action</th></tr>' + snap.docs.map(d => '<tr><td>' + (d.data().name || '-') + '</td><td>' + d.data().email + '</td><td><button class="btn btn-danger btn-sm" onclick="delU(\'' + d.id + '\')">🗑️</button></td></tr>').join('') + '</table>';
+            } 
+            else if (tab === 'jobs-manage') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addJ()" style="margin-bottom:.75rem;">+ Offre</button><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>Titre</th><th>Ville</th><th>Action</th></tr>' + cachedJobs.map(j => '<tr><td>' + j.title + '</td><td>' + j.city + '</td><td><button class="btn btn-danger btn-sm" onclick="delJ(' + j.id + ')">🗑️</button></td></tr>').join('') + '</table>';
+            } 
+            else if (tab === 'videos-manage') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerVideoUpload()" style="margin-bottom:.75rem;">+ Vidéo (max 20MB)</button><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>' + cachedVideos.map(v => '<tr><td>' + (v.dataUrl ? '✅' : '📹') + '</td><td>' + v.title + '</td><td><button class="btn btn-danger btn-sm" onclick="delV(' + v.id + ')">🗑️</button></td></tr>').join('') + '</table>';
+            } 
+            else if (tab === 'posters-manage') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="triggerPosterUpload()" style="margin-bottom:.75rem;">+ Affiche</button><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>Aperçu</th><th>Titre</th><th>Action</th></tr>' + cachedPosters.map(p => '<tr><td>' + (p.dataUrl ? '✅' : '🖼️') + '</td><td>' + p.title + '</td><td><button class="btn btn-danger btn-sm" onclick="delP(' + p.id + ')">🗑️</button></td></tr>').join('') + '</table>';
+            }
+            else if (tab === 'articles-manage') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addFakeArticle()" style="margin-bottom:.75rem;">+ Article test</button><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>Titre</th><th>Auteur</th><th>Action</th></tr>' + cachedArticles.map(a => '<tr><td>' + a.title + '</td><td>' + a.author + '</td><td><button class="btn btn-danger btn-sm" onclick="deleteArticle(\'' + a.id + '\')">🗑️</button></td></tr>').join('') + '</table>';
+            }
+            else if (tab === 'admins') {
+                c.innerHTML = '<button class="btn btn-primary btn-sm" onclick="addA()" style="margin-bottom:.75rem;">+ Admin</button><table border="1" style="width:100%;border-collapse:collapse;"><tr><th>Email</th><th>Action</th></tr>' + cachedAdmins.map(a => '<tr><td>' + a + '</td><td>' + (a !== 'mosab649@gmail.com' ? '<button class="btn btn-danger btn-sm" onclick="remA(\'' + a + '\')">🗑️</button>' : '<span class="badge badge-blue">Principal</span>') + '</td></tr>').join('') + '</table>';
+            } 
+            else if (tab === 'settings') {
                 const doc = await db.collection('settings').doc('logo').get();
                 const logoUrl = doc.exists ? doc.data().url : '';
                 c.innerHTML = '<h3>🖼️ Logo</h3>' + (logoUrl ? '<img src="' + logoUrl + '" style="width:100px;height:100px;object-fit:contain;border:2px solid var(--bdr);border-radius:8px;margin-bottom:.5rem;">' : '<div style="width:100px;height:100px;border:2px dashed var(--bdr);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:.5rem;">Aucun logo</div>') + '<br><button class="btn btn-primary btn-sm" onclick="triggerLogoUpload()">📁 Changer le logo</button>';
@@ -870,8 +1113,10 @@
         }
 
         async function triggerVideoUpload() {
+            if (!isAdmin()) { toast('⚠️ Accès réservé aux administrateurs', 'warning'); return; }
             const input = document.createElement('input');
             input.type = 'file';
+            input.accept = 'video/*';
             input.onchange = async e => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -892,6 +1137,7 @@
         }
 
         async function triggerPosterUpload() {
+            if (!isAdmin()) { toast('⚠️ Accès réservé aux administrateurs', 'warning'); return; }
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';
@@ -914,6 +1160,7 @@
         }
 
         async function triggerLogoUpload() {
+            if (!isAdmin()) { toast('⚠️ Accès réservé aux administrateurs', 'warning'); return; }
             const input = document.createElement('input');
             input.type = 'file';
             input.accept = 'image/*';
@@ -938,6 +1185,7 @@
             const navIcon = document.getElementById('navIcon');
             const footerLogo = document.getElementById('footerLogo');
             const sidebarLogo = document.getElementById('sidebarLogo');
+            
             if (logoData) {
                 if (navLogo) { navLogo.src = logoData; navLogo.style.display = 'inline-block'; }
                 if (navIcon) navIcon.style.display = 'none';
@@ -993,7 +1241,7 @@
         }
 
         async function delU(id) {
-            if (!confirm('Supprimer ?')) return;
+            if (!confirm('Supprimer cet utilisateur ?')) return;
             await db.collection('users').doc(id).delete();
             renderAdmin('users');
             toast('🗑️ Utilisateur supprimé');
@@ -1010,26 +1258,58 @@
         }
 
         async function remA(e) {
-            if (e === 'mosab649@gmail.com') { toast('⚠️ Protégé', 'warning'); return; }
+            if (e === 'mosab649@gmail.com') { toast('⚠️ Admin principal protégé', 'warning'); return; }
             await db.collection('admins').doc(e).delete();
             cachedAdmins = cachedAdmins.filter(a => a !== e);
             renderAdmin('admins');
             toast('🗑️ Admin supprimé');
         }
 
-        // Sidebar functions
+        async function addFakeArticle() {
+            const fake = { 
+                id: Date.now(), 
+                title: 'Article de démonstration', 
+                content: 'Ceci est un **article** test avec du *markdown*. Vous pouvez écrire vos propres articles !',
+                author: 'admin@test.com', 
+                authorName: 'Admin Test', 
+                date: new Date().toISOString() 
+            };
+            await db.collection('articles').doc(String(fake.id)).set(fake);
+            cachedArticles.unshift(fake);
+            renderArticles();
+            renderHomeArticles();
+            renderAdmin('articles-manage');
+            toast('✅ Article test ajouté');
+        }
+
+        // ========== SIDEBAR FUNCTIONS ==========
         function openSidebar() {
             document.getElementById('sidebar').classList.add('open');
             document.getElementById('overlay').classList.add('active');
         }
+        
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('overlay').classList.remove('active');
         }
 
-        // INIT
+        // ========== TRANSLATION ==========
+        function translatePage(lang) {
+            if (lang === 'ar') {
+                document.body.classList.add('rtl');
+                document.querySelector('.disclaimer-bar').innerHTML = '⚠️ نحن لا ندعم الهجرة غير الشرعية';
+            } else if (lang === 'en') {
+                document.body.classList.remove('rtl');
+                document.querySelector('.disclaimer-bar').innerHTML = '⚠️ We do not support illegal immigration';
+            } else {
+                document.body.classList.remove('rtl');
+                document.querySelector('.disclaimer-bar').innerHTML = '⚠️ Nous ne soutenons pas l\'immigration illégale';
+            }
+        }
+
+        // ========== INIT ==========
         async function init() {
-            // Load data
+            // Load jobs
             const jobsSnap = await db.collection('jobs').get();
             cachedJobs = jobsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
             if (cachedJobs.length === 0) {
@@ -1043,19 +1323,27 @@
                 cachedJobs = dj;
             }
 
+            // Load videos
             const vSnap = await db.collection('videos').get();
             cachedVideos = vSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
+            // Load posters
             const pSnap = await db.collection('posters').get();
             cachedPosters = pSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-            const aSnap = await db.collection('admins').get();
-            cachedAdmins = aSnap.docs.map(d => d.id);
-            if (cachedAdmins.length === 0) {
+            // Load articles
+            const aSnap = await db.collection('articles').orderBy('date', 'desc').get();
+            cachedArticles = aSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            // Load admins
+            const admSnap = await db.collection('admins').get();
+            cachedAdmins = admSnap.docs.map(d => d.id);
+            if (cachedAdmins.length === 0 || !cachedAdmins.includes('mosab649@gmail.com')) {
                 await db.collection('admins').doc('mosab649@gmail.com').set({ email: 'mosab649@gmail.com' });
                 cachedAdmins = ['mosab649@gmail.com'];
             }
 
+            // Auth state
             auth.onAuthStateChanged(async user => {
                 if (user) {
                     const doc = await db.collection('users').doc(user.uid).get();
@@ -1070,51 +1358,64 @@
             await updateLogoDisplay();
             renderAll();
 
-            // Events
-            document.getElementById('langSwitch').addEventListener('change', function() {
-                if (this.value === 'ar') document.body.classList.add('rtl');
-                else document.body.classList.remove('rtl');
+            // Event Listeners
+            document.getElementById('langSwitch').addEventListener('change', function(e) {
+                translatePage(e.target.value);
             });
-            document.getElementById('navToggle').addEventListener('click', () => document.getElementById('navMenu').classList.toggle('open'));
+            
             document.getElementById('menuToggle').addEventListener('click', openSidebar);
             document.getElementById('overlay').addEventListener('click', closeSidebar);
+            
+            document.getElementById('navToggle').addEventListener('click', () => {
+                document.getElementById('navMenu').classList.toggle('open');
+            });
+            
             document.getElementById('btnLogin').addEventListener('click', showLogin);
             document.getElementById('btnRegister').addEventListener('click', () => showSection('register'));
             document.getElementById('btnLogout').addEventListener('click', logout);
+            
             document.getElementById('formRegister').addEventListener('submit', function(e) {
                 e.preventDefault();
-                registerEmail(document.getElementById('regName').value, document.getElementById('regEmail').value, document.getElementById('regPass').value, document.getElementById('regPass2').value);
+                registerEmail(
+                    document.getElementById('regName').value,
+                    document.getElementById('regEmail').value,
+                    document.getElementById('regPass').value,
+                    document.getElementById('regPass2').value
+                );
             });
+            
             document.getElementById('formProfile').addEventListener('submit', function(e) {
                 e.preventDefault();
-                saveProfile(document.getElementById('profStatus').value, document.getElementById('profCity').value, document.getElementById('profLegal').value);
+                saveProfile(
+                    document.getElementById('profStatus').value,
+                    document.getElementById('profCity').value,
+                    document.getElementById('profLegal').value
+                );
             });
+            
             document.getElementById('jobSearch').addEventListener('input', renderJobs);
             document.getElementById('jobCity').addEventListener('change', renderJobs);
             document.getElementById('jobContract').addEventListener('change', renderJobs);
 
-            document.querySelectorAll('.nav-links a').forEach(a => {
+            // Navigation links
+            document.querySelectorAll('.nav-links a, .sidebar-nav a').forEach(a => {
                 a.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const id = this.getAttribute('href').replace('#', '');
-                    if (id === 'admin' && !isAdmin()) { toast('⚠️ Accès réservé aux administrateurs', 'warning'); return; }
-                    showSection(id);
-                    if (id === 'admin') renderAdmin('dashboard');
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        const id = href.substring(1);
+                        if (id === 'admin' && !isAdmin()) { 
+                            toast('⚠️ Accès réservé aux administrateurs', 'warning'); 
+                            return; 
+                        }
+                        showSection(id);
+                        if (id === 'admin') renderAdmin('dashboard');
+                        if (id === 'forum-articles') renderArticles();
+                    }
                 });
             });
 
-            // روابط القائمة الجانبية
-            document.querySelectorAll('.sidebar-nav a').forEach(a => {
-                a.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const id = this.getAttribute('href').replace('#', '');
-                    if (id === 'admin' && !isAdmin()) { toast('⚠️ Accès réservé', 'warning'); return; }
-                    showSection(id);
-                    if (id === 'admin') renderAdmin('dashboard');
-                    closeSidebar();
-                });
-            });
-
+            // Admin tabs
             document.querySelectorAll('.admin-tab').forEach(t => {
                 t.addEventListener('click', function() {
                     document.querySelectorAll('.admin-tab').forEach(x => x.classList.remove('active'));
@@ -1123,8 +1424,9 @@
                 });
             });
 
-            console.log('✅ Prêt - Firebase organisation-d97e7');
-            console.log('👤 Admin : mosab649@gmail.com');
+            translatePage('fr');
+            console.log('✅ Application prête - Firebase + Articles + Sidebar');
+            console.log('👤 Admin par défaut: mosab649@gmail.com');
         }
 
         document.addEventListener('DOMContentLoaded', init);
